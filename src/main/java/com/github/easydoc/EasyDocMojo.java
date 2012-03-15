@@ -16,12 +16,19 @@ package com.github.easydoc;
  * limitations under the License.
  */
 
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
 
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 
 import com.github.easydoc.exception.FileActionException;
+
+import freemarker.cache.ClassTemplateLoader;
+import freemarker.template.Configuration;
+import freemarker.template.DefaultObjectWrapper;
+import freemarker.template.Template;
 
 /**
  * Goal which touches a timestamp file.
@@ -33,7 +40,7 @@ import com.github.easydoc.exception.FileActionException;
 public class EasyDocMojo extends AbstractMojo {
     /**
      * Location of the file.
-     * @parameter expression="${project.build.directory}"
+     * @parameter expression="${project.build.directory}/easydoc"
      * @required
      */
     private File outputDirectory;
@@ -46,14 +53,32 @@ public class EasyDocMojo extends AbstractMojo {
     private File inputDirectory;
 
     public void execute() throws MojoExecutionException {
-        getLog().info("input directory = " + inputDirectory.getAbsolutePath());
-        
-        recurseDirectory(inputDirectory, new ParseDocumentationFileAction() {
-			public void run(File file) throws FileActionException {
-				getLog().info("File: " + file.getAbsolutePath());
-				super.run(file);
-			}
-		});
+    	try {
+	        getLog().info("input directory = " + inputDirectory.getAbsolutePath());
+	        
+	        Configuration freemarkerCfg = new Configuration();
+	        freemarkerCfg.setObjectWrapper(new DefaultObjectWrapper());
+	        freemarkerCfg.setTemplateLoader(new ClassTemplateLoader(getClass(), "/templates"));
+	        
+	        ParseDocumentationFileAction fileAction = new ParseDocumentationFileAction(getLog());
+	        recurseDirectory(inputDirectory, fileAction);
+	        
+	        Template template = freemarkerCfg.getTemplate("page.ftl");
+	        outputDirectory.mkdirs();
+	        BufferedWriter out = new BufferedWriter(
+	        		new FileWriter(new File(outputDirectory, "index.html"))
+	        );
+	        try {
+	        	template.process(fileAction.getModel(), out);
+	        }
+	        finally {
+	        	out.close();
+	        }
+    	}
+    	catch(Exception e) {
+    		getLog().error(e);
+    		throw new MojoExecutionException("Execution failed", e);
+    	}
     }
     
     private void recurseDirectory(File dir, FileAction action) {
