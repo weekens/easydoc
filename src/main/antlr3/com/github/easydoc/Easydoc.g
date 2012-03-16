@@ -16,9 +16,9 @@ WS: (' ' | '\t' | '\n' | '\r' | '\f')+ ;
 
 CHAR: '\u0000'..'\uFFFE';
 
-easydocStart: '@@' WS* 'easydoc-start' WS* '@@' ;
+easydocStart: '@@easydoc-start@@' ;
 
-easydocEnd: '@@' WS* 'easydoc-end' WS* '@@' ;
+easydocEnd: '@@easydoc-end@@' ;
 
 easydocDoc returns [String result]
 	: { StringBuilder ret = new StringBuilder(); }

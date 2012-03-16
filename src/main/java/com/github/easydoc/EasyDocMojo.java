@@ -19,9 +19,12 @@ package com.github.easydoc;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
+import org.springframework.util.AntPathMatcher;
 
 import com.github.easydoc.exception.FileActionException;
 
@@ -38,67 +41,89 @@ import freemarker.template.Template;
  * @phase process-sources
  */
 public class EasyDocMojo extends AbstractMojo {
-    /**
-     * Location of the file.
-     * @parameter expression="${project.build.directory}/easydoc"
-     * @required
-     */
-    private File outputDirectory;
-    
-    /**
-     * Input directory.
-     * @parameter expression="${basedir}/src"
-     * @required
-     */
-    private File inputDirectory;
+	/**
+	 * Location of the file.
+	 * @parameter expression="${project.build.directory}/easydoc"
+	 * @required
+	 */
+	private File outputDirectory;
 
-    public void execute() throws MojoExecutionException {
-    	try {
-	        getLog().info("input directory = " + inputDirectory.getAbsolutePath());
-	        
-	        Configuration freemarkerCfg = new Configuration();
-	        freemarkerCfg.setObjectWrapper(new DefaultObjectWrapper());
-	        freemarkerCfg.setTemplateLoader(new ClassTemplateLoader(getClass(), "/templates"));
-	        
-	        ParseDocumentationFileAction fileAction = new ParseDocumentationFileAction(getLog());
-	        recurseDirectory(inputDirectory, fileAction);
-	        
-	        Template template = freemarkerCfg.getTemplate("page.ftl");
-	        outputDirectory.mkdirs();
-	        BufferedWriter out = new BufferedWriter(
-	        		new FileWriter(new File(outputDirectory, "index.html"))
-	        );
-	        try {
-	        	template.process(fileAction.getModel(), out);
-	        }
-	        finally {
-	        	out.close();
-	        }
-    	}
-    	catch(Exception e) {
-    		getLog().error(e);
-    		throw new MojoExecutionException("Execution failed", e);
-    	}
-    }
-    
-    private void recurseDirectory(File dir, FileAction action) {
-    	for(File file : dir.listFiles()) {
-    		if(!file.canRead()) {
-    			getLog().warn("File " + file.getAbsolutePath() + " is not readable.");
-    			continue;
-    		}
-    		
-    		if(file.isFile()) {
-    			try {
-    				action.run(file);
-    			}
-    			catch(FileActionException e) {
-    				getLog().warn("Error", e);
-    			}
-    		}
-    		else if(file.isDirectory()) {
-    			recurseDirectory(file, action);
-    		}
-    	}
-    }
+	/**
+	 * Input directory.
+	 * @parameter expression="${basedir}/src"
+	 * @required
+	 */
+	private File inputDirectory;
+
+	private List<String> excludes = new ArrayList<String>();
+
+	private AntPathMatcher pathMatcher = new AntPathMatcher();
+
+	public EasyDocMojo() {
+		excludes.add("**/.*"); //skip all entries starting with '.'
+	}
+
+	public void execute() throws MojoExecutionException {
+		try {
+			getLog().info("input directory = " + inputDirectory.getAbsolutePath());
+
+			Configuration freemarkerCfg = new Configuration();
+			freemarkerCfg.setObjectWrapper(new DefaultObjectWrapper());
+			freemarkerCfg.setTemplateLoader(new ClassTemplateLoader(getClass(), "/templates"));
+
+			ParseDocumentationFileAction fileAction = new ParseDocumentationFileAction(getLog());
+			//try to run this action for pom.xml file
+			File pomXml = new File(inputDirectory.getParentFile(), "pom.xml");
+			if(pomXml.isFile()) {
+				fileAction.run(pomXml);
+			}
+			//and also recursively in inputDirectory
+			recurseDirectory(inputDirectory, fileAction);
+
+			Template template = freemarkerCfg.getTemplate("page.ftl");
+			outputDirectory.mkdirs();
+			BufferedWriter out = new BufferedWriter(
+					new FileWriter(new File(outputDirectory, "index.html"))
+					);
+			try {
+				template.process(fileAction.getModel(), out);
+			}
+			finally {
+				out.close();
+			}
+		}
+		catch(Exception e) {
+			throw new MojoExecutionException("Execution failed", e);
+		}
+	}
+
+	private void recurseDirectory(File dir, FileAction action) {
+		for(File file : dir.listFiles()) {
+
+			boolean skip = false;
+			for(String exclude : excludes) {
+				if(pathMatcher.match("/" + exclude, file.getAbsolutePath())) {
+					skip = true;
+				}
+			}
+			if(skip) continue;
+
+			if(!file.canRead()) {
+				getLog().warn("File " + file.getAbsolutePath() + " is not readable.");
+				continue;
+			}
+
+			if(file.isFile()) {
+				try {
+					action.run(file);
+				}
+				catch(FileActionException e) {
+					getLog().warn("Error", e);
+				}
+			}
+			else if(file.isDirectory()) {
+				recurseDirectory(file, action);
+			}
+		}
+	}
 }

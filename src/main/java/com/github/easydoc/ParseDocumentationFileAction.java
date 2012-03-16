@@ -32,7 +32,7 @@ public class ParseDocumentationFileAction implements FileAction {
 	@Override
 	public void run(File file) throws FileActionException {
 		try {
-			log.info("File: " + file.getAbsolutePath());
+			log.debug("File: " + file.getAbsolutePath());
 			List<String> docs = parseFile(file);
 			((List<String>)model.get(DOCS_KEY)).addAll(docs);
 		} catch (Exception e) {
@@ -44,7 +44,7 @@ public class ParseDocumentationFileAction implements FileAction {
 		EasydocLexer lexer = new EasydocLexer(new ANTLRFileStream(file.getAbsolutePath()));
 		EasydocParser parser = new EasydocParser(new CommonTokenStream(lexer));
 		List<String> docs = parser.document();
-		System.out.println(docs.toString());
+		log.debug(docs.toString());
 		return docs;
 	}
 
