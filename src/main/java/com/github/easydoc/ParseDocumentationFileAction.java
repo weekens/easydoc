@@ -2,10 +2,7 @@ package com.github.easydoc;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.antlr.runtime.ANTLRFileStream;
 import org.antlr.runtime.CommonTokenStream;
@@ -14,28 +11,24 @@ import org.apache.maven.plugin.logging.Log;
 
 import com.github.easydoc.exception.FileActionException;
 import com.github.easydoc.model.Doc;
+import com.github.easydoc.model.Model;
 
 public class ParseDocumentationFileAction implements FileAction {
-	private static final String DOCS_KEY = "docs";
 	private final Log log;
-	private Map<String, Object> model = new HashMap<String, Object>();
+	private Model model;
 
-	public ParseDocumentationFileAction(Log log) {
+	public ParseDocumentationFileAction(Model model, Log log) {
+		this.model = model;
 		this.log = log;
-		model.put(DOCS_KEY, new ArrayList<Doc>());
 	}
 	
-	public Map<String, Object> getModel() {
-		return model;
-	}
-
-	@SuppressWarnings("unchecked")
 	@Override
 	public void run(File file) throws FileActionException {
 		try {
-			log.debug("File: " + file.getAbsolutePath());
+			log.info("File: " + file.getAbsolutePath());
 			List<Doc> docs = parseFile(file);
-			((List<Doc>)model.get(DOCS_KEY)).addAll(docs);
+			log.info("Resulting docs: " + docs);
+			model.addDocs(docs);
 		} catch (Exception e) {
 			throw new FileActionException("Failed to process file " + file.getAbsolutePath(), e);
 		} 

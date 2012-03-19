@@ -27,6 +27,9 @@ import org.apache.maven.plugin.MojoExecutionException;
 import org.springframework.util.AntPathMatcher;
 
 import com.github.easydoc.exception.FileActionException;
+import com.github.easydoc.model.Model;
+import com.github.easydoc.semantics.EasydocSemantics;
+import com.github.easydoc.semantics.EasydocSemantics.CompilationResult;
 
 import freemarker.cache.ClassTemplateLoader;
 import freemarker.template.Configuration;
@@ -70,8 +73,10 @@ public class EasyDocMojo extends AbstractMojo {
 			Configuration freemarkerCfg = new Configuration();
 			freemarkerCfg.setObjectWrapper(new DefaultObjectWrapper());
 			freemarkerCfg.setTemplateLoader(new ClassTemplateLoader(getClass(), "/templates"));
+			
+			Model model = new Model();
 
-			ParseDocumentationFileAction fileAction = new ParseDocumentationFileAction(getLog());
+			ParseDocumentationFileAction fileAction = new ParseDocumentationFileAction(model, getLog());
 			//try to run this action for pom.xml file
 			File pomXml = new File(inputDirectory.getParentFile(), "pom.xml");
 			if(pomXml.isFile()) {
@@ -79,17 +84,31 @@ public class EasyDocMojo extends AbstractMojo {
 			}
 			//and also recursively in inputDirectory
 			recurseDirectory(inputDirectory, fileAction);
-
-			Template template = freemarkerCfg.getTemplate("page.ftl");
-			outputDirectory.mkdirs();
-			BufferedWriter out = new BufferedWriter(
-					new FileWriter(new File(outputDirectory, "index.html"))
+			
+			//compile the model
+			EasydocSemantics semantics = new EasydocSemantics();
+			CompilationResult compilationResult = semantics.compileModel(model);
+			if(compilationResult.isPositive()) {
+				Template template = freemarkerCfg.getTemplate("page.ftl");
+				outputDirectory.mkdirs();
+				BufferedWriter out = new BufferedWriter(
+						new FileWriter(new File(outputDirectory, "index.html"))
+						);
+				try {
+					template.process(
+							compilationResult.getModel().toFreemarkerModel(), 
+							out
 					);
-			try {
-				template.process(fileAction.getModel(), out);
+				}
+				finally {
+					out.close();
+				}
 			}
-			finally {
-				out.close();
+			else { //negative compilation result
+				for(String error : compilationResult.getErrors()) {
+					getLog().error(error);
+				}
+				throw new MojoExecutionException("Failed to compile documentation. See the error log.");
 			}
 		}
 		catch(Exception e) {
