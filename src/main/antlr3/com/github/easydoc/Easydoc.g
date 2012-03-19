@@ -6,6 +6,8 @@ options {
 
 @header {
   package com.github.easydoc;
+  
+  import com.github.easydoc.model.Doc;
 }
 
 @lexer::header {
@@ -20,18 +22,18 @@ easydocStart: '@@easydoc-start@@' ;
 
 easydocEnd: '@@easydoc-end@@' ;
 
-easydocDoc returns [String result]
-	: { StringBuilder ret = new StringBuilder(); }
+easydocDoc returns [Doc result]
+	: { Doc ret = new Doc(); }
 	easydocStart 
 	(
-		CHAR { ret.append($CHAR.text); }
-		| WS { ret.append($WS.text); }
-	)* { $result=ret.toString(); } 
+		CHAR { ret.appendText($CHAR.text); }
+		| WS { ret.appendText($WS.text); }
+	)* { $result=ret; } 
 	easydocEnd ;
 
-document returns [List<String> docs]
+document returns [List<Doc> docs]
 	: 
-	{ $docs = new ArrayList<String>(); }
+	{ $docs = new ArrayList<Doc>(); }
 	(
 		CHAR 
 		| WS 

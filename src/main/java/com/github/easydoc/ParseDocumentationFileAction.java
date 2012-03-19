@@ -13,6 +13,7 @@ import org.antlr.runtime.RecognitionException;
 import org.apache.maven.plugin.logging.Log;
 
 import com.github.easydoc.exception.FileActionException;
+import com.github.easydoc.model.Doc;
 
 public class ParseDocumentationFileAction implements FileAction {
 	private static final String DOCS_KEY = "docs";
@@ -21,7 +22,7 @@ public class ParseDocumentationFileAction implements FileAction {
 
 	public ParseDocumentationFileAction(Log log) {
 		this.log = log;
-		model.put(DOCS_KEY, new ArrayList<String>());
+		model.put(DOCS_KEY, new ArrayList<Doc>());
 	}
 	
 	public Map<String, Object> getModel() {
@@ -33,17 +34,17 @@ public class ParseDocumentationFileAction implements FileAction {
 	public void run(File file) throws FileActionException {
 		try {
 			log.debug("File: " + file.getAbsolutePath());
-			List<String> docs = parseFile(file);
-			((List<String>)model.get(DOCS_KEY)).addAll(docs);
+			List<Doc> docs = parseFile(file);
+			((List<Doc>)model.get(DOCS_KEY)).addAll(docs);
 		} catch (Exception e) {
 			throw new FileActionException("Failed to process file " + file.getAbsolutePath(), e);
 		} 
 	}
 	
-	private List<String> parseFile(File file) throws IOException, RecognitionException {
+	private List<Doc> parseFile(File file) throws IOException, RecognitionException {
 		EasydocLexer lexer = new EasydocLexer(new ANTLRFileStream(file.getAbsolutePath()));
 		EasydocParser parser = new EasydocParser(new CommonTokenStream(lexer));
-		List<String> docs = parser.document();
+		List<Doc> docs = parser.document();
 		log.debug(docs.toString());
 		return docs;
 	}

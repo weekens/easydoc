@@ -6,7 +6,7 @@
 	
 	<body>
 		<#list docs as doc>
-			<p>${doc}</p>
+			<p>${doc.text}</p>
 		</#list>
 	</body>
 </html>
