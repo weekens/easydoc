@@ -25,9 +25,9 @@ public class ParseDocumentationFileAction implements FileAction {
 	@Override
 	public void run(File file) throws FileActionException {
 		try {
-			log.info("File: " + file.getAbsolutePath());
+			log.debug("File: " + file.getAbsolutePath());
 			List<Doc> docs = parseFile(file);
-			log.info("Resulting docs: " + docs);
+			log.debug("Resulting docs: " + docs);
 			model.addDocs(docs);
 		} catch (Exception e) {
 			throw new FileActionException("Failed to process file " + file.getAbsolutePath(), e);
