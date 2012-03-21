@@ -58,6 +58,7 @@ public class BelongsParamRule implements ParamRule {
 	public void run(final String value, Doc doc, Model model, ValidationResult validationResult) {
 		Doc parent = (Doc)validationResult.getData();
 		doc.setParent(parent);
+		parent.addChild(doc);
 	}
 
 }

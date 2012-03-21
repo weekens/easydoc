@@ -2,6 +2,7 @@ package com.github.easydoc.test;
 
 import java.util.List;
 
+import org.antlr.runtime.ANTLRInputStream;
 import org.antlr.runtime.ANTLRStringStream;
 import org.antlr.runtime.CommonTokenStream;
 import org.antlr.runtime.RecognitionException;
@@ -16,7 +17,7 @@ public class EasydocParserTest {
 	
 	@Test
 	public void testSingleDocWithParams() throws RecognitionException {
-		String input = "@@easydoc-start,id=main-header@@ Doc @@easydoc-end@@";
+		String input = "@@easydoc-start,id=main-header@@ Doc @@ doc @@easydoc-end@@";
 		
 		EasydocLexer lexer = new EasydocLexer(new ANTLRStringStream(input));
 		EasydocParser parser = new EasydocParser(new CommonTokenStream(lexer));
@@ -25,7 +26,21 @@ public class EasydocParserTest {
 		Assert.assertEquals(1, docs.size());
 		Doc doc = docs.get(0);
 		Assert.assertEquals("main-header", doc.getParams().get("id"));
-		Assert.assertEquals(" Doc ", doc.getText());
+		Assert.assertEquals(" Doc @@ doc ", doc.getText());
+	}
+	
+	@Test
+	public void testXmlComment() throws Exception {		
+		EasydocLexer lexer = new EasydocLexer(
+				new ANTLRInputStream(getClass().getResourceAsStream("/normal-pom.xml"))
+		);
+		EasydocParser parser = new EasydocParser(new CommonTokenStream(lexer));
+		List<Doc> docs = parser.document();
+		
+		Assert.assertEquals(1, docs.size());
+		Doc doc = docs.get(0);
+		Assert.assertEquals("main-header", doc.getParams().get("belongs"));
+		Assert.assertTrue(doc.getText().contains("Documentation in pom.xml"));
 	}
 
 }

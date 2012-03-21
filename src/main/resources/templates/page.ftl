@@ -1,3 +1,16 @@
+<#macro generateDoc doc>
+	<p>${doc.text}</p>
+</#macro>
+
+<#macro generateDocTree docTree>
+	<#list docTree as doc>
+		<@generateDoc doc=doc/>
+		<#if doc.children??>
+			<@generateDocTree docTree=doc.children/>
+		</#if>
+	</#list>
+</#macro>
+
 <html>
 	<head>
 		<meta http-equiv="content-type" content="text/html; charset=UTF-8">
@@ -5,8 +18,6 @@
 	</head>
 	
 	<body>
-		<#list docs as doc>
-			<p>${doc.text}</p>
-		</#list>
+		<@generateDocTree docTree=doctree/>
 	</body>
 </html>

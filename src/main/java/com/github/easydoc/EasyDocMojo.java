@@ -53,7 +53,7 @@ public class EasyDocMojo extends AbstractMojo {
 
 	public void execute() throws MojoExecutionException {
 		try {
-			getLog().info("input directory = " + inputDirectory.getAbsolutePath());
+			getLog().debug("input directory = " + inputDirectory.getAbsolutePath());
 
 			Configuration freemarkerCfg = new Configuration();
 			freemarkerCfg.setObjectWrapper(new DefaultObjectWrapper());

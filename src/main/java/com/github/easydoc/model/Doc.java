@@ -1,7 +1,10 @@
 package com.github.easydoc.model;
 
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * An easydoc documentation entry (the one within 
@@ -36,6 +39,8 @@ public class Doc {
 	 * A parent doc for this doc (if present).
 	 */
 	private Doc parent;
+	
+	private Set<Doc> children = new HashSet<Doc>();
 
 	public String getText() {
 		return text.toString();
@@ -71,6 +76,14 @@ public class Doc {
 
 	public void setParent(Doc parent) {
 		this.parent = parent;
+	}
+	
+	public Collection<Doc> getChildren() {
+		return children;
+	}
+	
+	public void addChild(Doc child) {
+		children.add(child);
 	}
 
 	@Override
