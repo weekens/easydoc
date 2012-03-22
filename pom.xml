@@ -11,7 +11,7 @@
 	<url>https://github.com/weekens/easydoc</url>
 	
 	<scm>
-		<url>git@github.com:weekens/easydoc.git</url>
+		<developerConnection>scm:git:git@github.com:weekens/easydoc.git</developerConnection>
 	</scm>
 
 	<properties>
