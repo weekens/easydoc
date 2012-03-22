@@ -53,7 +53,11 @@ public class EasyDocMojo extends AbstractMojo {
 
 	public void execute() throws MojoExecutionException {
 		try {
-			getLog().debug("input directory = " + inputDirectory.getAbsolutePath());
+			getLog().debug("inputDirectory = " + inputDirectory.getAbsolutePath());
+			if(!inputDirectory.exists()) {
+				getLog().debug("Input directory does not exist. Skipping execution.");
+				return;
+			}
 
 			Configuration freemarkerCfg = new Configuration();
 			freemarkerCfg.setObjectWrapper(new DefaultObjectWrapper());
@@ -69,6 +73,11 @@ public class EasyDocMojo extends AbstractMojo {
 			}
 			//and also recursively in inputDirectory
 			recurseDirectory(inputDirectory, fileAction);
+			
+			if(model.getDocs().isEmpty()) {
+				getLog().debug("No docs were found. Skipping execution.");
+				return;
+			}
 			
 			//compile the model
 			EasydocSemantics semantics = new EasydocSemantics();

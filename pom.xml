@@ -8,7 +8,11 @@
 	<packaging>maven-plugin</packaging>
 
 	<name>EasyDoc Maven Plugin</name>
-	<url>http://maven.apache.org</url>
+	<url>https://github.com/weekens/easydoc</url>
+	
+	<scm>
+		<url>git@github.com:weekens/easydoc.git</url>
+	</scm>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

@@ -51,5 +51,32 @@ public class EasydocSemanticsTest {
 		EasydocSemantics sem = new EasydocSemantics();
 		CompilationResult result = sem.compileModel(model);
 		Assert.assertFalse(result.isPositive());
+		Assert.assertEquals(1, result.getErrors().size());
+	}
+	
+	@Test
+	public void testUnexistentParent() {
+		Model model = new Model();
+		Doc doc = new Doc();
+		doc.getParams().put("belongs", "some-unexistent-id");
+		model.addDocs(Collections.singletonList(doc));
+		
+		EasydocSemantics sem = new EasydocSemantics();
+		CompilationResult result = sem.compileModel(model);
+		Assert.assertFalse(result.isPositive());
+		Assert.assertEquals(1, result.getErrors().size());
+	}
+	
+	@Test
+	public void testValueParameterWithoutValue() {
+		Model model = new Model();
+		Doc doc = new Doc();
+		doc.getParams().put("id", null);
+		model.addDocs(Collections.singletonList(doc));
+		
+		EasydocSemantics sem = new EasydocSemantics();
+		CompilationResult result = sem.compileModel(model);
+		Assert.assertFalse(result.isPositive());
+		Assert.assertEquals(1, result.getErrors().size());
 	}
 }
