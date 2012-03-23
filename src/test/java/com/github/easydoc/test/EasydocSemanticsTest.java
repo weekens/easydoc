@@ -79,4 +79,50 @@ public class EasydocSemanticsTest {
 		Assert.assertFalse(result.isPositive());
 		Assert.assertEquals(1, result.getErrors().size());
 	}
+	
+	@Test
+	public void testWeightsTree() {
+		Model model = new Model();
+		
+		Doc root1 = new Doc();
+		root1.getParams().put("weight", "1");
+		
+		Doc root2 = new Doc();
+		root2.getParams().put("id", "root2");
+		root2.getParams().put("weight", "-1");
+		
+		Doc root2Child1 = new Doc();
+		root2Child1.getParams().put("belongs", "root2");
+		root2Child1.getParams().put("weight", "22");
+		
+		Doc root2Child2 = new Doc();
+		root2Child2.getParams().put("belongs", "root2");
+		root2Child2.getParams().put("weight", "min");
+		
+		Doc root2Child3 = new Doc();
+		root2Child3.getParams().put("belongs", "root2");
+		root2Child3.getParams().put("weight", "max");
+		
+		Doc root2Child4 = new Doc();
+		root2Child4.getParams().put("belongs", "root2");
+		
+		List<Doc> docList = new ArrayList<Doc>();
+		Collections.addAll(docList, root1, root2, root2Child1, root2Child2, root2Child3, root2Child4);
+		model.addDocs(docList);
+		
+		EasydocSemantics sem = new EasydocSemantics();
+		CompilationResult result = sem.compileModel(model);
+		Assert.assertTrue(result.isPositive());
+		
+		@SuppressWarnings("unchecked")
+		List<Doc> tree = (List<Doc>)model.toFreemarkerModel().get("doctree");
+		Assert.assertEquals(root2, tree.get(0));
+		Assert.assertEquals(root1, tree.get(1));
+		
+		List<Doc> childTree = tree.get(0).getChildren();
+		Assert.assertEquals(root2Child2, childTree.get(0));
+		Assert.assertEquals(root2Child4, childTree.get(1));
+		Assert.assertEquals(root2Child1, childTree.get(2));
+		Assert.assertEquals(root2Child3, childTree.get(3));
+	}
 }

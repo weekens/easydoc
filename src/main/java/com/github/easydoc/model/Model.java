@@ -2,6 +2,7 @@ package com.github.easydoc.model;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -45,6 +46,8 @@ public class Model {
 				ret.add(doc);
 			}
 		}
+		
+		Collections.sort(ret);
 		
 		return ret;
 	}

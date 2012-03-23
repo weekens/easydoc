@@ -1,10 +1,9 @@
 package com.github.easydoc.model;
 
-import java.util.Collection;
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 /**
  * An easydoc documentation entry (the one within 
@@ -14,7 +13,7 @@ import java.util.Set;
  * @author Viktor Kazakov (weekens@gmail.com)
  *
  */
-public class Doc {
+public class Doc implements Comparable<Doc> {
 	/**
 	 * An actual doc text.
 	 */
@@ -43,12 +42,18 @@ public class Doc {
 	/**
 	 * A child docs for this doc.
 	 */
-	private Set<Doc> children = new HashSet<Doc>();
+	private List<Doc> children = new ArrayList<Doc>();
 	
 	/**
 	 * A link to the source file, where this doc originates.
 	 */
 	private SourceLink sourceLink;
+	
+	/**
+	 * A doc's weight. The higher the weight, the lower this 
+	 * doc will be among the siblings.
+	 */
+	private Integer weight;
 
 	public String getText() {
 		return text.toString();
@@ -86,7 +91,7 @@ public class Doc {
 		this.parent = parent;
 	}
 	
-	public Collection<Doc> getChildren() {
+	public List<Doc> getChildren() {
 		return children;
 	}
 	
@@ -102,9 +107,24 @@ public class Doc {
 		this.sourceLink = sourceLink;
 	}
 
+	public Integer getWeight() {
+		return weight;
+	}
+
+	public void setWeight(Integer weight) {
+		this.weight = weight;
+	}
+
 	@Override
 	public String toString() {
-		return String.format("Doc [text=%s, params=%s, id=%s, parent=%s, sourceLink=%s]", text, params, id,
-				(parent != null ? parent.getId() : null), sourceLink);
+		return String.format("Doc [text=%s, params=%s, id=%s, parent=%s, sourceLink=%s, weight=%d]", 
+				text, params, id,
+				(parent != null ? parent.getId() : null), sourceLink, weight);
+	}
+
+	@Override
+	public int compareTo(Doc doc) {
+		Integer thisWeight = (weight != null ? weight : 0);
+		return thisWeight.compareTo(doc.getWeight() != null ? doc.getWeight() : 0);
 	}
 }
