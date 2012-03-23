@@ -4,8 +4,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
-import org.antlr.runtime.ANTLRFileStream;
-import org.antlr.runtime.CommonTokenStream;
 import org.antlr.runtime.RecognitionException;
 import org.apache.maven.plugin.logging.Log;
 
@@ -38,8 +36,7 @@ public class ParseDocumentationFileAction implements FileAction {
 	}
 	
 	private List<Doc> parseFile(File file) throws IOException, RecognitionException {
-		EasydocLexer lexer = new EasydocLexer(new ANTLRFileStream(file.getAbsolutePath()));
-		EasydocParser parser = new EasydocParser(new CommonTokenStream(lexer));
+		EasydocParser parser = new EasydocParser(file);
 		List<Doc> docs = parser.document();
 		log.debug(docs.toString());
 		return docs;

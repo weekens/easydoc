@@ -9,8 +9,27 @@ options {
   
   import java.util.Map;
   import java.util.HashMap;
+  import java.io.File;
   
   import com.github.easydoc.model.Doc;
+  import com.github.easydoc.model.SourceLink;
+}
+
+@members {
+  private File file;
+
+  public EasydocParser(File file) throws java.io.IOException {
+  	super(
+  		new CommonTokenStream(
+  			new EasydocLexer(
+  				new ANTLRFileStream(
+  					file.getAbsolutePath()
+  				)
+  			)
+  		)
+  	);
+  	this.file = file;
+  }
 }
 
 @lexer::header {
@@ -23,11 +42,13 @@ EQ: '=';
 
 COMMA: ',';
 
+ED_START: '@@easydoc-start';
+
 CHAR: '\u0000'..'\uFFFE';
 
-easydocStart returns [Map<String, String> params]
+easydocStart returns [Map<String, String> params, int line]
 	: { $params = new HashMap<String, String>(); }
-	'@@easydoc-start' 
+	ED_START { $line =  $ED_START.getLine(); }
 	(WS* COMMA WS* easydocParam { $params.put($easydocParam.name, $easydocParam.value); } )* 
 	'@@' 
 	;
@@ -49,7 +70,10 @@ easydocEnd: '@@easydoc-end@@' ;
 
 easydocDoc returns [Doc result]
 	: { Doc ret = new Doc(); }
-	easydocStart { ret.setParams($easydocStart.params); } 
+	easydocStart { 
+		ret.setParams($easydocStart.params);
+		ret.setSourceLink(new SourceLink(file, $easydocStart.line)); 
+	} 
 	(
 		simpleText { ret.appendText($simpleText.result); } 
 	)?

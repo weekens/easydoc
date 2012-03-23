@@ -1,4 +1,5 @@
 <#macro generateDoc doc>
+	<!-- Generated from ${doc.sourceLink.file.absolutePath}:${doc.sourceLink.line} -->
 	<p>${doc.text}</p>
 </#macro>
 

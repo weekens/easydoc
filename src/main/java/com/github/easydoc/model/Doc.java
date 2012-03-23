@@ -40,7 +40,15 @@ public class Doc {
 	 */
 	private Doc parent;
 	
+	/**
+	 * A child docs for this doc.
+	 */
 	private Set<Doc> children = new HashSet<Doc>();
+	
+	/**
+	 * A link to the source file, where this doc originates.
+	 */
+	private SourceLink sourceLink;
 
 	public String getText() {
 		return text.toString();
@@ -86,8 +94,17 @@ public class Doc {
 		children.add(child);
 	}
 
+	public SourceLink getSourceLink() {
+		return sourceLink;
+	}
+
+	public void setSourceLink(SourceLink sourceLink) {
+		this.sourceLink = sourceLink;
+	}
+
 	@Override
 	public String toString() {
-		return String.format("Doc [text=%s, params=%s, id=%s]", text, params, id);
+		return String.format("Doc [text=%s, params=%s, id=%s, parent=%s, sourceLink=%s]", text, params, id,
+				(parent != null ? parent.getId() : null), sourceLink);
 	}
 }
