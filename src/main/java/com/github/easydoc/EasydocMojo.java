@@ -21,14 +21,14 @@ import freemarker.template.DefaultObjectWrapper;
 import freemarker.template.Template;
 
 /**
- * Goal which touches a timestamp file.
+ * Scan for all files and generate documentation for project.
  *
  * @goal generate
  * 
  * @phase process-sources
  * 
  */
-public class EasyDocMojo extends AbstractMojo {
+public class EasydocMojo extends AbstractMojo {
 	/**
 	 * Location of the file.
 	 * @parameter expression="${project.build.directory}/easydoc"
@@ -43,15 +43,27 @@ public class EasyDocMojo extends AbstractMojo {
 	 */
 	private File inputDirectory;
 
+	/**
+	 * Files or directories that should be excluded from the scan.
+	 * @parameter
+	 */
 	private List<String> excludes = new ArrayList<String>();
+	
+	/**
+	 * Files or directories that should only be scanned. All the
+	 * other files will be omited.
+	 * @parameter
+	 */
+	private List<String> includes;
 
 	private AntPathMatcher pathMatcher = new AntPathMatcher();
 
-	public EasyDocMojo() {
-		excludes.add("**/.*"); //skip all entries starting with '.'
+	public EasydocMojo() {
 	}
 
 	public void execute() throws MojoExecutionException {
+		excludes.add("**/.*"); //skip all entries starting with '.'
+		
 		try {
 			getLog().debug("inputDirectory = " + inputDirectory.getAbsolutePath());
 			if(!inputDirectory.exists()) {
@@ -68,7 +80,7 @@ public class EasyDocMojo extends AbstractMojo {
 			ParseDocumentationFileAction fileAction = new ParseDocumentationFileAction(model, getLog());
 			//try to run this action for pom.xml file
 			File pomXml = new File(inputDirectory.getParentFile(), "pom.xml");
-			if(pomXml.isFile()) {
+			if(pomXml.isFile() && !skipCheck(pomXml)) {
 				fileAction.run(pomXml);
 			}
 			//and also recursively in inputDirectory
@@ -112,14 +124,7 @@ public class EasyDocMojo extends AbstractMojo {
 
 	private void recurseDirectory(File dir, FileAction action) {
 		for(File file : dir.listFiles()) {
-
-			boolean skip = false;
-			for(String exclude : excludes) {
-				if(pathMatcher.match("/" + exclude, file.getAbsolutePath())) {
-					skip = true;
-				}
-			}
-			if(skip) continue;
+			if(skipCheck(file)) continue;
 
 			if(!file.canRead()) {
 				getLog().warn("File " + file.getAbsolutePath() + " is not readable.");
@@ -138,5 +143,24 @@ public class EasyDocMojo extends AbstractMojo {
 				recurseDirectory(file, action);
 			}
 		}
+	}
+	
+	private boolean skipCheck(File file) {
+		boolean skip = false;
+		if(includes != null && !file.isDirectory()) {
+			skip = true;
+			for(String include : includes) {
+				skip &= !pathMatcher.match("/" + include, file.getAbsolutePath());
+			}
+		}
+		if(skip) return true;
+		
+		for(String exclude : excludes) {
+			if(pathMatcher.match("/" + exclude, file.getAbsolutePath())) {
+				return true;
+			}
+		}
+		
+		return false;
 	}
 }
