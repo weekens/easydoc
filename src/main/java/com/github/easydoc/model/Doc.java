@@ -7,7 +7,7 @@ import java.util.Map;
 
 /**
  * An easydoc documentation entry (the one within 
- * @@easydoc-start@@ and @@easydoc-end@@ tags).
+ * easydoc-start and easydoc-end tags).
  * This is called a "doc".
  * 
  * @author Viktor Kazakov (weekens@gmail.com)
