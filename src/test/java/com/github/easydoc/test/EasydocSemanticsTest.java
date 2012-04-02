@@ -125,4 +125,18 @@ public class EasydocSemanticsTest {
 		Assert.assertEquals(root2Child1, childTree.get(2));
 		Assert.assertEquals(root2Child3, childTree.get(3));
 	}
+	
+	@Test
+	public void testIgnore() {
+		Model model = new Model();
+		Doc doc = new Doc();
+		doc.setText("Hi! This # is a text # with @ some hashes @nd other stuff...");
+		doc.getParams().put("ignore", "#@.");
+		model.addDocs(Collections.singletonList(doc));
+		
+		EasydocSemantics sem = new EasydocSemantics();
+		CompilationResult result = sem.compileModel(model);
+		Assert.assertTrue(result.isPositive());
+		Assert.assertEquals("Hi! This  is a text  with  some hashes nd other stuff", doc.getText());
+	}
 }

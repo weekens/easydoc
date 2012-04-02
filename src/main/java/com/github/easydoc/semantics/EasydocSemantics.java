@@ -13,6 +13,7 @@ import com.github.easydoc.model.criteria.DocSearchCriteria;
 import com.github.easydoc.semantics.exception.EasydocSemanticException;
 import com.github.easydoc.semantics.paramrule.BelongsParamRule;
 import com.github.easydoc.semantics.paramrule.IdParamRule;
+import com.github.easydoc.semantics.paramrule.IgnoreParamRule;
 import com.github.easydoc.semantics.paramrule.ParamRule;
 import com.github.easydoc.semantics.paramrule.WeightParamRule;
 
@@ -60,6 +61,7 @@ public class EasydocSemantics {
 		paramRules.put("id", new IdParamRule());
 		paramRules.put("belongs", new BelongsParamRule());
 		paramRules.put("weight", new WeightParamRule());
+		paramRules.put("ignore", new IgnoreParamRule());
 	}
 	
 	public CompilationResult compileModel(Model model) {
