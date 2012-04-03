@@ -17,7 +17,7 @@ public class EasydocParserTest {
 	
 	@Test
 	public void testSingleDocWithParams() throws RecognitionException {
-		String input = "@@easydoc-start,id=main-header@@ Doc @@ doc @@easydoc-end@@";
+		String input = "@@easydoc-start,id=main-header,ignore=\\,#@@ Doc \\@\\@ @ doc @@easydoc-end@@";
 		
 		EasydocLexer lexer = new EasydocLexer(new ANTLRStringStream(input));
 		EasydocParser parser = new EasydocParser(new CommonTokenStream(lexer));
@@ -26,7 +26,8 @@ public class EasydocParserTest {
 		Assert.assertEquals(1, docs.size());
 		Doc doc = docs.get(0);
 		Assert.assertEquals("main-header", doc.getParams().get("id"));
-		Assert.assertEquals(" Doc @@ doc ", doc.getText());
+		Assert.assertEquals(",#", doc.getParams().get("ignore"));
+		Assert.assertEquals(" Doc @@ @ doc ", doc.getText());
 		Assert.assertEquals(1, doc.getSourceLink().getLine());
 		Assert.assertNull(doc.getSourceLink().getFile());
 	}

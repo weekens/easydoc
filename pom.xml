@@ -8,7 +8,7 @@
 	<name>Easydoc Maven Plugin</name>
 	<url>https://github.com/weekens/easydoc</url>
 	
-	<!--@@easydoc-start@@
+	<!--@@easydoc-start, weight=min@@
 	
 	<h2>What is Easydoc?</h2>
 	
@@ -48,9 +48,27 @@
 	 
 	 @@easydoc-end@@-->
 	
+	<licenses>
+		<license>
+			<name>Eclipse Public License, Version 1.0</name>
+			<url>http://www.eclipse.org/legal/epl-v10.html</url>
+			<distribution>repo</distribution>
+		</license>
+	</licenses>
+	
 	<scm>
+		<url>https://weekens@github.com/weekens/easydoc.git</url>
+		<connection>scm:git:git://github.com/weekens/easydoc.git</connection>
 		<developerConnection>scm:git:git@github.com:weekens/easydoc.git</developerConnection>
 	</scm>
+	
+	<developers>
+		<developer>
+			<id>weekens</id>
+			<name>Viktor Kazakov</name>
+			<email>weekens@gmail.com</email>
+		</developer>
+	</developers>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -148,7 +166,7 @@
 					<plugin>
 						<groupId>com.github</groupId>
 						<artifactId>easydoc-maven-plugin</artifactId>
-						<version>0.0.3-SNAPSHOT</version>
+						<version>${project.version}</version>
 						<executions>
 							<execution>
 								<goals>

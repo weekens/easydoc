@@ -27,6 +27,29 @@ import freemarker.template.Template;
  * 
  * @phase process-sources
  * 
+ @@easydoc-start@@
+ <h1>Maven integration</h1>
+ 
+ To get started with Maven you only need to add the following snippet to your pom.xml in build/plugins section:
+ 
+ <pre>
+ 	&lt;plugin&gt;
+		&lt;groupId&gt;com.github&lt;/groupId&gt;
+		&lt;artifactId&gt;easydoc-maven-plugin&lt;/artifactId&gt;
+		&lt;version&gt;0.0.4-SNAPSHOT&lt;/version&gt;
+		&lt;executions&gt;
+			&lt;execution&gt;
+				&lt;goals&gt;
+					&lt;goal&gt;generate&lt;/goal&gt;
+				&lt;/goals&gt;
+			&lt;/execution&gt;
+		&lt;/executions&gt;
+	&lt;/plugin&gt;
+ </pre>
+ 
+ This will setup Easydoc for your project. By default, Easydoc will scan recursively your src/ directory and
+ pom.xml file. Any docs found will be generated into target/easydoc/index.html page.
+ @@easydoc-end@@
  */
 public class EasydocMojo extends AbstractMojo {
 	/**

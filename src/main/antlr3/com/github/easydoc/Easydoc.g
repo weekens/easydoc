@@ -64,7 +64,11 @@ paramName returns [String text]
 
 paramValue returns [String text]
 	: { StringBuilder sb = new StringBuilder(); } 
-	(CHAR { sb.append($CHAR.text); } )+ { $text = sb.toString(); } ;
+	(
+		CHAR { sb.append($CHAR.text); }
+		| '\\,' { sb.append(","); } 
+	)+ 
+	{ $text = sb.toString(); } ;
 
 easydocEnd: '@@easydoc-end@@' ;
 
@@ -75,7 +79,7 @@ easydocDoc returns [Doc result]
 		ret.setSourceLink(new SourceLink(file, $easydocStart.line)); 
 	} 
 	(
-		simpleText { ret.appendText($simpleText.result); } 
+		easydocText { ret.appendText($easydocText.result); } 
 	)?
 	easydocEnd
 	{ $result=ret; } 
@@ -89,6 +93,16 @@ simpleText returns [String result]
 		| EQ { sb.append($EQ.text); } 
 		| COMMA { sb.append($COMMA.text); }
 		| '@@' { sb.append("@@"); }
+	)+ { $result = sb.toString(); } ;
+	
+easydocText returns [String result]
+	: { StringBuffer sb = new StringBuffer(); }
+	(
+		CHAR { sb.append($CHAR.text); } 
+		| WS { sb.append($WS.text); } 
+		| EQ { sb.append($EQ.text); } 
+		| COMMA { sb.append($COMMA.text); }
+		| '\\@\\@' { sb.append("@@"); }
 	)+ { $result = sb.toString(); } ;
 
 document returns [List<Doc> docs]
