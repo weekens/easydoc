@@ -9,6 +9,7 @@
 	<url>https://github.com/weekens/easydoc</url>
 	
 	<!--@@easydoc-start, weight=min@@
+	<h1>Introduction</h1>
 	
 	<h2>What is Easydoc?</h2>
 	
@@ -40,9 +41,9 @@
 	
 	<h2>How to start using Easydoc?</h2>
 	
-	Just put some docs into your sources within special easydoc-start and easydoc-end tags. Then include an
-	easydoc-maven-plugin declaration into your pom.xml (if you use maven) - and you're done. Go check your
-	target/easydoc folder.
+	Just put some docs into your sources within special \@\@easydoc-start\@\@ and \@\@easydoc-end\@\@ tags. 
+	Then include an	easydoc-maven-plugin declaration into your pom.xml (if you use maven) - and you're done. 
+	Go check your target/easydoc folder.
 	<br>
 	If you don't use maven, just run a standalone easydoc binary in your project folder (coming soon).
 	 

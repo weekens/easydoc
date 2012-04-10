@@ -1,0 +1,34 @@
+@@easydoc-start@@
+<h1>Usage</h1>
+
+<h2>The syntax</h2>
+
+As we said before, all you need to do is to put some docs anywhere in your source code.<br>
+Here is an example:<br>
+
+<pre>
+/*
+\@\@easydoc-start, id=jmx\@\@
+&lt;h1&gt;JMX management&lt;/h1&gt;
+
+The service can be managed by JMX. Just connect to port 1099 with jsonsole to manage stuff.
+\@\@easydoc-end\@\@
+*/
+public class JmxManager {
+...
+}
+</pre>
+
+The HTML between \@\@easydoc-start\@\@ and \@\@easydoc-end\@\@ tags (this construct is called the "doc") 
+will get to generated index.html automatically after you run easydoc.<br><br>
+
+So, generally, the doc syntax is:<br>
+
+<pre>
+\@\@easydoc-start[optional parameters: paramName=paramValue, ...]\@\@
+
+HTML documentation
+
+\@\@easydoc-end\@\@
+</pre>
+@@easydoc-end@@
