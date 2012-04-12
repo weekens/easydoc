@@ -1,4 +1,4 @@
-@@easydoc-start@@
+@@easydoc-start, id=easydoc-usage@@
 <h1>Usage</h1>
 
 <h2>The syntax</h2>

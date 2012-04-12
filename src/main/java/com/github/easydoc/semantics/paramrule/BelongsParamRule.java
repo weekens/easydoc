@@ -9,6 +9,20 @@ import com.github.easydoc.semantics.NegativeValidationResult;
 import com.github.easydoc.semantics.PositiveValidationResult;
 import com.github.easydoc.semantics.ValidationResult;
 
+/*@@easydoc-start, belongs=easydoc-parameters@@
+<h3>belongs</h3>
+
+This parameter lets you join the doc to another doc as a child. Thus, this doc's content
+will be generated inside the parent's HTML.
+<br><br>
+The value is a parent doc's id. 
+<br><br>
+Requirements:
+<br><br>
+The parent doc with the specified id should be there. If there is no such doc, easydoc
+will fail.
+ 
+@@easydoc-end@@*/
 public class BelongsParamRule implements ParamRule {
 
 	@Override

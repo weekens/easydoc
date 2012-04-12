@@ -9,6 +9,21 @@ import com.github.easydoc.semantics.NegativeValidationResult;
 import com.github.easydoc.semantics.PositiveValidationResult;
 import com.github.easydoc.semantics.ValidationResult;
 
+/*@@easydoc-start, id=easydoc-parameters, belongs=easydoc-usage@@
+<h2>Parameters</h2>
+
+<h3>id</h3>
+
+With this parameter you can define the unique identifier for the doc to reference it
+from elsewhere. Primarily, you use it together with <b>belongs</b> parameter to group 
+docs and form the doc tree. 
+<br><br>
+Requirements:
+<br><br>
+The id you define should be unique across all docs in your code. If it is not, easydoc
+will fail.
+ 
+@@easydoc-end@@*/
 public class IdParamRule implements ParamRule {
 
 	@Override
