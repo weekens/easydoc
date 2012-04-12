@@ -1,12 +1,18 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>com.github</groupId>
+	<groupId>com.github.weekens</groupId>
 	<artifactId>easydoc-maven-plugin</artifactId>
-	<version>0.0.4-SNAPSHOT</version>
+	<version>0.0.5-SNAPSHOT</version>
 	<packaging>maven-plugin</packaging>
 	<name>Easydoc Maven Plugin</name>
 	<url>https://github.com/weekens/easydoc</url>
+
+	<parent>
+		<groupId>org.sonatype.oss</groupId>
+		<artifactId>oss-parent</artifactId>
+		<version>7</version>
+	</parent>
 	
 	<!--@@easydoc-start, weight=min@@
 	<h1>Introduction</h1>
@@ -58,8 +64,8 @@
 	</licenses>
 	
 	<scm>
-		<url>https://weekens@github.com/weekens/easydoc.git</url>
-		<connection>scm:git:git://github.com/weekens/easydoc.git</connection>
+		<url>git@github.com:weekens/easydoc.git</url>
+		<connection>scm:git:git@github.com:weekens/easydoc.git</connection>
 		<developerConnection>scm:git:git@github.com:weekens/easydoc.git</developerConnection>
 	</scm>
 	
@@ -104,19 +110,6 @@
 		</dependency>
 	</dependencies>
 	
-	<distributionManagement>
-		<repository>
-			<id>rcslabs-internal</id>
-			<name>RCS Labs Internal Repository</name>
-			<url>http://repo.rcslabs.ru/archiva/repository/internal/</url>
-		</repository>
-		<snapshotRepository>
-			<id>rcslabs-snapshot</id>
-			<name>RCS Labs Snapshot Repository</name>
-			<url>http://repo.rcslabs.ru/archiva/repository/snapshots/</url>
-		</snapshotRepository>
-	</distributionManagement>
-
 	<build>
 		<plugins>
 			<plugin>
@@ -134,7 +127,6 @@
 				<version>2.5.1</version>
 				<configuration>
 					<goalPrefix>easydoc</goalPrefix>
-					
 				</configuration>
 				<executions>
 					<execution>
@@ -153,6 +145,19 @@
 					<execution>
 						<goals>
 							<goal>antlr</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-gpg-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>sign-artifacts</id>
+						<phase>verify</phase>
+						<goals>
+							<goal>sign</goal>
 						</goals>
 					</execution>
 				</executions>
