@@ -9,7 +9,7 @@ import com.github.easydoc.semantics.NegativeValidationResult;
 import com.github.easydoc.semantics.PositiveValidationResult;
 import com.github.easydoc.semantics.ValidationResult;
 
-/*@@easydoc-start, belongs=easydoc-parameters@@
+/*@@easydoc-start, belongs=easydoc-parameters, weight=-900@@
 <h3>belongs</h3>
 
 This parameter lets you join the doc to another doc as a child. Thus, this doc's content

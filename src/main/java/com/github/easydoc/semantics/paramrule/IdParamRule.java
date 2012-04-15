@@ -9,7 +9,7 @@ import com.github.easydoc.semantics.NegativeValidationResult;
 import com.github.easydoc.semantics.PositiveValidationResult;
 import com.github.easydoc.semantics.ValidationResult;
 
-/*@@easydoc-start, id=easydoc-parameters, belongs=easydoc-usage@@
+/*@@easydoc-start, id=easydoc-parameters, belongs=easydoc-usage, weight=-1000@@
 <h2>Parameters</h2>
 
 <h3>id</h3>

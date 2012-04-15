@@ -66,7 +66,8 @@ paramValue returns [String text]
 	: { StringBuilder sb = new StringBuilder(); } 
 	(
 		CHAR { sb.append($CHAR.text); }
-		| '\\,' { sb.append(","); } 
+		| '\\,' { sb.append(","); }
+		| '\\\\' { sb.append("\\"); } 
 	)+ 
 	{ $text = sb.toString(); } ;
 
@@ -103,6 +104,7 @@ easydocText returns [String result]
 		| EQ { sb.append($EQ.text); } 
 		| COMMA { sb.append($COMMA.text); }
 		| '\\@\\@' { sb.append("@@"); }
+		| '\\\\' { sb.append("\\"); }
 	)+ { $result = sb.toString(); } ;
 
 document returns [List<Doc> docs]

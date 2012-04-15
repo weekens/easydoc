@@ -6,6 +6,18 @@ import com.github.easydoc.semantics.NegativeValidationResult;
 import com.github.easydoc.semantics.PositiveValidationResult;
 import com.github.easydoc.semantics.ValidationResult;
 
+/*@@easydoc-start, belongs=easydoc-parameters@@
+<h3>weight</h3>
+
+Defines the weight of the doc. The greater the weight, the lower the doc goes on the resulting page
+amongst the siblings.
+<br><br>
+The value is an integer, which may be positive, negative or zero (default). There are also 2 special
+keywords for the value: <i>min</i> and <i>max</i>, which define minimal and maximal weight respectively.
+<br>
+If the weight of two sibling docs is the same, they go in occurence order (which is default).
+ 
+@@easydoc-end@@*/
 public class WeightParamRule implements ParamRule {
 
 	@Override
