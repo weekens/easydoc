@@ -5,7 +5,9 @@ import java.io.File;
 import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.springframework.util.AntPathMatcher;
@@ -53,7 +55,7 @@ import freemarker.template.Template;
  */
 public class EasydocMojo extends AbstractMojo {
 	/**
-	 * Location of the file.
+	 * Output directory.
 	 * @parameter expression="${project.build.directory}/easydoc"
 	 * @required
 	 */
@@ -78,6 +80,13 @@ public class EasydocMojo extends AbstractMojo {
 	 * @parameter
 	 */
 	private List<String> includes;
+	
+	/**
+	 * A custom CSS style to use in generated HTML.
+	 * 
+	 * @parameter expression="${basedir}/src/main/resources/css/easydoc.css"
+	 */
+	private File customCss;
 
 	private AntPathMatcher pathMatcher = new AntPathMatcher();
 
@@ -124,8 +133,12 @@ public class EasydocMojo extends AbstractMojo {
 						new FileWriter(new File(outputDirectory, "index.html"))
 						);
 				try {
+					Map<String, Object> freemarkerModel = compilationResult.getModel().toFreemarkerModel();
+					if(customCss != null) {
+						freemarkerModel.put("css", FileUtils.readFileToString(customCss));
+					}
 					template.process(
-							compilationResult.getModel().toFreemarkerModel(), 
+							freemarkerModel, 
 							out
 					);
 				}
