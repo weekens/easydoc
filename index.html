@@ -4,50 +4,50 @@
 		<meta http-equiv="content-type" content="text/html; charset=UTF-8">
 		<title>Documentation</title>
 		
-		<style>
-			body {
-				font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
-				color: #404040;
-			}
-			
-			h1, h2, h3, h4, h5 {
-				background-image: linear-gradient(left , rgb(186,227,242) 2%, rgb(255,255,255) 51%, rgb(250,253,255) 85%);
-				background-image: -o-linear-gradient(left , rgb(186,227,242) 2%, rgb(255,255,255) 51%, rgb(250,253,255) 85%);
-				background-image: -moz-linear-gradient(left , rgb(186,227,242) 2%, rgb(255,255,255) 51%, rgb(250,253,255) 85%);
-				background-image: -webkit-linear-gradient(left , rgb(186,227,242) 2%, rgb(255,255,255) 51%, rgb(250,253,255) 85%);
-				background-image: -ms-linear-gradient(left , rgb(186,227,242) 2%, rgb(255,255,255) 51%, rgb(250,253,255) 85%);
-				
-				background-image: -webkit-gradient(
-					linear,
-					left bottom,
-					right bottom,
-					color-stop(0.02, rgb(186,227,242)),
-					color-stop(0.51, rgb(255,255,255)),
-					color-stop(0.85, rgb(250,253,255))
-				);
-				
-				color: #000077;
-			}
-			
-			pre {
-				background-image: linear-gradient(left , rgb(245,245,215) 2%, rgb(255,255,255) 51%, rgb(250,253,255) 85%);
-				background-image: -o-linear-gradient(left , rgb(245,245,215) 2%, rgb(255,255,255) 51%, rgb(250,253,255) 85%);
-				background-image: -moz-linear-gradient(left , rgb(245,245,215) 2%, rgb(255,255,255) 51%, rgb(250,253,255) 85%);
-				background-image: -webkit-linear-gradient(left , rgb(245,245,215) 2%, rgb(255,255,255) 51%, rgb(250,253,255) 85%);
-				background-image: -ms-linear-gradient(left , rgb(245,245,215) 2%, rgb(255,255,255) 51%, rgb(250,253,255) 85%);
-				
-				background-image: -webkit-gradient(
-					linear,
-					left bottom,
-					right bottom,
-					color-stop(0.02, rgb(245,245,215)),
-					color-stop(0.51, rgb(255,255,255)),
-					color-stop(0.85, rgb(250,253,255))
-				);
-				
-				font-family: Monaco,Andale Mono,Courier New,monospace;
-			}
-		</style>
+			<style>
+				body {
+	font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+	color: #404040;
+}
+
+h1, h2, h3, h4, h5 {
+	background-image: linear-gradient(left , rgb(186,227,242) 2%, rgb(255,255,255) 51%, rgb(250,253,255) 85%);
+	background-image: -o-linear-gradient(left , rgb(186,227,242) 2%, rgb(255,255,255) 51%, rgb(250,253,255) 85%);
+	background-image: -moz-linear-gradient(left , rgb(186,227,242) 2%, rgb(255,255,255) 51%, rgb(250,253,255) 85%);
+	background-image: -webkit-linear-gradient(left , rgb(186,227,242) 2%, rgb(255,255,255) 51%, rgb(250,253,255) 85%);
+	background-image: -ms-linear-gradient(left , rgb(186,227,242) 2%, rgb(255,255,255) 51%, rgb(250,253,255) 85%);
+	
+	background-image: -webkit-gradient(
+		linear,
+		left bottom,
+		right bottom,
+		color-stop(0.02, rgb(186,227,242)),
+		color-stop(0.51, rgb(255,255,255)),
+		color-stop(0.85, rgb(250,253,255))
+	);
+	
+	color: #000077;
+}
+
+pre {
+	background-image: linear-gradient(left , rgb(245,245,215) 2%, rgb(255,255,255) 51%, rgb(250,253,255) 85%);
+	background-image: -o-linear-gradient(left , rgb(245,245,215) 2%, rgb(255,255,255) 51%, rgb(250,253,255) 85%);
+	background-image: -moz-linear-gradient(left , rgb(245,245,215) 2%, rgb(255,255,255) 51%, rgb(250,253,255) 85%);
+	background-image: -webkit-linear-gradient(left , rgb(245,245,215) 2%, rgb(255,255,255) 51%, rgb(250,253,255) 85%);
+	background-image: -ms-linear-gradient(left , rgb(245,245,215) 2%, rgb(255,255,255) 51%, rgb(250,253,255) 85%);
+	
+	background-image: -webkit-gradient(
+		linear,
+		left bottom,
+		right bottom,
+		color-stop(0.02, rgb(245,245,215)),
+		color-stop(0.51, rgb(255,255,255)),
+		color-stop(0.85, rgb(250,253,255))
+	);
+	
+	font-family: Monaco,Andale Mono,Courier New,monospace;
+}
+			</style>
 	</head>
 	
 	<body>
@@ -92,7 +92,7 @@
 	If you don't use maven, just run a standalone easydoc binary in your project folder (coming soon).
 	 
 	 </p>
-	<!-- Generated from /home/vic/workspace/easydoc/src/main/java/com/github/easydoc/EasydocMojo.java:30 -->
+	<!-- Generated from /home/vic/workspace/easydoc/src/main/java/com/github/easydoc/EasydocMojo.java:33 -->
 	<p>
  <h1>Maven integration</h1>
  
@@ -102,7 +102,7 @@
  	&lt;plugin&gt;
 		&lt;groupId&gt;com.github&lt;/groupId&gt;
 		&lt;artifactId&gt;easydoc-maven-plugin&lt;/artifactId&gt;
-		&lt;version&gt;0.0.4-SNAPSHOT&lt;/version&gt;
+		&lt;version&gt;0.0.5&lt;/version&gt;
 		&lt;executions&gt;
 			&lt;execution&gt;
 				&lt;goals&gt;
@@ -116,6 +116,67 @@
  This will setup Easydoc for your project. By default, Easydoc will scan recursively your src/ directory and
  pom.xml file. Any docs found will be generated into target/easydoc/index.html page.
  </p>
+	<!-- Generated from /home/vic/workspace/easydoc/src/main/java/com/github/easydoc/EasydocMojo.java:61 -->
+	<p>
+	 <h2>Plugin configuration</h2>
+	 
+	 Below are plugin configuration options that you can specify inside the <i>configuration</i> section
+	 of the plugin declaration.<br>
+	 
+ <pre>
+ 	&lt;plugin&gt;
+		&lt;groupId&gt;com.github&lt;/groupId&gt;
+		&lt;artifactId&gt;easydoc-maven-plugin&lt;/artifactId&gt;
+		&lt;version&gt;0.0.5&lt;/version&gt;
+		&lt;executions&gt;
+			&lt;execution&gt;
+				&lt;goals&gt;
+					&lt;goal&gt;generate&lt;/goal&gt;
+				&lt;/goals&gt;
+			&lt;/execution&gt;
+		&lt;/executions&gt;
+		<b>&lt;configuration&gt;
+		
+		  configuration options go here
+		
+		&lt;/configuration&gt;</b>
+	&lt;/plugin&gt;
+ </pre>
+	 
+	 <h3>outputDirectory</h3>
+	 
+	 Specifies the output directory for the generated documentation.
+	 <br><br>
+	 <b>Default value:</b> target/easydoc
+	  
+	 </p>
+	<!-- Generated from /home/vic/workspace/easydoc/src/main/java/com/github/easydoc/EasydocMojo.java:97 -->
+	<p>
+	 <h3>inputDirectory</h3>
+	 
+	 The input directory to scan for docs.
+	 <br><br>
+	 <b>Default value:</b> src
+	 </p>
+	<!-- Generated from /home/vic/workspace/easydoc/src/main/java/com/github/easydoc/EasydocMojo.java:107 -->
+	<p>
+	 <h3>excludes</h3>
+	 
+	 Files or directories that should be excluded from the scan. Follows the standard Maven path pattern syntax.
+	 </p>
+	<!-- Generated from /home/vic/workspace/easydoc/src/main/java/com/github/easydoc/EasydocMojo.java:115 -->
+	<p>
+	 <h3>includes</h3>
+	 
+	 Files or directories that should only be scanned. All the other files will be omited. Follows the 
+	 standard Maven path pattern syntax.
+	 </p>
+	<!-- Generated from /home/vic/workspace/easydoc/src/main/java/com/github/easydoc/EasydocMojo.java:124 -->
+	<p>
+	 <h3>customCss</h3>
+	 
+	 A custom CSS style to use in generated HTML. 
+	 </p>
 	<!-- Generated from /home/vic/workspace/easydoc/src/main/antlr3/com/github/easydoc/Easydoc.txt:1 -->
 	<p>
 <h1>Usage</h1>
@@ -214,8 +275,9 @@ Defines the weight of the doc. The greater the weight, the lower the doc goes on
 amongst the siblings.
 <br><br>
 The value is an integer, which may be positive, negative or zero (default). There are also 2 special
-keywords for the value: <i>min</i> and <i>max</i> which define minimal and maximal weight respectively.
-<br><br>
+keywords for the value: <i>min</i> and <i>max</i>, which define minimal and maximal weight respectively.
+<br>
+If the weight of two sibling docs is the same, they go in occurence order (which is default).
  
 </p>
 	</body>
