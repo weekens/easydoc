@@ -8,8 +8,13 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
+import org.jfrog.maven.annomojo.annotations.MojoExecute;
+import org.jfrog.maven.annomojo.annotations.MojoGoal;
+import org.jfrog.maven.annomojo.annotations.MojoParameter;
+import org.jfrog.maven.annomojo.annotations.MojoPhase;
 import org.springframework.util.AntPathMatcher;
 
 import com.github.easydoc.exception.FileActionException;
@@ -22,14 +27,10 @@ import freemarker.template.Configuration;
 import freemarker.template.DefaultObjectWrapper;
 import freemarker.template.Template;
 
-/**
- * Scan for all files and generate documentation for project.
+/*
+ * This MOJO scans for all files and generates the documentation for project.
  *
- * @goal generate
- * 
- * @phase process-sources
- * 
- @@easydoc-start@@
+ @@easydoc-start, id=easydoc-maven@@
  <h1>Maven integration</h1>
  
  To get started with Maven you only need to add the following snippet to your pom.xml in build/plugins section:
@@ -53,39 +54,79 @@ import freemarker.template.Template;
  pom.xml file. Any docs found will be generated into target/easydoc/index.html page.
  @@easydoc-end@@
  */
+@MojoGoal("generate")
+@MojoPhase("process-sources")
+@MojoExecute(phase = "process-sources")
 public class EasydocMojo extends AbstractMojo {
-	/**
-	 * Output directory.
-	 * @parameter expression="${project.build.directory}/easydoc"
-	 * @required
-	 */
+	/*@@easydoc-start, belongs=easydoc-maven@@
+	 <h2>Plugin configuration</h2>
+	 
+	 Below are plugin configuration options that you can specify inside the <i>configuration</i> section
+	 of the plugin declaration.<br>
+	 
+ <pre>
+ 	&lt;plugin&gt;
+		&lt;groupId&gt;com.github&lt;/groupId&gt;
+		&lt;artifactId&gt;easydoc-maven-plugin&lt;/artifactId&gt;
+		&lt;version&gt;0.0.5&lt;/version&gt;
+		&lt;executions&gt;
+			&lt;execution&gt;
+				&lt;goals&gt;
+					&lt;goal&gt;generate&lt;/goal&gt;
+				&lt;/goals&gt;
+			&lt;/execution&gt;
+		&lt;/executions&gt;
+		<b>&lt;configuration&gt;
+		
+		  configuration options go here
+		
+		&lt;/configuration&gt;</b>
+	&lt;/plugin&gt;
+ </pre>
+	 
+	 <h3>outputDirectory</h3>
+	 
+	 Specifies the output directory for the generated documentation.
+	 <br><br>
+	 <b>Default value:</b> target/easydoc
+	  
+	 @@easydoc-end@@*/
+	@MojoParameter(required = true,	expression = "${project.build.directory}/easydoc")
 	private File outputDirectory;
 
-	/**
-	 * Input directory.
-	 * @parameter expression="${basedir}/src"
-	 * @required
-	 */
+	/*@@easydoc-start, belongs=easydoc-maven@@
+	 <h3>inputDirectory</h3>
+	 
+	 The input directory to scan for docs.
+	 <br><br>
+	 <b>Default value:</b> src
+	 @@easydoc-end@@*/
+	@MojoParameter(required = true,	expression = "${basedir}/src")
 	private File inputDirectory;
 
-	/**
-	 * Files or directories that should be excluded from the scan.
-	 * @parameter
-	 */
+	/*@@easydoc-start, belongs=easydoc-maven@@
+	 <h3>excludes</h3>
+	 
+	 Files or directories that should be excluded from the scan. Follows the standard Maven path pattern syntax.
+	 @@easydoc-end@@*/
+	@MojoParameter
 	private List<String> excludes = new ArrayList<String>();
 	
-	/**
-	 * Files or directories that should only be scanned. All the
-	 * other files will be omited.
-	 * @parameter
-	 */
+	/*@@easydoc-start, belongs=easydoc-maven@@
+	 <h3>includes</h3>
+	 
+	 Files or directories that should only be scanned. All the other files will be omited. Follows the 
+	 standard Maven path pattern syntax.
+	 @@easydoc-end@@*/
+	@MojoParameter
 	private List<String> includes;
 	
-	/**
-	 * A custom CSS style to use in generated HTML.
-	 * 
-	 * @parameter expression="${basedir}/src/main/resources/css/easydoc.css"
-	 */
+	/*@@easydoc-start, belongs=easydoc-maven@@
+	 <h3>customCss</h3>
+	 
+	 A custom CSS style to use in generated HTML. 
+	 @@easydoc-end@@*/
+	@MojoParameter
 	private File customCss;
 
 	private AntPathMatcher pathMatcher = new AntPathMatcher();
@@ -134,13 +175,17 @@ public class EasydocMojo extends AbstractMojo {
 						);
 				try {
 					Map<String, Object> freemarkerModel = compilationResult.getModel().toFreemarkerModel();
+					String cssContent;
 					if(customCss != null) {
-						freemarkerModel.put("css", FileUtils.readFileToString(customCss));
+						cssContent = FileUtils.readFileToString(customCss);
 					}
-					template.process(
-							freemarkerModel, 
-							out
-					);
+					else {
+						cssContent = IOUtils.toString(getClass().getResourceAsStream("/css/easydoc.css"));
+					}
+					
+					freemarkerModel.put("css", cssContent);
+
+					template.process(freemarkerModel, out);
 				}
 				finally {
 					out.close();

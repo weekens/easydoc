@@ -113,6 +113,11 @@
 			<artifactId>commons-io</artifactId>
 			<version>2.3</version>
 		</dependency>
+		<dependency>
+			<groupId>br.com.ingenieux.maven.annomojo</groupId>
+			<artifactId>org.jfrog.maven.maven-plugin-anno</artifactId>
+			<version>1.4.1</version>
+		</dependency>
 	</dependencies>
 	
 	<build>
@@ -141,6 +146,20 @@
 						</goals>
 					</execution>
 				</executions>
+				<dependencies>
+					<dependency>
+						<groupId>br.com.ingenieux.maven.annomojo</groupId>
+						<artifactId>org.jfrog.maven.maven-plugin-tools-anno</artifactId>
+						<version>1.4.1</version>
+						<scope>runtime</scope>
+					</dependency>
+					<dependency>
+						<groupId>org.apache.maven.plugin-tools</groupId>
+						<artifactId>maven-plugin-tools-api</artifactId>
+						<version>2.9</version>
+						<scope>runtime</scope>
+					</dependency>
+                </dependencies>
 			</plugin>
 			<plugin>
 				<groupId>org.antlr</groupId>
