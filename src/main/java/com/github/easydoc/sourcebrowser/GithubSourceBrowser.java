@@ -20,10 +20,11 @@ public class GithubSourceBrowser implements SourceBrowser {
 			SourceLink sourceLink = doc.getSourceLink();
 			return new URL(
 					String.format(
-							"%s%s#L%d", 
+							"%s%s#L%d-%d", 
 							baseUrl,
 							sourceLink.getFile().getPath(),
-							sourceLink.getLine())
+							sourceLink.getStartLine(),
+							sourceLink.getEndLine())
 			);
 		} catch (MalformedURLException e) {
 			throw new IllegalArgumentException(e);

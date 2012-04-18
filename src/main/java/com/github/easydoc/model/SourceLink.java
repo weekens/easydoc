@@ -8,28 +8,34 @@ import java.io.File;
  */
 public class SourceLink {
 	private File file;
-	private int line;
+	private int startLine;
+	private final int endLine;
 
-	public SourceLink(File file, int line) {
+	public SourceLink(File file, int startLine, int endLine) {
 		this.file = file;
-		this.line = line;
+		this.startLine = startLine;
+		this.endLine = endLine;
 	}
 	
-	public SourceLink(String fileName, int line) {
-		this(new File(fileName), line);
+	public SourceLink(String fileName, int startLine, int endLine) {
+		this(new File(fileName), startLine, endLine);
 	}
 
 	public File getFile() {
 		return file;
 	}
 
-	public int getLine() {
-		return line;
+	public int getStartLine() {
+		return startLine;
+	}
+	
+	public int getEndLine() {
+		return endLine;
 	}
 
 	@Override
 	public String toString() {
-		return String.format("SourceLink [file=%s, line=%s]", file, line);
+		return String.format("SourceLink [file=%s, line=%s]", file, startLine);
 	}
 	
 }

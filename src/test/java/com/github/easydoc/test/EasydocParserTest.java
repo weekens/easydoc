@@ -28,7 +28,8 @@ public class EasydocParserTest {
 		Assert.assertEquals("main-header", doc.getParams().get("id"));
 		Assert.assertEquals("\\,#", doc.getParams().get("ignore"));
 		Assert.assertEquals(" \\, Doc @@ @ doc ", doc.getText());
-		Assert.assertEquals(1, doc.getSourceLink().getLine());
+		Assert.assertEquals(1, doc.getSourceLink().getStartLine());
+		Assert.assertEquals(1, doc.getSourceLink().getEndLine());
 		Assert.assertNull(doc.getSourceLink().getFile());
 	}
 	
@@ -44,7 +45,8 @@ public class EasydocParserTest {
 		Doc doc = docs.get(0);
 		Assert.assertEquals("main-header", doc.getParams().get("belongs"));
 		Assert.assertTrue(doc.getText().contains("Documentation in pom.xml"));
-		Assert.assertEquals(7, doc.getSourceLink().getLine());
+		Assert.assertEquals(7, doc.getSourceLink().getStartLine());
+		Assert.assertEquals(11, doc.getSourceLink().getEndLine());
 		Assert.assertNull(doc.getSourceLink().getFile());
 	}
 

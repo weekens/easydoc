@@ -1,5 +1,5 @@
 <#macro generateDoc doc>
-	<!-- Generated from ${doc.sourceLink.file.path}:${doc.sourceLink.line} -->
+	<!-- Generated from ${doc.sourceLink.file.path}:${doc.sourceLink.startLine} -->
 	<p>
 		${doc.text}
 		<#if sourceBrowser??>

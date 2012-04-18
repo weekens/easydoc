@@ -44,6 +44,8 @@ COMMA: ',';
 
 ED_START: '@@easydoc-start';
 
+ED_END: '@@easydoc-end@@';
+
 CHAR: '\u0000'..'\uFFFE';
 
 easydocStart returns [Map<String, String> params, int line]
@@ -71,19 +73,21 @@ paramValue returns [String text]
 	)+ 
 	{ $text = sb.toString(); } ;
 
-easydocEnd: '@@easydoc-end@@' ;
+easydocEnd returns [int line] : 
+	ED_END { $line = $ED_END.getLine(); } ;
 
 easydocDoc returns [Doc result]
 	: { Doc ret = new Doc(); }
 	easydocStart { 
 		ret.setParams($easydocStart.params);
-		ret.setSourceLink(new SourceLink(file, $easydocStart.line)); 
 	} 
 	(
 		easydocText { ret.appendText($easydocText.result); } 
 	)?
-	easydocEnd
-	{ $result=ret; } 
+	easydocEnd {
+		ret.setSourceLink(new SourceLink(file, $easydocStart.line, $easydocEnd.line)); 
+		$result=ret; 
+	} 
 	;
 	
 simpleText returns [String result]
