@@ -17,10 +17,13 @@ import org.jfrog.maven.annomojo.annotations.MojoParameter;
 import org.jfrog.maven.annomojo.annotations.MojoPhase;
 import org.springframework.util.AntPathMatcher;
 
+import com.github.easydoc.exception.EasydocFatalException;
 import com.github.easydoc.exception.FileActionException;
 import com.github.easydoc.model.Model;
+import com.github.easydoc.param.SourceBrowserParam;
 import com.github.easydoc.semantics.EasydocSemantics;
 import com.github.easydoc.semantics.EasydocSemantics.CompilationResult;
+import com.github.easydoc.sourcebrowser.SourceBrowser;
 
 import freemarker.cache.ClassTemplateLoader;
 import freemarker.template.Configuration;
@@ -128,8 +131,13 @@ public class EasydocMojo extends AbstractMojo {
 	 @@easydoc-end@@*/
 	@MojoParameter
 	private File customCss;
+	
+	@MojoParameter
+	private SourceBrowserParam sourceBrowser;
 
 	private AntPathMatcher pathMatcher = new AntPathMatcher();
+	
+	private File currentDirectory = new File("");
 
 	public EasydocMojo() {
 	}
@@ -138,6 +146,7 @@ public class EasydocMojo extends AbstractMojo {
 		excludes.add("**/.*"); //skip all entries starting with '.'
 		
 		try {
+			getLog().debug("Current directory = " + currentDirectory.getAbsolutePath());
 			getLog().debug("inputDirectory = " + inputDirectory.getAbsolutePath());
 			if(!inputDirectory.exists()) {
 				getLog().debug("Input directory does not exist. Skipping execution.");
@@ -152,7 +161,7 @@ public class EasydocMojo extends AbstractMojo {
 
 			ParseDocumentationFileAction fileAction = new ParseDocumentationFileAction(model, getLog());
 			//try to run this action for pom.xml file
-			File pomXml = new File(inputDirectory.getParentFile(), "pom.xml");
+			File pomXml = new File("pom.xml");
 			if(pomXml.isFile() && !skipCheck(pomXml)) {
 				fileAction.run(pomXml);
 			}
@@ -175,6 +184,7 @@ public class EasydocMojo extends AbstractMojo {
 						);
 				try {
 					Map<String, Object> freemarkerModel = compilationResult.getModel().toFreemarkerModel();
+					
 					String cssContent;
 					if(customCss != null) {
 						cssContent = FileUtils.readFileToString(customCss);
@@ -182,8 +192,11 @@ public class EasydocMojo extends AbstractMojo {
 					else {
 						cssContent = IOUtils.toString(getClass().getResourceAsStream("/css/easydoc.css"));
 					}
-					
 					freemarkerModel.put("css", cssContent);
+					
+					if(sourceBrowser != null) {
+						freemarkerModel.put("sourceBrowser", createSourceBrowser(sourceBrowser));
+					}
 
 					template.process(freemarkerModel, out);
 				}
@@ -203,6 +216,21 @@ public class EasydocMojo extends AbstractMojo {
 		}
 	}
 
+	private SourceBrowser createSourceBrowser(SourceBrowserParam sbParam) {
+		try {
+			if(sbParam.getType() != null) {
+				return sbParam.getType()
+						.getSourceBrowserClass()
+						.getConstructor(SourceBrowserParam.class)
+						.newInstance(sbParam);
+			}
+			else throw new IllegalArgumentException("The required parameter sourceBrowser/type is not specified");
+		}
+		catch(Exception e) {
+			throw new EasydocFatalException(e);
+		}
+	}
+
 	private void recurseDirectory(File dir, FileAction action) {
 		for(File file : dir.listFiles()) {
 			if(skipCheck(file)) continue;
@@ -214,7 +242,7 @@ public class EasydocMojo extends AbstractMojo {
 
 			if(file.isFile()) {
 				try {
-					action.run(file);
+					action.run(toRelativeFile(currentDirectory, file));
 				}
 				catch(FileActionException e) {
 					getLog().warn("Error", e);
@@ -226,6 +254,31 @@ public class EasydocMojo extends AbstractMojo {
 		}
 	}
 	
+	private File toRelativeFile(File currentDirectory, File file) {
+		String absolutePath = file.getAbsolutePath();
+		String cdAbsolutePath = currentDirectory.getAbsolutePath();
+		
+		if(!absolutePath.startsWith(cdAbsolutePath)) {
+			return file;
+		}
+		if(absolutePath.equals(cdAbsolutePath)) { //to avoid StringIndexOutOfBoundsException
+			return currentDirectory;
+		}
+		
+		String relativePath = absolutePath.substring(cdAbsolutePath.length());
+		if(relativePath.startsWith("/")) {
+			if(relativePath.length() > 1) {
+				return new File(relativePath.substring(1));
+			}
+			else {
+				return currentDirectory;
+			}
+		}
+		else {
+			return new File(relativePath);
+		}
+	}
+
 	private boolean skipCheck(File file) {
 		boolean skip = false;
 		if(includes != null && !file.isDirectory()) {

@@ -1,6 +1,15 @@
 <#macro generateDoc doc>
 	<!-- Generated from ${doc.sourceLink.file.path}:${doc.sourceLink.line} -->
-	<p>${doc.text}</p>
+	<p>
+		${doc.text}
+		<#if sourceBrowser??>
+			<p>
+				<a class="easydoc-source-link" 
+					href="${sourceBrowser.generateUrl(doc)}" 
+					target="_blank">source link</a>
+			</p>
+		</#if>
+	</p>
 </#macro>
 
 <#macro generateDocTree docTree>

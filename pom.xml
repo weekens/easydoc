@@ -196,6 +196,10 @@
 								<exclude>**/*.g</exclude>
 								<exclude>**/src/test</exclude>
 							</excludes>
+							<sourceBrowser>
+								<type>github</type>
+								<baseUrl>https://github.com/weekens/easydoc/blob/master/</baseUrl>
+							</sourceBrowser>
 						</configuration>
 					</plugin>
 				</plugins>
