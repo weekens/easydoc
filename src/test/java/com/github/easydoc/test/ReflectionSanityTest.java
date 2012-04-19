@@ -1,5 +1,7 @@
 package com.github.easydoc.test;
 
+import java.util.EnumSet;
+
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -10,15 +12,17 @@ public class ReflectionSanityTest {
 	
 	@Test
 	public void testGithubSourceBrowser() throws Exception {
-		SourceBrowserParam sbParam = new SourceBrowserParam();
-		sbParam.setType("github");
-		sbParam.setBaseUrl("http://github.com");
-		
-		SourceBrowser sourceBrowser = sbParam.getType()
-			.getSourceBrowserClass()
-			.getConstructor(SourceBrowserParam.class)
-			.newInstance(sbParam);
-		Assert.assertNotNull(sourceBrowser);
+		for(SourceBrowserParam.Type type : EnumSet.allOf(SourceBrowserParam.Type.class)) {
+			SourceBrowserParam sbParam = new SourceBrowserParam();
+			sbParam.setType(type.toString());
+			sbParam.setBaseUrl("http://company.com");
+			
+			SourceBrowser sourceBrowser = sbParam.getType()
+				.getSourceBrowserClass()
+				.getConstructor(SourceBrowserParam.class)
+				.newInstance(sbParam);
+			Assert.assertNotNull(sourceBrowser);
+		}
 	}
 
 }

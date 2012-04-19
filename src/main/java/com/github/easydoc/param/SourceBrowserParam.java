@@ -2,12 +2,14 @@ package com.github.easydoc.param;
 
 import java.util.EnumSet;
 
+import com.github.easydoc.sourcebrowser.FisheyeSourceBrowser;
 import com.github.easydoc.sourcebrowser.GithubSourceBrowser;
 import com.github.easydoc.sourcebrowser.SourceBrowser;
 
 public class SourceBrowserParam {
 	public enum Type {
-		GITHUB(GithubSourceBrowser.class);
+		GITHUB(GithubSourceBrowser.class),
+		FISHEYE(FisheyeSourceBrowser.class);
 		
 		private final Class<? extends SourceBrowser> sbcls;
 
@@ -31,13 +33,14 @@ public class SourceBrowserParam {
 	
 	private String baseUrl;
 	private Type type;
+	private int revision;
 
 	public String getBaseUrl() {
 		return baseUrl;
 	}
 
 	public void setBaseUrl(String baseUrl) {
-		this.baseUrl = baseUrl;
+		this.baseUrl = baseUrl + (baseUrl.endsWith("/") ? "" : "/");
 	}
 
 	public Type getType() {
@@ -46,6 +49,14 @@ public class SourceBrowserParam {
 
 	public void setType(String stype) {
 		this.type = Type.fromString(stype);
+	}
+
+	public int getRevision() {
+		return revision;
+	}
+
+	public void setRevision(int revision) {
+		this.revision = revision;
 	}
 
 	@Override
