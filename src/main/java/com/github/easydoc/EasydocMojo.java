@@ -166,7 +166,7 @@ public class EasydocMojo extends AbstractMojo {
 				fileAction.run(pomXml);
 			}
 			//and also recursively in inputDirectory
-			recurseDirectory(inputDirectory, fileAction);
+			recurseDirectory(toRelativeFile(currentDirectory, inputDirectory), fileAction);
 			
 			if(model.getDocs().isEmpty()) {
 				getLog().debug("No docs were found. Skipping execution.");
@@ -242,7 +242,7 @@ public class EasydocMojo extends AbstractMojo {
 
 			if(file.isFile()) {
 				try {
-					action.run(toRelativeFile(currentDirectory, file));
+					action.run(file);
 				}
 				catch(FileActionException e) {
 					getLog().warn("Error", e);
@@ -284,13 +284,13 @@ public class EasydocMojo extends AbstractMojo {
 		if(includes != null && !file.isDirectory()) {
 			skip = true;
 			for(String include : includes) {
-				skip &= !pathMatcher.match("/" + include, file.getAbsolutePath());
+				skip &= !pathMatcher.match(include, file.getPath());
 			}
 		}
 		if(skip) return true;
 		
 		for(String exclude : excludes) {
-			if(pathMatcher.match("/" + exclude, file.getAbsolutePath())) {
+			if(pathMatcher.match(exclude, file.getPath())) {
 				return true;
 			}
 		}
