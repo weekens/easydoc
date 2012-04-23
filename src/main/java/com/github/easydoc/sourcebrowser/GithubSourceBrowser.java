@@ -7,6 +7,19 @@ import com.github.easydoc.model.Doc;
 import com.github.easydoc.model.SourceLink;
 import com.github.easydoc.param.SourceBrowserParam;
 
+/*@@easydoc-start, belongs=easydoc-maven-source-browser@@
+ <h4>github</h4>
+ 
+ GitHub source browser. To specify it, use the following snippet:<br>
+ <pre>
+&lt;sourceBrowser&gt;
+	&lt;type&gt;github&lt;/type&gt;
+	&lt;baseUrl&gt;https://github.com/weekens/easydoc/blob/master/&lt;/baseUrl&gt;
+&lt;/sourceBrowser&gt;
+ </pre>
+ <br>
+ Replace <i>baseUrl</i> value with the one from your GitHub repository.
+ @@easydoc-end@@*/
 public class GithubSourceBrowser implements SourceBrowser {	
 	private final String baseUrl;
 	

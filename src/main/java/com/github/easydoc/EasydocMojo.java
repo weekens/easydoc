@@ -40,7 +40,7 @@ import freemarker.template.Template;
  
  <pre>
  	&lt;plugin&gt;
-		&lt;groupId&gt;com.github&lt;/groupId&gt;
+		&lt;groupId&gt;com.github.weekens&lt;/groupId&gt;
 		&lt;artifactId&gt;easydoc-maven-plugin&lt;/artifactId&gt;
 		&lt;version&gt;0.0.5&lt;/version&gt;
 		&lt;executions&gt;
@@ -71,7 +71,7 @@ public class EasydocMojo extends AbstractMojo {
  	&lt;plugin&gt;
 		&lt;groupId&gt;com.github&lt;/groupId&gt;
 		&lt;artifactId&gt;easydoc-maven-plugin&lt;/artifactId&gt;
-		&lt;version&gt;0.0.5&lt;/version&gt;
+		&lt;version&gt;0.0.6&lt;/version&gt;
 		&lt;executions&gt;
 			&lt;execution&gt;
 				&lt;goals&gt;
@@ -132,6 +132,28 @@ public class EasydocMojo extends AbstractMojo {
 	@MojoParameter
 	private File customCss;
 	
+	/*@@easydoc-start, id=easydoc-maven-source-browser, belongs=easydoc-maven@@
+	 <h3>sourceBrowser</h3>
+	 
+	 This parameter tells Easydoc how to generate the source links for your docs. If this parameter
+	 is present, Easydoc will generate HTML links to a place of origin of each of your docs, so that
+	 you can view them directly in the browser.
+	 <br><br>
+	 Generally, you specify it in the following manner:<br>
+	 <pre>
+&lt;configuration&gt;
+	...
+	&lt;sourceBrowser&gt;
+		&lt;baseUrl&gt;http://your.url.com/path_to_sources&lt;/baseUrl&gt;
+		&lt;type&gt;source_browser_type (covered below)&lt;/type&gt;
+		... (other params if necessary)
+	&lt;/sourceBrowser&gt;
+&lt;/configuration&gt;
+	 </pre>
+	 <br>
+	 <i>baseUrl</i> and <i>type</i> are the essential parameters that you will need to specify. The following
+	 <i>type</i> values are supported so far: 
+	 @@easydoc-end@@*/
 	@MojoParameter
 	private SourceBrowserParam sourceBrowser;
 
@@ -143,7 +165,7 @@ public class EasydocMojo extends AbstractMojo {
 	}
 
 	public void execute() throws MojoExecutionException {
-		excludes.add("**/.*"); //skip all entries starting with '.'
+		excludes.add("**" + File.separator + ".*"); //skip all entries starting with '.'
 		
 		try {
 			getLog().debug("Current directory = " + currentDirectory.getAbsolutePath());
@@ -266,9 +288,9 @@ public class EasydocMojo extends AbstractMojo {
 		}
 		
 		String relativePath = absolutePath.substring(cdAbsolutePath.length());
-		if(relativePath.startsWith("/")) {
-			if(relativePath.length() > 1) {
-				return new File(relativePath.substring(1));
+		if(relativePath.startsWith(File.separator)) {
+			if(relativePath.length() > File.separator.length()) {
+				return new File(relativePath.substring(File.separator.length()));
 			}
 			else {
 				return currentDirectory;

@@ -6,7 +6,7 @@
 			<p>
 				<a class="easydoc-source-link" 
 					href="${sourceBrowser.generateUrl(doc)}" 
-					target="_blank">source link</a>
+					target="_blank">source</a>
 			</p>
 		</#if>
 	</p>
