@@ -51,8 +51,9 @@ pre {
 	</head>
 	
 	<body>
-	<!-- Generated from /home/vic/workspace/easydoc/pom.xml:17 -->
+	<!-- Generated from pom.xml:17 -->
 	<p>
+		
 	<h1>Introduction</h1>
 	
 	<h2>What is Easydoc?</h2>
@@ -91,16 +92,23 @@ pre {
 	<br>
 	If you don't use maven, just run a standalone easydoc binary in your project folder (coming soon).
 	 
-	 </p>
-	<!-- Generated from /home/vic/workspace/easydoc/src/main/java/com/github/easydoc/EasydocMojo.java:33 -->
+	 
+			<p>
+				<a class="easydoc-source-link" 
+					href="https://github.com/weekens/easydoc/blob/master/pom.xml#L17-56" 
+					target="_blank">source</a>
+			</p>
+	</p>
+	<!-- Generated from src/main/java/com/github/easydoc/EasydocMojo.java:36 -->
 	<p>
+		
  <h1>Maven integration</h1>
  
  To get started with Maven you only need to add the following snippet to your pom.xml in build/plugins section:
  
  <pre>
  	&lt;plugin&gt;
-		&lt;groupId&gt;com.github&lt;/groupId&gt;
+		&lt;groupId&gt;com.github.weekens&lt;/groupId&gt;
 		&lt;artifactId&gt;easydoc-maven-plugin&lt;/artifactId&gt;
 		&lt;version&gt;0.0.5&lt;/version&gt;
 		&lt;executions&gt;
@@ -115,9 +123,16 @@ pre {
  
  This will setup Easydoc for your project. By default, Easydoc will scan recursively your src/ directory and
  pom.xml file. Any docs found will be generated into target/easydoc/index.html page.
- </p>
-	<!-- Generated from /home/vic/workspace/easydoc/src/main/java/com/github/easydoc/EasydocMojo.java:61 -->
+ 
+			<p>
+				<a class="easydoc-source-link" 
+					href="https://github.com/weekens/easydoc/blob/master/src/main/java/com/github/easydoc/EasydocMojo.java#L36-58" 
+					target="_blank">source</a>
+			</p>
+	</p>
+	<!-- Generated from src/main/java/com/github/easydoc/EasydocMojo.java:64 -->
 	<p>
+		
 	 <h2>Plugin configuration</h2>
 	 
 	 Below are plugin configuration options that you can specify inside the <i>configuration</i> section
@@ -127,7 +142,7 @@ pre {
  	&lt;plugin&gt;
 		&lt;groupId&gt;com.github&lt;/groupId&gt;
 		&lt;artifactId&gt;easydoc-maven-plugin&lt;/artifactId&gt;
-		&lt;version&gt;0.0.5&lt;/version&gt;
+		&lt;version&gt;0.0.6&lt;/version&gt;
 		&lt;executions&gt;
 			&lt;execution&gt;
 				&lt;goals&gt;
@@ -149,36 +164,122 @@ pre {
 	 <br><br>
 	 <b>Default value:</b> target/easydoc
 	  
-	 </p>
-	<!-- Generated from /home/vic/workspace/easydoc/src/main/java/com/github/easydoc/EasydocMojo.java:97 -->
+	 
+			<p>
+				<a class="easydoc-source-link" 
+					href="https://github.com/weekens/easydoc/blob/master/src/main/java/com/github/easydoc/EasydocMojo.java#L64-96" 
+					target="_blank">source</a>
+			</p>
+	</p>
+	<!-- Generated from src/main/java/com/github/easydoc/EasydocMojo.java:100 -->
 	<p>
+		
 	 <h3>inputDirectory</h3>
 	 
 	 The input directory to scan for docs.
 	 <br><br>
 	 <b>Default value:</b> src
-	 </p>
-	<!-- Generated from /home/vic/workspace/easydoc/src/main/java/com/github/easydoc/EasydocMojo.java:107 -->
+	 
+			<p>
+				<a class="easydoc-source-link" 
+					href="https://github.com/weekens/easydoc/blob/master/src/main/java/com/github/easydoc/EasydocMojo.java#L100-106" 
+					target="_blank">source</a>
+			</p>
+	</p>
+	<!-- Generated from src/main/java/com/github/easydoc/EasydocMojo.java:110 -->
 	<p>
+		
 	 <h3>excludes</h3>
 	 
 	 Files or directories that should be excluded from the scan. Follows the standard Maven path pattern syntax.
-	 </p>
-	<!-- Generated from /home/vic/workspace/easydoc/src/main/java/com/github/easydoc/EasydocMojo.java:115 -->
+	 
+			<p>
+				<a class="easydoc-source-link" 
+					href="https://github.com/weekens/easydoc/blob/master/src/main/java/com/github/easydoc/EasydocMojo.java#L110-114" 
+					target="_blank">source</a>
+			</p>
+	</p>
+	<!-- Generated from src/main/java/com/github/easydoc/EasydocMojo.java:118 -->
 	<p>
+		
 	 <h3>includes</h3>
 	 
 	 Files or directories that should only be scanned. All the other files will be omited. Follows the 
 	 standard Maven path pattern syntax.
-	 </p>
-	<!-- Generated from /home/vic/workspace/easydoc/src/main/java/com/github/easydoc/EasydocMojo.java:124 -->
+	 
+			<p>
+				<a class="easydoc-source-link" 
+					href="https://github.com/weekens/easydoc/blob/master/src/main/java/com/github/easydoc/EasydocMojo.java#L118-123" 
+					target="_blank">source</a>
+			</p>
+	</p>
+	<!-- Generated from src/main/java/com/github/easydoc/EasydocMojo.java:127 -->
 	<p>
+		
 	 <h3>customCss</h3>
 	 
 	 A custom CSS style to use in generated HTML. 
-	 </p>
-	<!-- Generated from /home/vic/workspace/easydoc/src/main/antlr3/com/github/easydoc/Easydoc.txt:1 -->
+	 
+			<p>
+				<a class="easydoc-source-link" 
+					href="https://github.com/weekens/easydoc/blob/master/src/main/java/com/github/easydoc/EasydocMojo.java#L127-131" 
+					target="_blank">source</a>
+			</p>
+	</p>
+	<!-- Generated from src/main/java/com/github/easydoc/EasydocMojo.java:135 -->
 	<p>
+		
+	 <h3>sourceBrowser</h3>
+	 
+	 This parameter tells Easydoc how to generate the source links for your docs. If this parameter
+	 is present, Easydoc will generate HTML links to a place of origin of each of your docs, so that
+	 you can view them directly in the browser.
+	 <br><br>
+	 Generally, you specify it in the following manner:<br>
+	 <pre>
+&lt;configuration&gt;
+	...
+	&lt;sourceBrowser&gt;
+		&lt;baseUrl&gt;http://your.url.com/path_to_sources&lt;/baseUrl&gt;
+		&lt;type&gt;source_browser_type (covered below)&lt;/type&gt;
+		... (other params if necessary)
+	&lt;/sourceBrowser&gt;
+&lt;/configuration&gt;
+	 </pre>
+	 <br>
+	 <i>baseUrl</i> and <i>type</i> are the essential parameters that you will need to specify. The following
+	 <i>type</i> values are supported so far: 
+	 
+			<p>
+				<a class="easydoc-source-link" 
+					href="https://github.com/weekens/easydoc/blob/master/src/main/java/com/github/easydoc/EasydocMojo.java#L135-156" 
+					target="_blank">source</a>
+			</p>
+	</p>
+	<!-- Generated from src/main/java/com/github/easydoc/sourcebrowser/GithubSourceBrowser.java:10 -->
+	<p>
+		
+ <h4>github</h4>
+ 
+ GitHub source browser. To specify it, use the following snippet:<br>
+ <pre>
+&lt;sourceBrowser&gt;
+	&lt;type&gt;github&lt;/type&gt;
+	&lt;baseUrl&gt;https://github.com/weekens/easydoc/blob/master/&lt;/baseUrl&gt;
+&lt;/sourceBrowser&gt;
+ </pre>
+ <br>
+ Replace <i>baseUrl</i> value with the one from your GitHub repository.
+ 
+			<p>
+				<a class="easydoc-source-link" 
+					href="https://github.com/weekens/easydoc/blob/master/src/main/java/com/github/easydoc/sourcebrowser/GithubSourceBrowser.java#L10-22" 
+					target="_blank">source</a>
+			</p>
+	</p>
+	<!-- Generated from src/main/antlr3/com/github/easydoc/Easydoc.txt:1 -->
+	<p>
+		
 <h1>Usage</h1>
 
 <h2>The syntax</h2>
@@ -211,9 +312,16 @@ HTML documentation
 
 @@easydoc-end@@
 </pre>
-</p>
-	<!-- Generated from /home/vic/workspace/easydoc/src/main/java/com/github/easydoc/semantics/paramrule/IdParamRule.java:12 -->
+
+			<p>
+				<a class="easydoc-source-link" 
+					href="https://github.com/weekens/easydoc/blob/master/src/main/antlr3/com/github/easydoc/Easydoc.txt#L1-34" 
+					target="_blank">source</a>
+			</p>
+	</p>
+	<!-- Generated from src/main/java/com/github/easydoc/semantics/paramrule/IdParamRule.java:12 -->
 	<p>
+		
 <h2>Parameters</h2>
 
 <h3>id</h3>
@@ -227,9 +335,16 @@ Requirements:
 The id you define should be unique across all docs in your code. If it is not, easydoc
 will fail.
  
-</p>
-	<!-- Generated from /home/vic/workspace/easydoc/src/main/java/com/github/easydoc/semantics/paramrule/BelongsParamRule.java:12 -->
+
+			<p>
+				<a class="easydoc-source-link" 
+					href="https://github.com/weekens/easydoc/blob/master/src/main/java/com/github/easydoc/semantics/paramrule/IdParamRule.java#L12-26" 
+					target="_blank">source</a>
+			</p>
+	</p>
+	<!-- Generated from src/main/java/com/github/easydoc/semantics/paramrule/BelongsParamRule.java:12 -->
 	<p>
+		
 <h3>belongs</h3>
 
 This parameter lets you join the doc to another doc as a child. Thus, this doc's content
@@ -242,9 +357,16 @@ Requirements:
 The parent doc with the specified id should be there. If there is no such doc, easydoc
 will fail.
  
-</p>
-	<!-- Generated from /home/vic/workspace/easydoc/src/main/java/com/github/easydoc/semantics/paramrule/IgnoreParamRule.java:8 -->
+
+			<p>
+				<a class="easydoc-source-link" 
+					href="https://github.com/weekens/easydoc/blob/master/src/main/java/com/github/easydoc/semantics/paramrule/BelongsParamRule.java#L12-25" 
+					target="_blank">source</a>
+			</p>
+	</p>
+	<!-- Generated from src/main/java/com/github/easydoc/semantics/paramrule/IgnoreParamRule.java:8 -->
 	<p>
+		
 <h3>ignore</h3>
 
 With this parameter you can ignore certain characters in doc's text. Those characters
@@ -266,9 +388,16 @@ will result in<br>
 Lock stock  2 smoking barrels
 </pre>
  
-</p>
-	<!-- Generated from /home/vic/workspace/easydoc/src/main/java/com/github/easydoc/semantics/paramrule/WeightParamRule.java:9 -->
+
+			<p>
+				<a class="easydoc-source-link" 
+					href="https://github.com/weekens/easydoc/blob/master/src/main/java/com/github/easydoc/semantics/paramrule/IgnoreParamRule.java#L8-30" 
+					target="_blank">source</a>
+			</p>
+	</p>
+	<!-- Generated from src/main/java/com/github/easydoc/semantics/paramrule/WeightParamRule.java:9 -->
 	<p>
+		
 <h3>weight</h3>
 
 Defines the weight of the doc. The greater the weight, the lower the doc goes on the resulting page
@@ -279,6 +408,12 @@ keywords for the value: <i>min</i> and <i>max</i>, which define minimal and maxi
 <br>
 If the weight of two sibling docs is the same, they go in occurence order (which is default).
  
-</p>
+
+			<p>
+				<a class="easydoc-source-link" 
+					href="https://github.com/weekens/easydoc/blob/master/src/main/java/com/github/easydoc/semantics/paramrule/WeightParamRule.java#L9-20" 
+					target="_blank">source</a>
+			</p>
+	</p>
 	</body>
 </html>
