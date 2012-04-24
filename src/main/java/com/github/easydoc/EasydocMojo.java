@@ -159,6 +159,9 @@ public class EasydocMojo extends AbstractMojo {
 
 	private AntPathMatcher pathMatcher = new AntPathMatcher();
 	
+	@MojoParameter(required = true,	expression = "${basedir}")
+	private File projectDirectory;
+	
 	private File currentDirectory = new File("");
 
 	public EasydocMojo() {
@@ -168,8 +171,7 @@ public class EasydocMojo extends AbstractMojo {
 		excludes.add("**" + File.separator + ".*"); //skip all entries starting with '.'
 		
 		try {
-			getLog().debug("Current directory = " + currentDirectory.getAbsolutePath());
-			getLog().debug("inputDirectory = " + inputDirectory.getAbsolutePath());
+			getLog().debug("currentDirectory = " + currentDirectory.getAbsolutePath());
 			if(!inputDirectory.exists()) {
 				getLog().debug("Input directory does not exist. Skipping execution.");
 				return;
@@ -183,7 +185,9 @@ public class EasydocMojo extends AbstractMojo {
 
 			ParseDocumentationFileAction fileAction = new ParseDocumentationFileAction(model, getLog());
 			//try to run this action for pom.xml file
-			File pomXml = new File("pom.xml");
+			File pomXml = new File(projectDirectory.getAbsoluteFile(), "pom.xml");
+			pomXml = toRelativeFile(currentDirectory, pomXml);
+			getLog().debug("pomXml = " + pomXml + ", isFile = " + pomXml.isFile() + ", skipCheck = " + skipCheck(pomXml));
 			if(pomXml.isFile() && !skipCheck(pomXml)) {
 				fileAction.run(pomXml);
 			}
