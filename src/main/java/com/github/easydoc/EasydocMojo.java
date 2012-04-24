@@ -233,8 +233,11 @@ public class EasydocMojo extends AbstractMojo {
 				throw new MojoExecutionException("Failed to compile documentation. See the error log.");
 			}
 		}
+		catch(MojoExecutionException e) { //allow this type of exceptions
+			throw e;
+		}
 		catch(Exception e) {
-			throw new MojoExecutionException("Execution failed", e);
+			throw new EasydocFatalException(e);
 		}
 	}
 
