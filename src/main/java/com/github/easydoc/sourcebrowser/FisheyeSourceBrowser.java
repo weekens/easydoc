@@ -18,10 +18,9 @@ public class FisheyeSourceBrowser implements SourceBrowser {
 	public URL generateUrl(Doc doc) {
 		try {
 			return new URL(String.format(
-					"%s%s?r=%d#to%d", 
+					"%s%s?hb=true#to%d", 
 					sbParam.getBaseUrl(),
 					doc.getSourceLink().getFile().getPath(),
-					sbParam.getRevision(),
 					doc.getSourceLink().getStartLine())
 			);
 		} catch (MalformedURLException e) {
