@@ -6,6 +6,7 @@ import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
@@ -163,14 +164,15 @@ public class EasydocMojo extends AbstractMojo {
 	private File projectDirectory;
 	
 	private File currentDirectory = new File("");
-
-	public EasydocMojo() {
-	}
+	
+	private Properties versionProperties = new Properties();
 
 	public void execute() throws MojoExecutionException {
-		excludes.add("**" + File.separator + ".*"); //skip all entries starting with '.'
-		
 		try {
+			excludes.add("**" + File.separator + ".*"); //skip all entries starting with '.'
+			
+			versionProperties.load(getClass().getResourceAsStream("/version.properties"));
+			
 			getLog().debug("currentDirectory = " + currentDirectory.getAbsolutePath());
 			if(!inputDirectory.exists()) {
 				getLog().debug("Input directory does not exist. Skipping execution.");
@@ -223,6 +225,8 @@ public class EasydocMojo extends AbstractMojo {
 					if(sourceBrowser != null) {
 						freemarkerModel.put("sourceBrowser", createSourceBrowser(sourceBrowser));
 					}
+					
+					freemarkerModel.put("version", versionProperties.getProperty("version", ""));
 
 					template.process(freemarkerModel, out);
 				}
