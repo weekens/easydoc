@@ -44,7 +44,8 @@ public class CommandLineUtils {
 					String[] nameAndValue = arg.split("=");
 					if(nameAndValue.length != 2) throw new InvalidArgException(arg);
 					
-					Field field = mojo.getClass().getField(nameAndValue[0]);
+					Field field = mojo.getClass().getDeclaredField(nameAndValue[0]);
+					field.setAccessible(true);
 					MojoParameter mojoParameterAnno = field.getAnnotation(MojoParameter.class);
 					if(mojoParameterAnno == null) throw new InvalidArgException(arg);
 					
@@ -58,24 +59,28 @@ public class CommandLineUtils {
 			}
 			
 			//check for required properties
-			for(Field field : mojo.getClass().getFields()) {
+			for(Field field : mojo.getClass().getDeclaredFields()) {
+				field.setAccessible(true);
 				if(injectedFields.contains(field)) continue;
 				
 				MojoParameter mojoParameterAnno = field.getAnnotation(MojoParameter.class);
 				if(mojoParameterAnno == null) continue;
 				
 				String expression = mojoParameterAnno.expression();
-				if(expression != null) {
+				if(expression != null && !expression.isEmpty()) {
 					injectValue(
 							mojo, 
 							field, 
 							expression
-							.replaceAll("${basedir}", new File("").getAbsolutePath())
-							.replaceAll("${project.build.directory}", "build")
+							.replaceAll("\\$\\{basedir\\}", new File("").getAbsolutePath())
+							.replaceAll("\\$\\{project.build.directory\\}", "build")
 					);
 				}
-				
-				if(mojoParameterAnno.required()) throw new RequiredArgException(field.getName());
+				else {
+					if(mojoParameterAnno.required()) {
+						throw new RequiredArgException(field.getName());
+					}
+				}
 			}
 		}
 		catch(IllegalAccessException e) {
