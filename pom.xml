@@ -175,54 +175,6 @@
 					</execution>
 				</executions>
 			</plugin>
-			<plugin>
-				<artifactId>maven-assembly-plugin</artifactId>
-				<version>2.3</version>
-				<executions>
-					<execution>
-						<goals>
-							<goal>single</goal>
-						</goals>
-						<phase>package</phase>
-					</execution>
-				</executions>
-				<configuration>
-					<descriptorRefs>
-						<descriptorRef>jar-with-dependencies</descriptorRef>
-					</descriptorRefs>
-					<archive>
-	                    <manifest>
-	                        <mainClass>com.github.easydoc.EasydocMain</mainClass>
-	                    </manifest>
-	                </archive>
-					<finalName>easydoc</finalName>
-					<appendAssemblyId>false</appendAssemblyId>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>com.github.github</groupId>
-				<artifactId>downloads-maven-plugin</artifactId>
-				<version>0.5</version>
-				<executions>
-					<execution>
-						<goals>
-							<goal>upload</goal>
-						</goals>
-						<phase>deploy</phase>
-					</execution>
-				</executions>
-				<configuration>
-					<includes>
-						<include>easydoc.jar</include>
-					</includes>
-					<description>
-						A command line version of easydoc. Can be run by java -jar easydoc.jar 
-						(see http://weekens.github.com/easydoc#easydoc-commandline).
-					</description>
-					<override>true</override>
-					<includeAttached>true</includeAttached>
-				</configuration>
-			</plugin>
 		</plugins>
 	</build>
 	<profiles>
@@ -272,6 +224,61 @@
 								</goals>
 							</execution>
 						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+		<profile>
+			<id>commandline</id>
+			<build>
+				<plugins>
+					<plugin>
+						<artifactId>maven-assembly-plugin</artifactId>
+						<version>2.3</version>
+						<executions>
+							<execution>
+								<goals>
+									<goal>single</goal>
+								</goals>
+								<phase>package</phase>
+							</execution>
+						</executions>
+						<configuration>
+							<descriptorRefs>
+								<descriptorRef>jar-with-dependencies</descriptorRef>
+							</descriptorRefs>
+							<archive>
+			                    <manifest>
+			                        <mainClass>com.github.easydoc.EasydocMain</mainClass>
+			                    </manifest>
+			                </archive>
+							<finalName>easydoc</finalName>
+							<appendAssemblyId>false</appendAssemblyId>
+						</configuration>
+					</plugin>
+					<plugin>
+						<groupId>com.github.github</groupId>
+						<artifactId>downloads-maven-plugin</artifactId>
+						<version>0.5</version>
+						<executions>
+							<execution>
+								<goals>
+									<goal>upload</goal>
+								</goals>
+								<phase>deploy</phase>
+							</execution>
+						</executions>
+						<configuration>
+							<includes>
+								<include>easydoc.jar</include>
+							</includes>
+							<description>
+								A command line version of easydoc. Can be run by java -jar easydoc.jar 
+								(see http://weekens.github.com/easydoc#easydoc-commandline).
+							</description>
+							<override>true</override>
+							<includeAttached>true</includeAttached>
+						</configuration>
 					</plugin>
 				</plugins>
 			</build>
