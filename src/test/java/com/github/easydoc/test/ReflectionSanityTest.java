@@ -7,7 +7,7 @@ import java.util.EnumSet;
 import org.junit.Assert;
 import org.junit.Test;
 
-import com.github.easydoc.CommandLineUtils;
+import com.github.easydoc.CommandLineMojoUtils;
 import com.github.easydoc.EasydocMojo;
 import com.github.easydoc.param.SourceBrowserParam;
 import com.github.easydoc.sourcebrowser.SourceBrowser;
@@ -41,7 +41,7 @@ public class ReflectionSanityTest {
 	public void testCommandLineUtilsEmptyArgs() throws Exception {
 		String[] args = new String[] {};
 		EasydocMojo mojo = new EasydocMojo();
-		CommandLineUtils.injectMojoProperties(mojo, args);
+		CommandLineMojoUtils.injectMojoProperties(mojo, args);
 		
 		File inputDir = new File("src");
 		Object inputDirectoryValue = getFieldValue(mojo, "inputDirectory");
@@ -57,7 +57,7 @@ public class ReflectionSanityTest {
 		String customCssPath = "src/css/custom.css";
 		String[] args = new String[] { "customCss=" + customCssPath };
 		EasydocMojo mojo = new EasydocMojo();
-		CommandLineUtils.injectMojoProperties(mojo, args);
+		CommandLineMojoUtils.injectMojoProperties(mojo, args);
 		
 		Object customCssValue = getFieldValue(mojo, "customCss");
 		Assert.assertEquals(new File(customCssPath).getAbsolutePath(), ((File)customCssValue).getAbsolutePath());

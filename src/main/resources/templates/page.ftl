@@ -1,6 +1,9 @@
 <#macro generateDoc doc>
 	<!-- Generated from ${doc.sourceLink.file.path}:${doc.sourceLink.startLine} -->
 	<p>
+		<#if doc.id??>
+			<a name="${doc.id}"></a>
+		</#if>
 		${doc.text}
 		<#if sourceBrowser??>
 			<p>

@@ -9,7 +9,7 @@ import org.jfrog.maven.annomojo.annotations.MojoParameter;
 
 import com.github.easydoc.exception.EasydocFatalException;
 
-public class CommandLineUtils {
+public class CommandLineMojoUtils {
 	
 	public static abstract class ArgException extends Exception {
 		private static final long serialVersionUID = 6015239894637628421L;

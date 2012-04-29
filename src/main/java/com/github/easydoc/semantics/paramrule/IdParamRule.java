@@ -18,6 +18,9 @@ With this parameter you can define the unique identifier for the doc to referenc
 from elsewhere. Primarily, you use it together with <b>belongs</b> parameter to group 
 docs and form the doc tree. 
 <br><br>
+If the id is specified, the HTML anchor to this doc will be generated with this id,
+and the doc will be referenceable by adding #id_value to the page address. 
+<br><br>
 Requirements:
 <br><br>
 The id you define should be unique across all docs in your code. If it is not, easydoc
