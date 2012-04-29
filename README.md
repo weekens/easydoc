@@ -13,7 +13,7 @@ Writing docs
 After you're set up, just start writing docs right inside your source files.
 
 	/*@@easydoc-start@@
-	&lt;h1&gt;RESTful API&lt;/h1&gt;
+	<h1>RESTful API</h1>
 	
 	The service exposes RESTful API to provide access to it's resources.
 	The methods are available under http://company.com/myservice/api
@@ -24,12 +24,12 @@ After you're set up, just start writing docs right inside your source files.
 
 or
 
-	&lt;!--@@easydoc-start@@
-	&lt;h1&gt;Database&lt;/h1&gt;
+	<!--@@easydoc-start@@
+	<h1>Database</h1>
 	
 	The service uses database, which is configured in database.xml file. 
-	@@easydoc-end@@--&gt;
-	&lt;import location="database.xml"/&gt;
+	@@easydoc-end@@-->
+	<import location="database.xml"/>
 
 All the HTMLs between @@easydoc-start@@ and @@easydoc-end@@ keys are the *docs*. They will get to the resulting
 documentation page. This is briefly described [here](http://weekens.github.com/easydoc#easydoc-intro).
