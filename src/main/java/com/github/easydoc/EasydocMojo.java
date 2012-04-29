@@ -43,7 +43,7 @@ import freemarker.template.Template;
  	&lt;plugin&gt;
 		&lt;groupId&gt;com.github.weekens&lt;/groupId&gt;
 		&lt;artifactId&gt;easydoc-maven-plugin&lt;/artifactId&gt;
-		&lt;version&gt;0.0.5&lt;/version&gt;
+		&lt;version&gt;0.0.8&lt;/version&gt;
 		&lt;executions&gt;
 			&lt;execution&gt;
 				&lt;goals&gt;
