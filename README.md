@@ -16,7 +16,7 @@ To run Easydoc from command line, just do
 Writing docs
 -----------
 
-After you're set up, just start writing docs right inside your source files.
+After you're set up, just start writing docs right inside your source files...
 
 	/*@@easydoc-start@@
 	<h1>RESTful API</h1>
@@ -26,9 +26,10 @@ After you're set up, just start writing docs right inside your source files.
 	@@easydoc-end@@*/
 	@Controller("/api")
 	class RESTController {
+		...
 	}
 
-or
+...XML files...
 
 	<!--@@easydoc-start@@
 	<h1>Database</h1>
@@ -36,6 +37,20 @@ or
 	The service uses database, which is configured in database.xml file. 
 	@@easydoc-end@@-->
 	<import location="database.xml"/>
+
+...property files...
+
+	#@@easydoc-start, ignore=#@@
+	#
+	# <h1>Configuration</h1>
+	#
+	# The application is configured using application.properties file.
+	#
+	#@@easydoc-end@@
+	
+	app.greeting=Hello World!
+	
+...or any other files in your project.
 
 All the HTMLs between @@easydoc-start@@ and @@easydoc-end@@ keys are the *docs*. They will get to the resulting
 documentation page. This is briefly described [here](http://weekens.github.com/easydoc#easydoc-intro).
