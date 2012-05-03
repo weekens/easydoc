@@ -8,7 +8,7 @@ import com.github.easydoc.model.SourceLink;
 import com.github.easydoc.param.SourceBrowserParam;
 
 /*@@easydoc-start, belongs=easydoc-maven-source-browser@@
- <h4>github</h4>
+ <p><b>github</b></p>
  
  GitHub source browser. To specify it, use the following snippet:<br>
  <pre>

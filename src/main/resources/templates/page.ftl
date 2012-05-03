@@ -26,7 +26,7 @@
 
 <html>
 	<head>
-		<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+		<meta http-equiv="content-type" content="text/html; charset=${encoding}">
 		<title>Documentation</title>
 		
 		<#if css??>

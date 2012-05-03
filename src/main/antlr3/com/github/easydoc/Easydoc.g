@@ -30,6 +30,20 @@ options {
   	);
   	this.file = file;
   }
+  
+  public EasydocParser(File file, String encoding) throws java.io.IOException {
+  	super(
+  		new CommonTokenStream(
+  			new EasydocLexer(
+  				new ANTLRFileStream(
+  					file.getAbsolutePath(),
+  					encoding
+  				)
+  			)
+  		)
+  	);
+  	this.file = file;
+  }
 }
 
 @lexer::header {

@@ -2,7 +2,9 @@ package com.github.easydoc;
 
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileWriter;
+import java.io.FileOutputStream;
+import java.io.OutputStreamWriter;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -43,7 +45,7 @@ import freemarker.template.Template;
  	&lt;plugin&gt;
 		&lt;groupId&gt;com.github.weekens&lt;/groupId&gt;
 		&lt;artifactId&gt;easydoc-maven-plugin&lt;/artifactId&gt;
-		&lt;version&gt;0.0.8&lt;/version&gt;
+		&lt;version&gt;0.1.12&lt;/version&gt;
 		&lt;executions&gt;
 			&lt;execution&gt;
 				&lt;goals&gt;
@@ -157,6 +159,16 @@ public class EasydocMojo extends AbstractMojo {
 	 @@easydoc-end@@*/
 	@MojoParameter
 	private SourceBrowserParam sourceBrowser;
+	
+	/*@@easydoc-start, id=easydoc-maven-encoding, belongs=easydoc-maven@@
+	<h3>encoding</h3>
+	
+	Sets up the encoding for the source file and the resulting HTML.<br>
+	If the <i>project.build.sourceEncoding</i> property is defined, it is used by default. Otherwise,
+	the default encoding setting is taken from JVM.
+	@@easydoc-end@@*/
+	@MojoParameter(expression = "${encoding}", defaultValue = "${project.build.sourceEncoding}")
+	private String encoding = Charset.defaultCharset().toString();
 
 	private AntPathMatcher pathMatcher = new AntPathMatcher();
 	
@@ -186,6 +198,8 @@ public class EasydocMojo extends AbstractMojo {
 			Model model = new Model();
 
 			ParseDocumentationFileAction fileAction = new ParseDocumentationFileAction(model, getLog());
+			fileAction.setEncoding(encoding);
+			
 			//try to run this action for pom.xml file
 			File pomXml = new File(projectDirectory.getAbsoluteFile(), "pom.xml");
 			pomXml = toRelativeFile(currentDirectory, pomXml);
@@ -208,8 +222,11 @@ public class EasydocMojo extends AbstractMojo {
 				Template template = freemarkerCfg.getTemplate("page.ftl");
 				outputDirectory.mkdirs();
 				BufferedWriter out = new BufferedWriter(
-						new FileWriter(new File(outputDirectory, "index.html"))
-						);
+						new OutputStreamWriter(
+								new FileOutputStream(new File(outputDirectory, "index.html")), 
+								encoding
+						)
+				);
 				try {
 					Map<String, Object> freemarkerModel = compilationResult.getModel().toFreemarkerModel();
 					
@@ -227,7 +244,10 @@ public class EasydocMojo extends AbstractMojo {
 					}
 					
 					freemarkerModel.put("version", versionProperties.getProperty("version", ""));
-
+					
+					freemarkerModel.put("encoding", encoding);
+					template.setEncoding(encoding);
+					
 					template.process(freemarkerModel, out);
 				}
 				finally {

@@ -14,10 +14,15 @@ import com.github.easydoc.model.Model;
 public class ParseDocumentationFileAction implements FileAction {
 	private final Log log;
 	private Model model;
+	private String encoding;
 
 	public ParseDocumentationFileAction(Model model, Log log) {
 		this.model = model;
 		this.log = log;
+	}
+	
+	public void setEncoding(String encoding) {
+		this.encoding = encoding;
 	}
 	
 	@Override
@@ -36,7 +41,7 @@ public class ParseDocumentationFileAction implements FileAction {
 	}
 	
 	private List<Doc> parseFile(File file) throws IOException, RecognitionException {
-		EasydocParser parser = new EasydocParser(file);
+		EasydocParser parser = encoding != null ? new EasydocParser(file, encoding) : new EasydocParser(file);
 		List<Doc> docs = parser.document();
 		log.debug(docs.toString());
 		return docs;
