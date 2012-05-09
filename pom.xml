@@ -114,6 +114,12 @@
 			<artifactId>org.jfrog.maven.maven-plugin-anno</artifactId>
 			<version>1.4.1</version>
 		</dependency>
+		<dependency>
+			<groupId>org.easymock</groupId>
+			<artifactId>easymock</artifactId>
+			<version>3.1</version>
+			<scope>test</scope>
+		</dependency>
 	</dependencies>
 
 	<build>

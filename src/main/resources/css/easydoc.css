@@ -46,3 +46,7 @@ pre {
 	border-top: 1px solid #404040;
 	padding-top: 5px;
 }
+
+.easydoc-index {
+	list-style: none;
+}

@@ -24,6 +24,21 @@
 	</#list>
 </#macro>
 
+<#macro generateDocIndex docTree>
+	<ul class="easydoc-index">
+		<#list docTree as doc>
+			<#if doc.id??>
+				<li><a href="#${doc.id}">${indexText(doc)}</a></li>
+			</#if>
+			<#if doc.children??>
+				<li>
+					<@generateDocIndex docTree=doc.children/>
+				</li>
+			</#if>
+		</#list>
+	</ul>
+</#macro>
+
 <html>
 	<head>
 		<meta http-equiv="content-type" content="text/html; charset=${encoding}">
@@ -37,6 +52,12 @@
 	</head>
 	
 	<body>
+		<#if generateIndex>
+			<p>
+				<@generateDocIndex docTree=doctree/>
+			</p>
+		</#if>
+		
 		<@generateDocTree docTree=doctree/>
 		
 		<div class="easydoc-footer">

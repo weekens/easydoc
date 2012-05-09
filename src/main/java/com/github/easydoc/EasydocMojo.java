@@ -26,6 +26,7 @@ import com.github.easydoc.model.Model;
 import com.github.easydoc.param.SourceBrowserParam;
 import com.github.easydoc.semantics.EasydocSemantics;
 import com.github.easydoc.semantics.EasydocSemantics.CompilationResult;
+import com.github.easydoc.semantics.methods.IndexTextMethod;
 import com.github.easydoc.sourcebrowser.SourceBrowser;
 
 import freemarker.cache.ClassTemplateLoader;
@@ -178,6 +179,9 @@ public class EasydocMojo extends AbstractMojo {
 	private File currentDirectory = new File("");
 	
 	private Properties versionProperties = new Properties();
+	
+	@MojoParameter
+	private Boolean generateIndex = true;
 
 	public void execute() throws MojoExecutionException {
 		try {
@@ -247,6 +251,9 @@ public class EasydocMojo extends AbstractMojo {
 					
 					freemarkerModel.put("encoding", encoding);
 					template.setEncoding(encoding);
+					
+					freemarkerModel.put("indexText", new IndexTextMethod());
+					freemarkerModel.put("generateIndex", generateIndex);
 					
 					template.process(freemarkerModel, out);
 				}

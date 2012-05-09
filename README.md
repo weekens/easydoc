@@ -63,8 +63,8 @@ You can see how it works by just looking at [Easydoc documentation](http://weeke
 Coming soon
 -------------
 
-* automatic index (contents) generation
 * full support of command line
 * links
 * variables
 * Markdown support
+* Ant target
