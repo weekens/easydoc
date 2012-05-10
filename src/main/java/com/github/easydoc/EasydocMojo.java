@@ -37,29 +37,28 @@ import freemarker.template.Template;
 /*
  * This MOJO scans for all files and generates the documentation for project.
  *
- @@easydoc-start, id=easydoc-maven@@
- <h1>Maven integration</h1>
+@@easydoc-start, id=easydoc-maven, format=markdown@@
+Maven integration
+=================
  
- To get started with Maven you only need to add the following snippet to your pom.xml in build/plugins section:
+To get started with Maven you only need to add the following snippet to your pom.xml in `build/plugins` section:
  
- <pre>
- 	&lt;plugin&gt;
-		&lt;groupId&gt;com.github.weekens&lt;/groupId&gt;
-		&lt;artifactId&gt;easydoc-maven-plugin&lt;/artifactId&gt;
-		&lt;version&gt;0.1.12&lt;/version&gt;
-		&lt;executions&gt;
-			&lt;execution&gt;
-				&lt;goals&gt;
-					&lt;goal&gt;generate&lt;/goal&gt;
-				&lt;/goals&gt;
-			&lt;/execution&gt;
-		&lt;/executions&gt;
-	&lt;/plugin&gt;
- </pre>
- 
- This will setup Easydoc for your project. By default, Easydoc will scan recursively your src/ directory and
- pom.xml file. Any docs found will be generated into target/easydoc/index.html page.
- @@easydoc-end@@
+	<plugin>
+		<groupId>com.github.weekens</groupId>
+		<artifactId>easydoc-maven-plugin</artifactId>
+		<version>0.1.13</version>
+		<executions>
+			<execution>
+				<goals>
+					<goal>generate</goal>
+				</goals>
+			</execution>
+		</executions>
+	</plugin>
+
+This will setup Easydoc for your project. By default, Easydoc will scan recursively your `src/` directory and
+`pom.xml` file. Any docs found will be generated into `target/easydoc/index.html` page.
+@@easydoc-end@@
  */
 @MojoGoal("generate")
 @MojoPhase("process-sources")
@@ -75,7 +74,7 @@ public class EasydocMojo extends AbstractMojo {
  	&lt;plugin&gt;
 		&lt;groupId&gt;com.github&lt;/groupId&gt;
 		&lt;artifactId&gt;easydoc-maven-plugin&lt;/artifactId&gt;
-		&lt;version&gt;0.0.6&lt;/version&gt;
+		&lt;version&gt;0.1.13&lt;/version&gt;
 		&lt;executions&gt;
 			&lt;execution&gt;
 				&lt;goals&gt;
