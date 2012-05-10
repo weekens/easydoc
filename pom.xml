@@ -3,7 +3,7 @@
 
 	<groupId>com.github.weekens</groupId>
 	<artifactId>easydoc-maven-plugin</artifactId>
-	<version>0.2.13</version>
+	<version>0.2.14-SNAPSHOT</version>
 	<packaging>maven-plugin</packaging>
 	<name>Easydoc Maven Plugin</name>
 	<url>https://github.com/weekens/easydoc</url>
