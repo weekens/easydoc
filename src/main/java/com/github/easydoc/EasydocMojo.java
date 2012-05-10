@@ -180,8 +180,17 @@ public class EasydocMojo extends AbstractMojo {
 	
 	private Properties versionProperties = new Properties();
 	
+	/*@@easydoc-start, belongs=easydoc-maven@@
+	<h3>generateIndex</h3>
+	
+	If set to 'true' (default), Easydoc will generate index for the documentation.
+	If 'false', the index won't be generated.
+	@@easydoc-end@@*/
 	@MojoParameter
 	private Boolean generateIndex = true;
+	
+	@MojoParameter(expression = "${project.name}")
+	private String projectName;
 
 	public void execute() throws MojoExecutionException {
 		try {
@@ -254,6 +263,8 @@ public class EasydocMojo extends AbstractMojo {
 					
 					freemarkerModel.put("indexText", new IndexTextMethod());
 					freemarkerModel.put("generateIndex", generateIndex);
+					
+					freemarkerModel.put("projectName", projectName);
 					
 					template.process(freemarkerModel, out);
 				}

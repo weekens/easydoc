@@ -42,7 +42,11 @@
 <html>
 	<head>
 		<meta http-equiv="content-type" content="text/html; charset=${encoding}">
-		<title>Documentation</title>
+		<#if projectName??>
+			<title>${projectName} documentation</title>
+		<#else>
+			<title>Documentation</title>
+		</#if>
 		
 		<#if css??>
 			<style>
