@@ -3,7 +3,7 @@ package com.github.easydoc.semantics;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashMap;
+import java.util.EnumSet;
 import java.util.List;
 import java.util.Map;
 
@@ -56,21 +56,74 @@ public class EasydocSemantics {
 		}
 	}
 	
-	private Map<String, ParamRule> paramRules = new HashMap<String, ParamRule>();
+	private enum Param {
+		ID("id", new IdParamRule()),
+		BELONGS("belongs", new BelongsParamRule()),
+		WEIGHT("weight", new WeightParamRule()),
+		IGNORE("ignore", new IgnoreParamRule()),
+		FORMAT("format", new FormatParamRule());
+		
+		private final String name;
+		private final ParamRule rule;
+		private String defaultValue;
+
+		private Param(String name, ParamRule paramRule) {
+			this.name = name;
+			this.rule = paramRule;
+		}
+		
+		public static Param getByName(String name) {
+			for(Param e : EnumSet.allOf(Param.class)) {
+				if(e.name.equals(name)) {
+					return e;
+				}
+			}
+			return null;
+		}
+		
+		public static EnumSet<Param> getParamsWithDefaultValues() {
+			EnumSet<Param> ret = EnumSet.noneOf(Param.class);
+			for(Param e : EnumSet.allOf(Param.class)) {
+				if(e.getDefaultValue() != null) {
+					ret.add(e);
+				}
+			}
+			return ret;
+		}
+
+		public String getDefaultValue() {
+			return defaultValue;
+		}
+
+		public void setDefaultValue(String defaultValue) {
+			this.defaultValue = defaultValue;
+		}
+
+		public String getName() {
+			return name;
+		}
+
+		public ParamRule getRule() {
+			return rule;
+		}
+	}
 	
-	public EasydocSemantics() {
-		paramRules.put("id", new IdParamRule());
-		paramRules.put("belongs", new BelongsParamRule());
-		paramRules.put("weight", new WeightParamRule());
-		paramRules.put("ignore", new IgnoreParamRule());
-		paramRules.put("format", new FormatParamRule());
+	public void setDefaultFormat(String format) {
+		Param.FORMAT.setDefaultValue(format);
 	}
 	
 	public CompilationResult compileModel(Model model) {
 		CompilationResult result = new CompilationResult(true, model);
+		EnumSet<Param> defaultValueParams = Param.getParamsWithDefaultValues();
 		
 		for(Doc doc : model.getDocs()) {
 			try {
+				//try to apply default values
+				for(Param p : defaultValueParams) {
+					if(!doc.getParams().containsKey(p.getName())) {
+						doc.getParams().put(p.getName(), p.getDefaultValue());
+					}
+				}
 				applyParameters(doc, model);
 			}
 			catch(EasydocSemanticException e) {
@@ -93,19 +146,21 @@ public class EasydocSemantics {
 	}
 
 	private void applyParameters(Doc doc, Model model) throws EasydocSemanticException {
-		for(Map.Entry<String, String> param : doc.getParams().entrySet()) {
-			ParamRule paramRule = paramRules.get(param.getKey());
-			if(paramRule == null) 
-				throw new EasydocSemanticException(doc, "Unknown parameter: '" + param.getKey() + "'");
+		for(Map.Entry<String, String> paramEntry : doc.getParams().entrySet()) {
+			Param param = Param.getByName(paramEntry.getKey());
+			if(param == null) 
+				throw new EasydocSemanticException(doc, "Unknown parameter: '" + paramEntry.getKey() + "'");
 			
-			if(paramRule.requiresValue() && param.getValue() == null) 
-				throw new EasydocSemanticException(doc, "Parameter '" + param.getKey() + "': value is required");
+			ParamRule paramRule = param.getRule();
 			
-			ValidationResult result = paramRule.validate(param.getValue(), doc, model);
+			if(paramRule.requiresValue() && paramEntry.getValue() == null) 
+				throw new EasydocSemanticException(doc, "Parameter '" + paramEntry.getKey() + "': value is required");
+			
+			ValidationResult result = paramRule.validate(paramEntry.getValue(), doc, model);
 			if(!result.isPositive()) {
 				throw new EasydocSemanticException(doc, result); //TODO: return negative result instead
 			}
-			paramRule.run(param.getValue(), doc, model, result);
+			paramRule.run(paramEntry.getValue(), doc, model, result);
 		}
 	}
 	

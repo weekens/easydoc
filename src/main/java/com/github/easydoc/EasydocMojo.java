@@ -191,6 +191,15 @@ public class EasydocMojo extends AbstractMojo {
 	
 	@MojoParameter(expression = "${project.name}")
 	private String projectName;
+	
+	/*@@easydoc-start, id=easydoc-maven-default-format, belongs=easydoc-maven@@
+	<h3>defaultFormat</h3>
+	
+	Sets the default <a href="#easydoc-format-param">format</a> for the docs.
+	If not specified, 'html' is default.
+	@@easydoc-end@@*/
+	@MojoParameter
+	private String defaultFormat = "html";
 
 	public void execute() throws MojoExecutionException {
 		try {
@@ -230,6 +239,7 @@ public class EasydocMojo extends AbstractMojo {
 			
 			//compile the model
 			EasydocSemantics semantics = new EasydocSemantics();
+			semantics.setDefaultFormat(defaultFormat);
 			CompilationResult compilationResult = semantics.compileModel(model);
 			if(compilationResult.isPositive()) {
 				Template template = freemarkerCfg.getTemplate("page.ftl");

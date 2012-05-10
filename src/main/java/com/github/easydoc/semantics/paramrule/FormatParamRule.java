@@ -25,7 +25,7 @@ Additional parameters
 The additional doc parameters.  
 @@easydoc-end@@*/
 
-/*@@easydoc-start, belongs=easydoc-advanced-params, format=markdown@@
+/*@@easydoc-start, id=easydoc-format-param, belongs=easydoc-advanced-params, format=markdown@@
 
 ### format ###
 
@@ -35,6 +35,9 @@ Currently supported:
 
  * html
  * [makrdown](http://daringfireball.net/projects/markdown/syntax)
+
+The default format for the docs can be specified by the [defaultFormat](#easydoc-maven-default-format)
+parameter and overriden individually for any doc.
 
 The value is case-insensitive.  
 @@easydoc-end@@*/
