@@ -2,7 +2,7 @@
 <html>
 	<head>
 		<meta http-equiv="content-type" content="text/html; charset=UTF-8">
-		<title>Documentation</title>
+			<title>Easydoc Maven Plugin documentation</title>
 		
 			<style>
 				body {
@@ -53,10 +53,123 @@ pre {
 	border-top: 1px solid #404040;
 	padding-top: 5px;
 }
+
+.easydoc-index {
+	list-style: none;
+}
 			</style>
 	</head>
 	
 	<body>
+			<p>
+	<ul class="easydoc-index">
+				<li><a href="#easydoc-intro">Introduction</a></li>
+				<li>
+	<ul class="easydoc-index">
+	</ul>
+				</li>
+				<li><a href="#easydoc-maven">Maven integration</a></li>
+				<li>
+	<ul class="easydoc-index">
+				<li>
+	<ul class="easydoc-index">
+	</ul>
+				</li>
+				<li>
+	<ul class="easydoc-index">
+	</ul>
+				</li>
+				<li>
+	<ul class="easydoc-index">
+	</ul>
+				</li>
+				<li>
+	<ul class="easydoc-index">
+	</ul>
+				</li>
+				<li>
+	<ul class="easydoc-index">
+	</ul>
+				</li>
+				<li><a href="#easydoc-maven-source-browser">sourceBrowser</a></li>
+				<li>
+	<ul class="easydoc-index">
+				<li>
+	<ul class="easydoc-index">
+	</ul>
+				</li>
+				<li>
+	<ul class="easydoc-index">
+	</ul>
+				</li>
+	</ul>
+				</li>
+				<li><a href="#easydoc-maven-encoding">encoding</a></li>
+				<li>
+	<ul class="easydoc-index">
+	</ul>
+				</li>
+				<li>
+	<ul class="easydoc-index">
+	</ul>
+				</li>
+				<li><a href="#easydoc-maven-default-format">defaultFormat</a></li>
+				<li>
+	<ul class="easydoc-index">
+	</ul>
+				</li>
+	</ul>
+				</li>
+				<li><a href="#easydoc-commandline">Running from command line</a></li>
+				<li>
+	<ul class="easydoc-index">
+	</ul>
+				</li>
+				<li><a href="#easydoc-usage">Usage</a></li>
+				<li>
+	<ul class="easydoc-index">
+				<li><a href="#easydoc-parameters">Parameters</a></li>
+				<li>
+	<ul class="easydoc-index">
+				<li>
+	<ul class="easydoc-index">
+	</ul>
+				</li>
+				<li>
+	<ul class="easydoc-index">
+	</ul>
+				</li>
+				<li>
+	<ul class="easydoc-index">
+	</ul>
+				</li>
+	</ul>
+				</li>
+				<li><a href="#easydoc-index">Index generation</a></li>
+				<li>
+	<ul class="easydoc-index">
+	</ul>
+				</li>
+	</ul>
+				</li>
+				<li><a href="#easydoc-advanced">Advanced</a></li>
+				<li>
+	<ul class="easydoc-index">
+				<li><a href="#easydoc-advanced-params">Additional parameters</a></li>
+				<li>
+	<ul class="easydoc-index">
+				<li><a href="#easydoc-format-param">format</a></li>
+				<li>
+	<ul class="easydoc-index">
+	</ul>
+				</li>
+	</ul>
+				</li>
+	</ul>
+				</li>
+	</ul>
+			</p>
+		
 	<!-- Generated from pom.xml:17 -->
 	<p>
 			<a name="easydoc-intro"></a>
@@ -102,35 +215,33 @@ pre {
 					target="_blank">source</a>
 			</p>
 	</p>
-	<!-- Generated from src/main/java/com/github/easydoc/EasydocMojo.java:39 -->
+	<!-- Generated from src/main/java/com/github/easydoc/EasydocMojo.java:40 -->
 	<p>
 			<a name="easydoc-maven"></a>
-		
- <h1>Maven integration</h1>
- 
- To get started with Maven you only need to add the following snippet to your pom.xml in build/plugins section:
- 
- <pre>
- 	&lt;plugin&gt;
-		&lt;groupId&gt;com.github.weekens&lt;/groupId&gt;
-		&lt;artifactId&gt;easydoc-maven-plugin&lt;/artifactId&gt;
-		&lt;version&gt;0.1.12&lt;/version&gt;
-		&lt;executions&gt;
-			&lt;execution&gt;
-				&lt;goals&gt;
-					&lt;goal&gt;generate&lt;/goal&gt;
-				&lt;/goals&gt;
-			&lt;/execution&gt;
-		&lt;/executions&gt;
-	&lt;/plugin&gt;
- </pre>
- 
- This will setup Easydoc for your project. By default, Easydoc will scan recursively your src/ directory and
- pom.xml file. Any docs found will be generated into target/easydoc/index.html page.
- 
+		<h1>Maven integration</h1>
+
+<p>To get started with Maven you only need to add the following snippet to your pom.xml in <code>build/plugins</code> section:</p>
+
+<pre><code>&lt;plugin&gt;
+    &lt;groupId&gt;com.github.weekens&lt;/groupId&gt;
+    &lt;artifactId&gt;easydoc-maven-plugin&lt;/artifactId&gt;
+    &lt;version&gt;0.2.13&lt;/version&gt;
+    &lt;executions&gt;
+        &lt;execution&gt;
+            &lt;goals&gt;
+                &lt;goal&gt;generate&lt;/goal&gt;
+            &lt;/goals&gt;
+        &lt;/execution&gt;
+    &lt;/executions&gt;
+&lt;/plugin&gt;
+</code></pre>
+
+<p>This will setup Easydoc for your project. By default, Easydoc will scan recursively your <code>src/</code> directory and
+<code>pom.xml</code> file. Any docs found will be generated into <code>target/easydoc/index.html</code> page.</p>
+
 			<p>
 				<a class="easydoc-source-link" 
-					href="https://github.com/weekens/easydoc/blob/master/src/main/java/com/github/easydoc/EasydocMojo.java#L39-61" 
+					href="https://github.com/weekens/easydoc/blob/master/src/main/java/com/github/easydoc/EasydocMojo.java#L40-61" 
 					target="_blank">source</a>
 			</p>
 	</p>
@@ -146,7 +257,7 @@ pre {
  	&lt;plugin&gt;
 		&lt;groupId&gt;com.github&lt;/groupId&gt;
 		&lt;artifactId&gt;easydoc-maven-plugin&lt;/artifactId&gt;
-		&lt;version&gt;0.0.6&lt;/version&gt;
+		&lt;version&gt;0.2.13&lt;/version&gt;
 		&lt;executions&gt;
 			&lt;execution&gt;
 				&lt;goals&gt;
@@ -319,6 +430,35 @@ You need to check your Fisheye repository path by just going to the 'Source' sec
 					target="_blank">source</a>
 			</p>
 	</p>
+	<!-- Generated from src/main/java/com/github/easydoc/EasydocMojo.java:182 -->
+	<p>
+		
+	<h3>generateIndex</h3>
+	
+	If set to 'true' (default), Easydoc will generate index for the documentation.
+	If 'false', the index won't be generated.
+	
+			<p>
+				<a class="easydoc-source-link" 
+					href="https://github.com/weekens/easydoc/blob/master/src/main/java/com/github/easydoc/EasydocMojo.java#L182-187" 
+					target="_blank">source</a>
+			</p>
+	</p>
+	<!-- Generated from src/main/java/com/github/easydoc/EasydocMojo.java:194 -->
+	<p>
+			<a name="easydoc-maven-default-format"></a>
+		
+	<h3>defaultFormat</h3>
+	
+	Sets the default <a href="#easydoc-format-param">format</a> for the docs.
+	If not specified, 'html' is default.
+	
+			<p>
+				<a class="easydoc-source-link" 
+					href="https://github.com/weekens/easydoc/blob/master/src/main/java/com/github/easydoc/EasydocMojo.java#L194-199" 
+					target="_blank">source</a>
+			</p>
+	</p>
 	<!-- Generated from src/main/java/com/github/easydoc/EasydocMain.java:5 -->
 	<p>
 			<a name="easydoc-commandline"></a>
@@ -485,10 +625,81 @@ If the weight of two sibling docs is the same, they go in occurence order (which
 					target="_blank">source</a>
 			</p>
 	</p>
+	<!-- Generated from src/main/java/com/github/easydoc/semantics/methods/IndexTextMethod.java:13 -->
+	<p>
+			<a name="easydoc-index"></a>
+		
+ <h2>Index generation</h2>
+ 
+ By default, easydoc will generate index (contents) for your documentation
+ containing all the docs with ids, having a string less than 50 characters 
+ in their first line.
+ <br><br>
+ Index generation can be disabled by setting parameter <b>generateIndex</b>=<b>false</b>. 
+ 
+			<p>
+				<a class="easydoc-source-link" 
+					href="https://github.com/weekens/easydoc/blob/master/src/main/java/com/github/easydoc/semantics/methods/IndexTextMethod.java#L13-21" 
+					target="_blank">source</a>
+			</p>
+	</p>
+	<!-- Generated from src/main/java/com/github/easydoc/semantics/paramrule/FormatParamRule.java:12 -->
+	<p>
+			<a name="easydoc-advanced"></a>
+		<h1>Advanced</h1>
+
+<p>This section covers the additional Easydoc stuff. Generally, you don't need
+all this to get started with your documentation. However, for advanced development,
+some of the things from here you may find useful.  </p>
+
+			<p>
+				<a class="easydoc-source-link" 
+					href="https://github.com/weekens/easydoc/blob/master/src/main/java/com/github/easydoc/semantics/paramrule/FormatParamRule.java#L12-19" 
+					target="_blank">source</a>
+			</p>
+	</p>
+	<!-- Generated from src/main/java/com/github/easydoc/semantics/paramrule/FormatParamRule.java:21 -->
+	<p>
+			<a name="easydoc-advanced-params"></a>
+		<h2>Additional parameters</h2>
+
+<p>The additional doc parameters.  </p>
+
+			<p>
+				<a class="easydoc-source-link" 
+					href="https://github.com/weekens/easydoc/blob/master/src/main/java/com/github/easydoc/semantics/paramrule/FormatParamRule.java#L21-26" 
+					target="_blank">source</a>
+			</p>
+	</p>
+	<!-- Generated from src/main/java/com/github/easydoc/semantics/paramrule/FormatParamRule.java:28 -->
+	<p>
+			<a name="easydoc-format-param"></a>
+		<h3>format</h3>
+
+<p>Defines the format, in which the doc is written.</p>
+
+<p>Currently supported:</p>
+
+<ul>
+<li>html</li>
+<li><a href="http://daringfireball.net/projects/markdown/syntax">makrdown</a></li>
+</ul>
+
+<p>The default format for the docs can be specified by the <a href="#easydoc-maven-default-format">defaultFormat</a>
+parameter and overriden individually for any doc.</p>
+
+<p>The value is case-insensitive.  </p>
+
+			<p>
+				<a class="easydoc-source-link" 
+					href="https://github.com/weekens/easydoc/blob/master/src/main/java/com/github/easydoc/semantics/paramrule/FormatParamRule.java#L28-43" 
+					target="_blank">source</a>
+			</p>
+	</p>
 		
 		<div class="easydoc-footer">
 			Generated by <a href="https://github.com/weekens/easydoc">Easydoc</a> 
-			version 0.1.13-SNAPSHOT.
+			version 0.2.14-SNAPSHOT.
 		</div>
 	</body>
 </html>
