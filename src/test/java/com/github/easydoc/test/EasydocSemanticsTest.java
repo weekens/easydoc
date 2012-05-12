@@ -5,9 +5,13 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import org.antlr.runtime.ANTLRInputStream;
+import org.antlr.runtime.CommonTokenStream;
 import org.junit.Assert;
 import org.junit.Test;
 
+import com.github.easydoc.EasydocLexer;
+import com.github.easydoc.EasydocParser;
 import com.github.easydoc.model.Directive;
 import com.github.easydoc.model.Doc;
 import com.github.easydoc.model.Model;
@@ -164,5 +168,28 @@ public class EasydocSemanticsTest {
 		CompilationResult result = sem.compileModel(model);
 		Assert.assertTrue(result.isPositive());
 		Assert.assertEquals("Include ->Wazzup!<- here", doc.getText());
+	}
+	
+	@Test
+	public void testNormalPom() throws Exception {
+		EasydocLexer lexer = new EasydocLexer(
+				new ANTLRInputStream(getClass().getResourceAsStream("/normal-pom.xml"))
+		);
+		EasydocParser parser = new EasydocParser(new CommonTokenStream(lexer));
+		List<Doc> docs = parser.document();
+		
+		Model model = new Model();
+		model.addDocs(docs);
+		
+		EasydocSemantics semantics = new EasydocSemantics();
+		CompilationResult compilationResult = semantics.compileModel(model);
+		Assert.assertTrue(
+				"Negative compilation result: " + compilationResult.toString(), 
+				compilationResult.isPositive()
+		);
+		
+		Assert.assertEquals(2, model.getDocs().size());
+		Doc doc2 = model.getDocs().get(1);
+		Assert.assertEquals(model.getDocs().get(0).getText(), doc2.getText());
 	}
 }

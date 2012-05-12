@@ -4,11 +4,13 @@
   <artifactId>test-easydoc</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   
-  <!-- @@easydoc-start,belongs=main-header@@
+  <!-- @@easydoc-start, id=doc1@@
   
   Documentation in pom.xml
    
   @@easydoc-end@@ -->
+  
+  <!-- @@easydoc-start@@@@include, id=doc1@@@@easydoc-end@@ -->
   
   <build>
   	<plugins>
