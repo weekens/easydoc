@@ -128,9 +128,9 @@ easydocDoc returns [Doc result]
 
 easydocDirective returns [Directive result] : 
 	{ $result = new Directive(); }
-	DOUBLEAT { 
-		$result.setLine($DOUBLEAT.getLine()); 
-		$result.setColumn($DOUBLEAT.getCharPositionInLine()); 
+	d1=DOUBLEAT { 
+		$result.setLine($d1.getLine()); 
+		$result.setColumn($d1.getCharPositionInLine()); 
 	} 
 	paramName { $result.setName($paramName.text); }
 	easydocParams { $result.setParams($easydocParams.params); }
@@ -143,7 +143,7 @@ simpleText returns [String result] :
 		| WS { sb.append($WS.text); } 
 		| EQ { sb.append($EQ.text); } 
 		| COMMA { sb.append($COMMA.text); }
-		| '@@' { sb.append("@@"); }
+		| DOUBLEAT { sb.append("@@"); }
 	)+ { $result = sb.toString(); } ;
 	
 easydocText returns [String result, List<Directive> directives] : 
