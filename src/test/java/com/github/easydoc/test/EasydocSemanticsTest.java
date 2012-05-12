@@ -1,12 +1,14 @@
 package com.github.easydoc.test;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
 import org.junit.Assert;
 import org.junit.Test;
 
+import com.github.easydoc.model.Directive;
 import com.github.easydoc.model.Doc;
 import com.github.easydoc.model.Model;
 import com.github.easydoc.semantics.EasydocSemantics;
@@ -138,5 +140,29 @@ public class EasydocSemanticsTest {
 		CompilationResult result = sem.compileModel(model);
 		Assert.assertTrue(result.isPositive());
 		Assert.assertEquals("Hi! This  is a text  with  some hashes nd other stuff", doc.getText());
+	}
+	
+	@Test
+	public void testInclude() {
+		Model model = new Model();
+		Doc toInclude = new Doc();
+		toInclude.getParams().put("id", "to-include");
+		toInclude.setText("Wazzup!");
+		
+		Doc doc = new Doc();
+		doc.setText("Include -><- here");
+		Directive includeDirective = new Directive();
+		includeDirective.setName("include");
+		includeDirective.getParams().put("id", "to-include");
+		includeDirective.setLine(0);
+		includeDirective.setColumn(10);
+		doc.setDirectives(Collections.singletonList(includeDirective));
+		
+		model.addDocs(Arrays.asList(new Doc[] { toInclude, doc }));
+		
+		EasydocSemantics sem = new EasydocSemantics();
+		CompilationResult result = sem.compileModel(model);
+		Assert.assertTrue(result.isPositive());
+		Assert.assertEquals("Include ->Wazzup!<- here", doc.getText());
 	}
 }

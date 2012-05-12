@@ -7,9 +7,12 @@ import java.util.EnumSet;
 import java.util.List;
 import java.util.Map;
 
+import com.github.easydoc.model.Directive;
 import com.github.easydoc.model.Doc;
 import com.github.easydoc.model.Model;
 import com.github.easydoc.model.criteria.DocSearchCriteria;
+import com.github.easydoc.semantics.directiverule.DirectiveRule;
+import com.github.easydoc.semantics.directiverule.IncludeDirectiveRule;
 import com.github.easydoc.semantics.exception.EasydocSemanticException;
 import com.github.easydoc.semantics.paramrule.BelongsParamRule;
 import com.github.easydoc.semantics.paramrule.FormatParamRule;
@@ -108,6 +111,31 @@ public class EasydocSemantics {
 		}
 	}
 	
+	private enum DirectiveDef {
+		INCLUDE("include", new IncludeDirectiveRule());
+		
+		private final String name;
+		private final DirectiveRule rule;
+
+		private DirectiveDef(String name, DirectiveRule rule) {
+			this.name = name;
+			this.rule = rule;
+		}
+		
+		public static DirectiveDef getByName(String name) {
+			for(DirectiveDef d : EnumSet.allOf(DirectiveDef.class)) {
+				if(d.name.equals(name)) {
+					return d;
+				}
+			}
+			return null;
+		}
+		
+		public DirectiveRule getRule() {
+			return rule;
+		}
+	}
+	
 	public void setDefaultFormat(String format) {
 		Param.FORMAT.setDefaultValue(format);
 	}
@@ -124,6 +152,7 @@ public class EasydocSemantics {
 						doc.getParams().put(p.getName(), p.getDefaultValue());
 					}
 				}
+				applyDirectives(doc, model);
 				applyParameters(doc, model);
 			}
 			catch(EasydocSemanticException e) {
@@ -143,6 +172,29 @@ public class EasydocSemantics {
 		}
 		
 		return result;
+	}
+
+	private void applyDirectives(Doc doc, Model model) throws EasydocSemanticException {
+		for(Directive directive : doc.getDirectives()) {
+			DirectiveDef ddef = DirectiveDef.getByName(directive.getName());
+			if(ddef == null) 
+				throw new EasydocSemanticException(doc, "Unknown directive: '" + directive.getName() + "'");
+			
+			DirectiveRule drule = ddef.getRule();
+			for(String rparam : drule.getRequiredParams()) {
+				if(!directive.getParams().containsKey(rparam)) {
+					throw new EasydocSemanticException(doc, directive, "Required parameter '" + rparam + "' is absent.");
+				}
+			}
+			
+			//TODO: check for undefined params
+			
+			ValidationResult result = drule.validate(directive, doc, model);
+			if(!result.isPositive()) {
+				throw new EasydocSemanticException(doc, result); //TODO: return negative result instead
+			}
+			drule.run(directive, doc, model, result);
+		}
 	}
 
 	private void applyParameters(Doc doc, Model model) throws EasydocSemanticException {

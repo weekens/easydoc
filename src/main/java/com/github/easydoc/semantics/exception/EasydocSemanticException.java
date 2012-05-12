@@ -1,5 +1,6 @@
 package com.github.easydoc.semantics.exception;
 
+import com.github.easydoc.model.Directive;
 import com.github.easydoc.model.Doc;
 import com.github.easydoc.semantics.ValidationResult;
 
@@ -12,5 +13,9 @@ public class EasydocSemanticException extends Exception {
 
 	public EasydocSemanticException(Doc doc, ValidationResult result) {
 		this(doc, result.getMessage());
+	}
+
+	public EasydocSemanticException(Doc doc, Directive directive, String msg) {
+		this(doc, "directive " + directive + ": " + msg);
 	}
 }

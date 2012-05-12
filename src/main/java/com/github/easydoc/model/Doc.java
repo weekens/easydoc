@@ -1,6 +1,7 @@
 package com.github.easydoc.model;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -54,6 +55,8 @@ public class Doc implements Comparable<Doc> {
 	 * doc will be among the siblings.
 	 */
 	private Integer weight;
+	
+	private List<Directive> directives = Collections.emptyList();
 
 	public String getText() {
 		return text.toString();
@@ -113,6 +116,14 @@ public class Doc implements Comparable<Doc> {
 
 	public void setWeight(Integer weight) {
 		this.weight = weight;
+	}
+
+	public List<Directive> getDirectives() {
+		return directives;
+	}
+
+	public void setDirectives(List<Directive> directives) {
+		this.directives = directives;
 	}
 
 	@Override
