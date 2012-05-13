@@ -12,6 +12,32 @@ import com.github.easydoc.semantics.NegativeValidationResult;
 import com.github.easydoc.semantics.PositiveValidationResult;
 import com.github.easydoc.semantics.ValidationResult;
 
+/*@@easydoc-start, belongs=easydoc-directives, format=markdown@@
+ 
+### include ###
+
+Copies a specified doc's text verbatim into this directive's location. This does not
+prevent the included doc from normal generation into a place where it belongs.
+
+Parameters:
+
+ * **id** - the id of the doc to include (required)
+
+Example:
+
+	\@\@easydoc-start, id=to-include\@\@ I'm a doc to include. \@\@easydoc-end\@\@
+	
+	\@\@easydoc-start\@\@
+	I'm a normal doc. \@\@include, id=to-include\@\@
+	\@\@easydoc-end\@\@
+	
+	Result:
+	
+	I'm a doc to include.
+	
+	I'm a normal doc.  I'm a doc to include. 
+
+@@easydoc-end@@*/
 public class IncludeDirectiveRule implements DirectiveRule {
 	
 	@Override

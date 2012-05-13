@@ -60,11 +60,18 @@ Working example
 
 You can see how it works by just looking at [Easydoc documentation](http://weekens.github.com/easydoc).
 
+Features
+-------------
+
+* structured documentation (with parent and child docs, and ordering)
+* source links
+* automatic index (contents) generation
+* Markdown support
+
 Coming soon
 -------------
 
 * full support of command line
-* links
+* combining docs from different projects
 * variables
-* Markdown support
 * Ant target

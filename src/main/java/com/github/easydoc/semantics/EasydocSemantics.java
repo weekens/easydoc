@@ -111,6 +111,25 @@ public class EasydocSemantics {
 		}
 	}
 	
+	/*@@easydoc-start, id=easydoc-directives, belongs=easydoc-advanced@@
+	<h2>Directives</h2>
+	
+	Directives are special tags inside a doc text, which are replaced with some values,
+	depending on a directive meaning. A doc can have any number of directives inside.
+	<br><bt>
+	Example:
+	<br>
+	<pre><code>
+\@\@easydoc-start\@\@
+
+Simple text and a directive: <b title="This is a directive">\@\@include, id=doc-to-include\@\@</b>
+
+\@\@easydoc-end\@\@
+	</code></pre>
+	<br>
+	Each directive has a name and parameters. Some parameters may be optional, some may be required. See
+	documentation for a concrete directive. 
+	@@easydoc-end@@*/
 	private enum DirectiveDef {
 		INCLUDE("include", new IncludeDirectiveRule());
 		
