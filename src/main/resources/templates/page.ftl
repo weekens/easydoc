@@ -30,7 +30,7 @@
 			<#if doc.id??>
 				<li><a href="#${doc.id}">${indexText(doc)}</a></li>
 			</#if>
-			<#if doc.children??>
+			<#if doc.hasChildrenWithIds()>
 				<li>
 					<@generateDocIndex docTree=doc.children/>
 				</li>

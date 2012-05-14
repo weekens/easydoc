@@ -125,6 +125,13 @@ public class Doc implements Comparable<Doc> {
 	public void setDirectives(List<Directive> directives) {
 		this.directives = directives;
 	}
+	
+	public boolean hasChildrenWithIds() {
+		for(Doc doc : children) {
+			if(doc.getId() != null) return true;
+		}
+		return false;
+	}
 
 	@Override
 	public String toString() {
