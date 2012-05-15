@@ -73,7 +73,7 @@ public class CommandLineMojoUtils {
 							mojo, 
 							field, 
 							expression
-							.replaceAll("\\$\\{basedir\\}", new File("").getAbsolutePath())
+							.replaceAll("\\$\\{basedir\\}", Matcher.quoteReplacement(new File("").getAbsolutePath()))
 							.replaceAll("\\$\\{project.build.directory\\}", "build")
 							.replaceAll("/", Matcher.quoteReplacement(File.separator))
 					);
