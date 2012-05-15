@@ -4,6 +4,7 @@ import java.io.File;
 import java.lang.reflect.Field;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.regex.Matcher;
 
 import org.jfrog.maven.annomojo.annotations.MojoParameter;
 
@@ -74,7 +75,7 @@ public class CommandLineMojoUtils {
 							expression
 							.replaceAll("\\$\\{basedir\\}", new File("").getAbsolutePath())
 							.replaceAll("\\$\\{project.build.directory\\}", "build")
-							.replaceAll("/", File.separator)
+							.replaceAll("/", Matcher.quoteReplacement(File.separator))
 					);
 				}
 				else {
