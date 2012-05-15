@@ -16,6 +16,8 @@ import com.github.easydoc.model.Doc;
 
 public class EasydocParserTest {
 	
+	private static final String SEP = System.getProperty("line.separator");
+
 	@Test
 	public void testSingleDocWithoutParams() throws RecognitionException {
 		String input = "@@easydoc-start@@ \\\\, Doc \\@\\@ @ doc @@easydoc-end@@";
@@ -70,7 +72,7 @@ public class EasydocParserTest {
 	
 	@Test
 	public void testSingleDocWithDirective2Line() throws RecognitionException {
-		String input = "@@easydoc-start@@\n Doc @@include, id=doc2@@ text @@easydoc-end@@";
+		String input = "@@easydoc-start@@" + SEP + " Doc @@include, id=doc2@@ text @@easydoc-end@@";
 		
 		EasydocLexer lexer = new EasydocLexer(new ANTLRStringStream(input));
 		EasydocParser parser = new EasydocParser(new CommonTokenStream(lexer));
