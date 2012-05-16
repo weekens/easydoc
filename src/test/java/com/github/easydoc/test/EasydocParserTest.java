@@ -81,7 +81,7 @@ public class EasydocParserTest {
 		Assert.assertEquals(1, docs.size());
 		Doc doc = docs.get(0);
 		Assert.assertEquals(0, doc.getParams().size());
-		Assert.assertEquals("\n Doc  text ", doc.getText());
+		Assert.assertEquals(SEP + " Doc  text ", doc.getText());
 		Assert.assertEquals(1, doc.getSourceLink().getStartLine());
 		Assert.assertEquals(2, doc.getSourceLink().getEndLine());
 		Assert.assertNull(doc.getSourceLink().getFile());
