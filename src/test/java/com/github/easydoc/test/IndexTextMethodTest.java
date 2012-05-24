@@ -131,6 +131,7 @@ public class IndexTextMethodTest {
 		Assert.fail("Exception should be thrown because of bad arguments");
 	}
 	
+	@SuppressWarnings("unchecked")
 	@Test(expected = TemplateModelException.class)
 	public void testBadArguments3() throws Exception {
 		Doc doc = new Doc();

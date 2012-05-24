@@ -8,6 +8,8 @@ import java.util.Map;
  *
  */
 public class Directive implements DocItem {
+	private static final long serialVersionUID = 1L;
+	
 	private String name;
 	private Map<String, String> params = new HashMap<String, String>();
 	private String text;

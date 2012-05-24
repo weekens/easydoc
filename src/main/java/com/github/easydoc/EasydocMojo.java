@@ -3,6 +3,7 @@ package com.github.easydoc;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.ObjectOutputStream;
 import java.io.OutputStreamWriter;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
@@ -300,6 +301,20 @@ public class EasydocMojo extends AbstractMojo {
 				
 				//expose artifact if needed
 				if(generateArtifact) {
+					File dbDir = new File(outputDirectory, "META-INF");
+					dbDir.mkdir();
+					ObjectOutputStream oos = new ObjectOutputStream(
+							new FileOutputStream(
+									new File(dbDir, "easydoc.db")
+							)
+					);
+					try {
+						oos.writeObject(model);
+					}
+					finally {
+						oos.close();
+					}
+					
 					MojoExecutor.executeMojo(
 							MojoExecutor.plugin(
 									"org.apache.maven.plugins", 

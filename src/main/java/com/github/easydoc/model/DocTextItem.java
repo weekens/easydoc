@@ -1,6 +1,7 @@
 package com.github.easydoc.model;
 
 public class DocTextItem implements DocItem {
+	private static final long serialVersionUID = 1L;
 	
 	private final String text;
 
