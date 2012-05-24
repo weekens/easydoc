@@ -77,13 +77,7 @@ public class IncludeDirectiveRule implements DirectiveRule {
 	
 	@Override
 	public void run(Directive directive, Doc doc, Model model, ValidationResult result) {
-		String docText = doc.getText();
-		int pos = directive.computePosition(docText);
-		doc.setText(
-				docText.substring(0, pos) + 
-				((Doc)result.getData()).getText() +
-				docText.substring(pos)
-		);
+		directive.setText(((Doc)result.getData()).getText());
 	}
 
 }

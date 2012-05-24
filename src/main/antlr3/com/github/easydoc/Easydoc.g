@@ -16,6 +16,8 @@ options {
   import com.github.easydoc.model.Doc;
   import com.github.easydoc.model.SourceLink;
   import com.github.easydoc.model.Directive;
+  import com.github.easydoc.model.DocItem;
+  import com.github.easydoc.model.DocTextItem;
 }
 
 @members {
@@ -110,14 +112,7 @@ easydocDoc returns [Doc result]
 	} 
 	(
 		easydocText { 
-			$result.appendText($easydocText.result);
-			
-			for(Directive d : $easydocText.directives) {
-				d.setLine(d.getLine() - $easydocStart.line);
-				if(d.getLine() == 0) {
-					d.setColumn(d.getColumn() - $easydocStart.endColumn);
-				}
-			}
+			$result.setItems($easydocText.items);			
 			$result.setDirectives($easydocText.directives);
 		} 
 	)?
@@ -128,10 +123,7 @@ easydocDoc returns [Doc result]
 
 easydocDirective returns [Directive result] : 
 	{ $result = new Directive(); }
-	d1=DOUBLEAT { 
-		$result.setLine($d1.getLine()); 
-		$result.setColumn($d1.getCharPositionInLine()); 
-	} 
+	DOUBLEAT
 	paramName { $result.setName($paramName.text); }
 	easydocParams { $result.setParams($easydocParams.params); }
 	DOUBLEAT;	
@@ -146,10 +138,11 @@ simpleText returns [String result] :
 		| DOUBLEAT { sb.append("@@"); }
 	)+ { $result = sb.toString(); } ;
 	
-easydocText returns [String result, List<Directive> directives] : 
+easydocText returns [List<DocItem> items, List<Directive> directives] : 
 	{ 
 		StringBuffer sb = new StringBuffer();
-		$directives = new ArrayList<Directive>(); 
+		$directives = new ArrayList<Directive>();
+		$items = new ArrayList<DocItem>(); 
 	}
 	(
 		CHAR { sb.append($CHAR.text); } 
@@ -158,8 +151,13 @@ easydocText returns [String result, List<Directive> directives] :
 		| COMMA { sb.append($COMMA.text); }
 		| '\\@\\@' { sb.append("@@"); }
 		| '\\\\' { sb.append("\\"); }
-		| easydocDirective { $directives.add($easydocDirective.result); }
-	)+ { $result = sb.toString(); } ;
+		| easydocDirective {
+		 	$items.add(new DocTextItem(sb.toString()));
+		 	sb.setLength(0);
+		 	$items.add($easydocDirective.result);
+			$directives.add($easydocDirective.result); 
+		}
+	)+ { $items.add(new DocTextItem(sb.toString())); } ;
 
 document returns [List<Doc> docs]
 	: 

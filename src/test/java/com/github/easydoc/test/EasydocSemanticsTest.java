@@ -14,6 +14,8 @@ import com.github.easydoc.EasydocLexer;
 import com.github.easydoc.EasydocParser;
 import com.github.easydoc.model.Directive;
 import com.github.easydoc.model.Doc;
+import com.github.easydoc.model.DocItem;
+import com.github.easydoc.model.DocTextItem;
 import com.github.easydoc.model.Model;
 import com.github.easydoc.semantics.EasydocSemantics;
 import com.github.easydoc.semantics.EasydocSemantics.CompilationResult;
@@ -154,13 +156,17 @@ public class EasydocSemanticsTest {
 		toInclude.setText("Wazzup!");
 		
 		Doc doc = new Doc();
-		doc.setText("Include -><- here");
 		Directive includeDirective = new Directive();
 		includeDirective.setName("include");
 		includeDirective.getParams().put("id", "to-include");
-		includeDirective.setLine(0);
-		includeDirective.setColumn(10);
 		doc.setDirectives(Collections.singletonList(includeDirective));
+		doc.setItems(
+				Arrays.asList(new DocItem[] { 
+						new DocTextItem("Include ->"),
+						includeDirective,
+						new DocTextItem("<- here")
+				})
+		);
 		
 		model.addDocs(Arrays.asList(new Doc[] { toInclude, doc }));
 		
@@ -168,6 +174,36 @@ public class EasydocSemanticsTest {
 		CompilationResult result = sem.compileModel(model);
 		Assert.assertTrue(result.isPositive());
 		Assert.assertEquals("Include ->Wazzup!<- here", doc.getText());
+	}
+	
+	@Test
+	public void testTwoIncludes() {
+		Model model = new Model();
+		Doc toInclude = new Doc();
+		toInclude.getParams().put("id", "to-include");
+		toInclude.setText("Wazzup!");
+		
+		Doc doc = new Doc();
+		Directive includeDirective = new Directive();
+		includeDirective.setName("include");
+		includeDirective.getParams().put("id", "to-include");
+		doc.setDirectives(Collections.singletonList(includeDirective));
+		doc.setItems(
+				Arrays.asList(new DocItem[] { 
+						new DocTextItem("Include ->"),
+						includeDirective,
+						new DocTextItem("<- here and ->"),
+						includeDirective,
+						new DocTextItem("<- here ")
+				})
+		);
+		
+		model.addDocs(Arrays.asList(new Doc[] { toInclude, doc }));
+		
+		EasydocSemantics sem = new EasydocSemantics();
+		CompilationResult result = sem.compileModel(model);
+		Assert.assertTrue(result.isPositive());
+		Assert.assertEquals("Include ->Wazzup!<- here and ->Wazzup!<- here ", doc.getText());
 	}
 	
 	@Test

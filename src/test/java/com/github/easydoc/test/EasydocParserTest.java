@@ -81,7 +81,7 @@ public class EasydocParserTest {
 		Assert.assertEquals(1, docs.size());
 		Doc doc = docs.get(0);
 		Assert.assertEquals(0, doc.getParams().size());
-		Assert.assertEquals(SEP + " Doc  text ", doc.getText());
+		Assert.assertEquals(SEP + " Doc null text ", doc.getText());
 		Assert.assertEquals(1, doc.getSourceLink().getStartLine());
 		Assert.assertEquals(2, doc.getSourceLink().getEndLine());
 		Assert.assertNull(doc.getSourceLink().getFile());
@@ -90,9 +90,6 @@ public class EasydocParserTest {
 		Directive d = doc.getDirectives().get(0);
 		Assert.assertEquals("include", d.getName());
 		Assert.assertEquals("doc2", d.getParams().get("id"));
-		Assert.assertEquals(1, d.getLine());
-		Assert.assertEquals(5, d.getColumn());
-		Assert.assertEquals(6, d.computePosition(doc.getText()));
 	}
 	
 	@Test
@@ -106,7 +103,7 @@ public class EasydocParserTest {
 		Assert.assertEquals(1, docs.size());
 		Doc doc = docs.get(0);
 		Assert.assertEquals(0, doc.getParams().size());
-		Assert.assertEquals(" Doc  text ", doc.getText());
+		Assert.assertEquals(" Doc null text ", doc.getText());
 		Assert.assertEquals(1, doc.getSourceLink().getStartLine());
 		Assert.assertEquals(1, doc.getSourceLink().getEndLine());
 		Assert.assertNull(doc.getSourceLink().getFile());
@@ -115,9 +112,6 @@ public class EasydocParserTest {
 		Directive d = doc.getDirectives().get(0);
 		Assert.assertEquals("include", d.getName());
 		Assert.assertEquals("doc2", d.getParams().get("id"));
-		Assert.assertEquals(0, d.getLine());
-		Assert.assertEquals(5, d.getColumn());
-		Assert.assertEquals(5, d.computePosition(doc.getText()));
 	}
 	
 	@Test
@@ -131,7 +125,7 @@ public class EasydocParserTest {
 		Assert.assertEquals(1, docs.size());
 		Doc doc = docs.get(0);
 		Assert.assertEquals(0, doc.getParams().size());
-		Assert.assertEquals("", doc.getText());
+		Assert.assertEquals("null", doc.getText());
 		Assert.assertEquals(1, doc.getSourceLink().getStartLine());
 		Assert.assertEquals(1, doc.getSourceLink().getEndLine());
 		Assert.assertNull(doc.getSourceLink().getFile());
@@ -140,9 +134,31 @@ public class EasydocParserTest {
 		Directive d = doc.getDirectives().get(0);
 		Assert.assertEquals("include", d.getName());
 		Assert.assertEquals(0, d.getParams().size());
-		Assert.assertEquals(0, d.getLine());
-		Assert.assertEquals(0, d.getColumn());
-		Assert.assertEquals(0, d.computePosition(doc.getText()));
+	}
+	
+	@Test
+	public void testSingleDocWithTwoDirectives() throws RecognitionException {
+		String input = "@@easydoc-start@@ Doc @@include, id=doc2@@ text @@somedir@@ @@easydoc-end@@";
+		
+		EasydocLexer lexer = new EasydocLexer(new ANTLRStringStream(input));
+		EasydocParser parser = new EasydocParser(new CommonTokenStream(lexer));
+		List<Doc> docs = parser.document();
+		
+		Assert.assertEquals(1, docs.size());
+		Doc doc = docs.get(0);
+		Assert.assertEquals(0, doc.getParams().size());
+		Assert.assertEquals(" Doc null text null ", doc.getText());
+		Assert.assertEquals(1, doc.getSourceLink().getStartLine());
+		Assert.assertEquals(1, doc.getSourceLink().getEndLine());
+		Assert.assertNull(doc.getSourceLink().getFile());
+		
+		Assert.assertEquals(2, doc.getDirectives().size());
+		Directive d = doc.getDirectives().get(0);
+		Assert.assertEquals("include", d.getName());
+		Assert.assertEquals("doc2", d.getParams().get("id"));
+		d = doc.getDirectives().get(1);
+		Assert.assertEquals("somedir", d.getName());
+		Assert.assertEquals(0, d.getParams().size());
 	}
 
 }

@@ -16,9 +16,9 @@ import java.util.Map;
  */
 public class Doc implements Comparable<Doc> {
 	/**
-	 * An actual doc text.
+	 * A doc body items.
 	 */
-	private StringBuilder text = new StringBuilder();
+	private List<DocItem> items = new ArrayList<DocItem>();
 	
 	/**
 	 * A raw params of this doc.
@@ -59,11 +59,25 @@ public class Doc implements Comparable<Doc> {
 	private List<Directive> directives = Collections.emptyList();
 
 	public String getText() {
-		return text.toString();
+		StringBuilder sb = new StringBuilder();
+		for(DocItem item : items) {
+			sb.append(item.getText());
+		}
+		return sb.toString();
+	}
+	
+	public void setText(String text) {
+		setItems(
+				Collections.singletonList(
+						(DocItem)new DocTextItem(
+								text
+						)
+				)
+		);
 	}
 
-	public void setText(String text) {
-		this.text = new StringBuilder(text);
+	public void setItems(List<DocItem> items) {
+		this.items = items;
 	}
 	
 	public Map<String, String> getParams() {
@@ -72,10 +86,6 @@ public class Doc implements Comparable<Doc> {
 
 	public void setParams(Map<String, String> params) {
 		this.params = params;
-	}
-
-	public void appendText(String value) {
-		text.append(value);
 	}
 
 	public String getId() {
@@ -136,7 +146,7 @@ public class Doc implements Comparable<Doc> {
 	@Override
 	public String toString() {
 		return String.format("Doc [text=%s, params=%s, id=%s, parent=%s, sourceLink=%s, weight=%d]", 
-				text, params, id,
+				items, params, id,
 				(parent != null ? parent.getId() : null), sourceLink, weight);
 	}
 
