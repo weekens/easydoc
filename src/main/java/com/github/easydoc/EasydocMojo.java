@@ -12,13 +12,18 @@ import java.util.Properties;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
+import org.apache.maven.execution.MavenSession;
 import org.apache.maven.plugin.AbstractMojo;
+import org.apache.maven.plugin.BuildPluginManager;
 import org.apache.maven.plugin.MojoExecutionException;
+import org.apache.maven.project.MavenProject;
+import org.jfrog.maven.annomojo.annotations.MojoComponent;
 import org.jfrog.maven.annomojo.annotations.MojoExecute;
 import org.jfrog.maven.annomojo.annotations.MojoGoal;
 import org.jfrog.maven.annomojo.annotations.MojoParameter;
 import org.jfrog.maven.annomojo.annotations.MojoPhase;
 import org.springframework.util.AntPathMatcher;
+import org.twdata.maven.mojoexecutor.MojoExecutor;
 
 import com.github.easydoc.exception.EasydocFatalException;
 import com.github.easydoc.exception.FileActionException;
@@ -199,6 +204,18 @@ public class EasydocMojo extends AbstractMojo {
 	@@easydoc-end@@*/
 	@MojoParameter
 	private String defaultFormat = "html";
+	
+	@MojoParameter(expression = "${project}", required = true, readonly = true)
+	private MavenProject mavenProject;
+	
+	@MojoParameter(expression = "${session}", required = true, readonly = true)
+	private MavenSession mavenSession;
+	
+	@MojoComponent
+	private BuildPluginManager pluginManager;
+	
+	@MojoParameter
+	private Boolean generateArtifact = true;
 
 	public void execute() throws MojoExecutionException {
 		try {
@@ -279,6 +296,27 @@ public class EasydocMojo extends AbstractMojo {
 				}
 				finally {
 					out.close();
+				}
+				
+				//expose artifact if needed
+				if(generateArtifact) {
+					MojoExecutor.executeMojo(
+							MojoExecutor.plugin(
+									"org.apache.maven.plugins", 
+									"maven-jar-plugin", 
+									"2.3.2"
+							), 
+							MojoExecutor.goal("jar"), 
+							MojoExecutor.configuration(
+									MojoExecutor.element("classifier", "easydoc"),
+									MojoExecutor.element("classesDirectory", outputDirectory.getPath())
+							), 
+							MojoExecutor.executionEnvironment(
+									mavenProject, 
+									mavenSession, 
+									pluginManager
+							)
+					);
 				}
 			}
 			else { //negative compilation result
