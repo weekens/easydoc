@@ -3,6 +3,8 @@ package com.github.easydoc;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStreamWriter;
 import java.nio.charset.Charset;
@@ -10,6 +12,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
+import java.util.jar.JarEntry;
+import java.util.jar.JarFile;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
@@ -29,6 +33,7 @@ import org.twdata.maven.mojoexecutor.MojoExecutor;
 import com.github.easydoc.exception.EasydocFatalException;
 import com.github.easydoc.exception.FileActionException;
 import com.github.easydoc.model.Model;
+import com.github.easydoc.param.CombineWithParam;
 import com.github.easydoc.param.SourceBrowserParam;
 import com.github.easydoc.semantics.EasydocSemantics;
 import com.github.easydoc.semantics.EasydocSemantics.CompilationResult;
@@ -105,6 +110,9 @@ public class EasydocMojo extends AbstractMojo {
 	 @@easydoc-end@@*/
 	@MojoParameter(required = true,	expression = "${project.build.directory}/easydoc")
 	private File outputDirectory;
+	
+	@MojoParameter(required = true,	expression = "${project.build.directory}/easydoc-dependencies")
+	private File depsDirectory;
 
 	/*@@easydoc-start, belongs=easydoc-maven@@
 	 <h3>inputDirectory</h3>
@@ -217,6 +225,9 @@ public class EasydocMojo extends AbstractMojo {
 	
 	@MojoParameter
 	private Boolean generateArtifact = true;
+	
+	@MojoParameter
+	private List<CombineWithParam> combineWith;
 
 	public void execute() throws MojoExecutionException {
 		try {
@@ -235,6 +246,12 @@ public class EasydocMojo extends AbstractMojo {
 			freemarkerCfg.setTemplateLoader(new ClassTemplateLoader(getClass(), "/templates"));
 			
 			Model model = new Model();
+			
+			if(combineWith != null && combineWith.size() > 0) {
+				Model combineModel = loadCombineDependency(combineWith.get(0));
+				getLog().info("combineModel = " + combineModel);
+				model = combineModel;
+			}
 
 			ParseDocumentationFileAction fileAction = new ParseDocumentationFileAction(model, getLog());
 			fileAction.setEncoding(encoding);
@@ -346,6 +363,61 @@ public class EasydocMojo extends AbstractMojo {
 		}
 		catch(Exception e) {
 			throw new EasydocFatalException(e);
+		}
+	}
+	
+	private Model loadCombineDependency(CombineWithParam cwParam) throws MojoExecutionException {
+		try {
+			MojoExecutor.executeMojo(
+					MojoExecutor.plugin(
+							"org.apache.maven.plugins", 
+							"maven-dependency-plugin", 
+							"2.4"
+					), 
+					MojoExecutor.goal("copy"), 
+					MojoExecutor.configuration(
+							MojoExecutor.element(
+									"artifactItems", 
+									MojoExecutor.element(
+											"artifactItem", 
+											MojoExecutor.element("groupId", cwParam.getGroupId()),
+											MojoExecutor.element("artifactId", cwParam.getArtifactId()),
+											MojoExecutor.element("version", cwParam.getVersion()),
+											MojoExecutor.element("type", "jar"),
+											MojoExecutor.element("classifier", "easydoc"),
+											MojoExecutor.element("overWrite", "true"),
+											MojoExecutor.element("outputDirectory", depsDirectory.getPath()),
+											MojoExecutor.element("destFileName", cwParam.getArtifactId() + ".jar")
+									)
+							)
+					), 
+					MojoExecutor.executionEnvironment(
+							mavenProject, 
+							mavenSession, 
+							pluginManager
+					)
+			);
+			
+			JarFile jarFile = new JarFile(new File(depsDirectory, cwParam.getArtifactId() + ".jar"));
+			try {
+				JarEntry dbEntry = jarFile.getJarEntry("META-INF/easydoc.db");
+				ObjectInputStream ois = new ObjectInputStream(jarFile.getInputStream(dbEntry));
+				try {
+					return (Model)ois.readObject();
+				}
+				finally {
+					ois.close();
+				}
+			}
+			finally {
+				jarFile.close();
+			}
+		}
+		catch(IOException e) {
+			throw new MojoExecutionException("Failed to load combine dependency " + cwParam, e);
+		}
+		catch(ClassNotFoundException e) {
+			throw new MojoExecutionException("Failed to load combine dependency " + cwParam, e);
 		}
 	}
 

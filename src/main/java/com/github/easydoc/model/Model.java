@@ -55,4 +55,9 @@ public class Model implements Serializable {
 		return ret;
 	}
 
+	@Override
+	public String toString() {
+		return String.format("Model [docs=%s]", docs);
+	}
+
 }
