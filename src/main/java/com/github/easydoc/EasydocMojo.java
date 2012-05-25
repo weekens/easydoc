@@ -248,9 +248,11 @@ public class EasydocMojo extends AbstractMojo {
 			Model model = new Model();
 			
 			if(combineWith != null && combineWith.size() > 0) {
-				Model combineModel = loadCombineDependency(combineWith.get(0));
-				getLog().info("combineModel = " + combineModel);
-				model = combineModel;
+				for(CombineWithParam cwParam : combineWith) {
+					Model combineModel = loadCombineDependency(cwParam);
+					model.addDocs(combineModel.getDocs());
+				}
+				getLog().debug("Combine model = " + model);
 			}
 
 			ParseDocumentationFileAction fileAction = new ParseDocumentationFileAction(model, getLog());
