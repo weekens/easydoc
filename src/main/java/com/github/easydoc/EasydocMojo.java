@@ -223,9 +223,42 @@ public class EasydocMojo extends AbstractMojo {
 	@MojoComponent
 	private BuildPluginManager pluginManager;
 	
-	@MojoParameter
+	/*@@easydoc-start, belongs=easydoc-maven@@
+	<h3>generateArtifact</h3>
+	
+	By default, Easydoc will generate an additional artifact for your documentation,
+	containing the generated pages along with docs model metadata. You can disable it
+	by setting this parameter to <code>false</code>.
+	@@easydoc-end@@*/
+	@MojoParameter(defaultValue = "true")
 	private Boolean generateArtifact = true;
 	
+	/*@@easydoc-start, id=easydoc-maven-combine-with, belongs=easydoc-maven, format=markdown@@
+	### combineWith ###
+	
+	Specifies Easydoc artifacts of other projects to be combined with current project
+	[Combining docs](#easydoc-combine).
+	
+	The configuration looks like this:
+	
+		<configuration>
+			...
+			<combineWith>
+				<item>
+					<groupId>com.mycompany</groupId>
+					<artifactId>my-remote-project</artifactId>
+					<version>0.0.1-SNAPSHOT</version>
+				</item>
+				<item>
+					<groupId>com.mycompany</groupId>
+					<artifactId>my-other-project</artifactId>
+					<version>0.0.1-SNAPSHOT</version>
+				</item>
+				...
+			</combineWith>
+			...
+		</configuration>
+	@@easydoc-end@@*/
 	@MojoParameter
 	private List<CombineWithParam> combineWith;
 
@@ -368,6 +401,54 @@ public class EasydocMojo extends AbstractMojo {
 		}
 	}
 	
+	/*@@easydoc-start, id=easydoc-combine, belongs=easydoc-advanced, format=markdown@@
+	Combining docs
+	==============
+	
+	Sometimes you need to combine docs from different project into one single documentation site (page).
+	This section describes how you can easily do that.
+	
+	By default, Easydoc generates an additional artifact for your documentation named 
+	<your_default_artifact_name>-easydoc.jar. This artifact is installed, deployed and tracked by
+	Maven just like any other one.
+	
+	So, for the remote project documentation that you need to combine with the current, you already have
+	a special Maven artifact, and the only thing that is left is to declare that artifact as a dependency.
+	But not in the Maven `<dependencies>` section, but in Easydoc configuration element: 
+	[combineWith](#easydoc-maven-combine-with).
+	
+	After you've done that - the documenation from the remote project will get to your current project's
+	documentation page. More over, you can interact with docs from the remote project - use them in 
+	`\@\@include\@\@` directives and `belongs` parameters - because the artifact contains not only the
+	generated text, but the data model of the remote docs.
+	
+	Example:
+	
+	You've got 2 projects: my-lib and my-webapp (group id: `com.mycompany`, version 0.0.1-SNAPSHOT). 
+	Both are documented with Easydoc. But you need documentation from my-lib to be present in 
+	documentation page of my-webapp. You do the following:
+	
+	1. Build my-lib. The artifact my-lib-0.0.1-SNAPSHOT-easydoc.jar gets installed into local repository
+	(or deployed into remote repository).
+	
+	2. Specify the artifact from step 1 in [combineWith](#easydoc-maven-combine-with) parameter of 
+	Easydoc plugin configuration in my-webapp:
+	
+		<configuration>
+			...
+			<combineWith>
+				<item>
+					<groupId>com.mycompany</groupId>
+					<artifactId>my-lib</artifactId>
+					<version>0.0.1-SNAPSHOT</version>
+				</item>
+			</combineWith>
+			...
+		</configuration>
+		
+	3. Build my-webapp. The documentation of my-webapp will now contain documentation from my-lib.
+	
+	@@easydoc-end@@*/
 	private Model loadCombineDependency(CombineWithParam cwParam) throws MojoExecutionException {
 		try {
 			MojoExecutor.executeMojo(

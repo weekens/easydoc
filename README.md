@@ -67,11 +67,11 @@ Features
 * source links
 * automatic index (contents) generation
 * Markdown support
+* combining docs from different projects
 
 Coming soon
 -------------
 
 * full support of command line
-* combining docs from different projects
 * variables
 * Ant target
