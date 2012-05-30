@@ -1,12 +1,15 @@
 package com.github.easydoc.model;
 
 import java.io.File;
+import java.io.Serializable;
 
 /**
  * A link to the source, where the Doc originates.
  *
  */
-public class SourceLink {
+public class SourceLink implements Serializable {
+	private static final long serialVersionUID = 1L;
+	
 	private File file;
 	private int startLine;
 	private final int endLine;

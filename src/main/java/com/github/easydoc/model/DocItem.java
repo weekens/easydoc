@@ -1,6 +1,8 @@
 package com.github.easydoc.model;
 
-public interface DocItem {
+import java.io.Serializable;
+
+public interface DocItem extends Serializable {
 
 	String getText();
 

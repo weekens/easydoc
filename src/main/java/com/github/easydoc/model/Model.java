@@ -1,5 +1,6 @@
 package com.github.easydoc.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -9,7 +10,9 @@ import java.util.Map;
 
 import com.github.easydoc.model.criteria.DocSearchCriteria;
 
-public class Model {
+public class Model implements Serializable {
+	private static final long serialVersionUID = 1L;
+	
 	private List<Doc> docs = new ArrayList<Doc>();
 	
 	public List<Doc> findDocs(DocSearchCriteria criteria) {
@@ -50,6 +53,11 @@ public class Model {
 		Collections.sort(ret);
 		
 		return ret;
+	}
+
+	@Override
+	public String toString() {
+		return String.format("Model [docs=%s]", docs);
 	}
 
 }

@@ -6,6 +6,8 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.regex.Matcher;
 
+import org.apache.maven.execution.MavenSession;
+import org.apache.maven.project.MavenProject;
 import org.jfrog.maven.annomojo.annotations.MojoParameter;
 
 import com.github.easydoc.exception.EasydocFatalException;
@@ -94,6 +96,9 @@ public class CommandLineMojoUtils {
 		Class<?> type = field.getType();
 		if(type.equals(File.class)) {
 			field.set(mojo, new File(value));
+		}
+		else if(type.equals(MavenProject.class) || type.equals(MavenSession.class)) {
+			//skip these fields
 		}
 		else {
 			field.set(mojo, value);

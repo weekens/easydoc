@@ -1,5 +1,6 @@
 package com.github.easydoc.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -14,7 +15,9 @@ import java.util.Map;
  * @author Viktor Kazakov (weekens@gmail.com)
  *
  */
-public class Doc implements Comparable<Doc> {
+public class Doc implements Comparable<Doc>, Serializable {
+	private static final long serialVersionUID = 1L;
+
 	/**
 	 * A doc body items.
 	 */
