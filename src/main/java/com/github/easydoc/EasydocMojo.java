@@ -57,7 +57,7 @@ To get started with Maven you only need to add the following snippet to your pom
 	<plugin>
 		<groupId>com.github.weekens</groupId>
 		<artifactId>easydoc-maven-plugin</artifactId>
-		<version>0.3.14</version>
+		<version>0.4.18</version>
 		<executions>
 			<execution>
 				<goals>
@@ -75,39 +75,38 @@ This will setup Easydoc for your project. By default, Easydoc will scan recursiv
 @MojoPhase("process-sources")
 @MojoExecute(phase = "process-sources")
 public class EasydocMojo extends AbstractMojo {
-	/*@@easydoc-start, belongs=easydoc-maven@@
-	 <h2>Plugin configuration</h2>
+	/*@@easydoc-start, belongs=easydoc-maven, format=markdown@@
+	Plugin configuration
+	====================
+ 
+	Below are plugin configuration options that you can specify inside the <i>configuration</i> section
+	of the plugin declaration.<br>
+	
+		<plugin>
+			<groupId>com.github</groupId>
+			<artifactId>easydoc-maven-plugin</artifactId>
+			<version>0.4.18</version>
+			<executions>
+				<execution>
+					<goals>
+						<goal>generate</goal>
+					</goals>
+				</execution>
+			</executions>
+			<b><configuration>
+			
+			  configuration options go here
+			
+			</configuration></b>
+		</plugin>
 	 
-	 Below are plugin configuration options that you can specify inside the <i>configuration</i> section
-	 of the plugin declaration.<br>
+	### outputDirectory ###
 	 
- <pre>
- 	&lt;plugin&gt;
-		&lt;groupId&gt;com.github&lt;/groupId&gt;
-		&lt;artifactId&gt;easydoc-maven-plugin&lt;/artifactId&gt;
-		&lt;version&gt;0.3.14&lt;/version&gt;
-		&lt;executions&gt;
-			&lt;execution&gt;
-				&lt;goals&gt;
-					&lt;goal&gt;generate&lt;/goal&gt;
-				&lt;/goals&gt;
-			&lt;/execution&gt;
-		&lt;/executions&gt;
-		<b>&lt;configuration&gt;
-		
-		  configuration options go here
-		
-		&lt;/configuration&gt;</b>
-	&lt;/plugin&gt;
- </pre>
+	Specifies the output directory for the generated documentation.
 	 
-	 <h3>outputDirectory</h3>
-	 
-	 Specifies the output directory for the generated documentation.
-	 <br><br>
-	 <b>Default value:</b> target/easydoc
+	**Default value:** `target/easydoc`
 	  
-	 @@easydoc-end@@*/
+	@@easydoc-end@@*/
 	@MojoParameter(required = true,	expression = "${project.build.directory}/easydoc")
 	private File outputDirectory;
 	
@@ -449,17 +448,17 @@ public class EasydocMojo extends AbstractMojo {
 	2. Specify the artifact from step 1 in [combineWith](#easydoc-maven-combine-with) parameter of 
 	Easydoc plugin configuration in my-webapp:
 	
-		<configuration>
-			...
-			<combineWith>
-				<item>
-					<groupId>com.mycompany</groupId>
-					<artifactId>my-lib</artifactId>
-					<version>0.0.1-SNAPSHOT</version>
-				</item>
-			</combineWith>
-			...
-		</configuration>
+			<configuration>
+				...
+				<combineWith>
+					<item>
+						<groupId>com.mycompany</groupId>
+						<artifactId>my-lib</artifactId>
+						<version>0.0.1-SNAPSHOT</version>
+					</item>
+				</combineWith>
+				...
+			</configuration>
 		
 	3. Build my-webapp. The documentation of my-webapp will now contain documentation from my-lib.
 	

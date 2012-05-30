@@ -70,9 +70,29 @@ public class FormatParamRule implements ParamRule {
 		Format format = (Format)validationResult.getData();
 		switch(format) {
 		case MARKDOWN:
-			doc.setText(markdown.markdown(doc.getText()));
+			doc.setText(markdown.markdown(stripIndentation(doc.getText())));
 			break;
 		}
+	}
+
+	private String stripIndentation(String text) {
+		int i = text.indexOf("\n");
+		if(i == -1) return text;
+		
+		//read the indentation pattern from the start of second line
+		String indentPattern = "";
+		while(++i < text.length()) {
+			char c = text.charAt(i);
+			if(c == ' ' || c == '\t') {
+				indentPattern += c;
+			}
+			else break;
+		}
+		if(indentPattern.isEmpty()) return text;
+		
+		//remove this pattern from all lines (except the first one)
+		String ret = text.replaceAll("\n" + indentPattern, "\n");
+		return ret;
 	}
 
 }

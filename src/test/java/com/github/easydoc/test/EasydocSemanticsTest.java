@@ -228,4 +228,32 @@ public class EasydocSemanticsTest {
 		Doc doc2 = model.getDocs().get(1);
 		Assert.assertEquals(model.getDocs().get(0).getText(), doc2.getText());
 	}
+	
+	@Test
+	public void testMarkdown() throws Exception {
+		Doc doc = new Doc();
+		doc.setText("\tabc\n\t Second line\n\t Third line\n\n\t \tLine 4 (code)\n  Line 5 (other indentation)");
+		doc.getParams().put("format", "markdown");
+		
+		Model model = new Model();
+		model.addDocs(Collections.singletonList(doc));
+		
+		EasydocSemantics semantics = new EasydocSemantics();
+		CompilationResult compilationResult = semantics.compileModel(model);
+		Assert.assertTrue(
+				"Negative compilation result: " + compilationResult.toString(), 
+				compilationResult.isPositive()
+		);
+		
+		List<Doc> docs = compilationResult.getModel().getDocs();
+		Assert.assertEquals(1, docs.size());
+		Assert.assertEquals(
+				"<pre><code>abc\n" +
+				"</code></pre>\n\n" +
+				"<p>Second line\nThird line</p>\n\n" +
+				"<pre><code>Line 4 (code)\n</code></pre>\n\n" +
+				"<p>  Line 5 (other indentation)</p>\n", 
+				docs.get(0).getText()
+		);
+	}
 }
