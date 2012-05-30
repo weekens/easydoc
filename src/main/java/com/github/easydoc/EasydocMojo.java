@@ -57,7 +57,7 @@ To get started with Maven you only need to add the following snippet to your pom
 	<plugin>
 		<groupId>com.github.weekens</groupId>
 		<artifactId>easydoc-maven-plugin</artifactId>
-		<version>0.4.18</version>
+		<version>0.4.17</version>
 		<executions>
 			<execution>
 				<goals>
@@ -85,7 +85,7 @@ public class EasydocMojo extends AbstractMojo {
 		<plugin>
 			<groupId>com.github</groupId>
 			<artifactId>easydoc-maven-plugin</artifactId>
-			<version>0.4.18</version>
+			<version>0.4.17</version>
 			<executions>
 				<execution>
 					<goals>
