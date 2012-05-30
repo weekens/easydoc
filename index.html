@@ -64,116 +64,34 @@ pre {
 			<p>
 	<ul class="easydoc-index">
 				<li><a href="#easydoc-intro">Introduction</a></li>
-				<li>
-	<ul class="easydoc-index">
-	</ul>
-				</li>
 				<li><a href="#easydoc-maven">Maven integration</a></li>
 				<li>
 	<ul class="easydoc-index">
-				<li>
-	<ul class="easydoc-index">
-	</ul>
-				</li>
-				<li>
-	<ul class="easydoc-index">
-	</ul>
-				</li>
-				<li>
-	<ul class="easydoc-index">
-	</ul>
-				</li>
-				<li>
-	<ul class="easydoc-index">
-	</ul>
-				</li>
-				<li>
-	<ul class="easydoc-index">
-	</ul>
-				</li>
 				<li><a href="#easydoc-maven-source-browser">sourceBrowser</a></li>
-				<li>
-	<ul class="easydoc-index">
-				<li>
-	<ul class="easydoc-index">
-	</ul>
-				</li>
-				<li>
-	<ul class="easydoc-index">
-	</ul>
-				</li>
-	</ul>
-				</li>
 				<li><a href="#easydoc-maven-encoding">encoding</a></li>
-				<li>
-	<ul class="easydoc-index">
-	</ul>
-				</li>
-				<li>
-	<ul class="easydoc-index">
-	</ul>
-				</li>
 				<li><a href="#easydoc-maven-default-format">defaultFormat</a></li>
-				<li>
-	<ul class="easydoc-index">
-	</ul>
-				</li>
+				<li><a href="#easydoc-maven-combine-with">combineWith</a></li>
 	</ul>
 				</li>
 				<li><a href="#easydoc-commandline">Running from command line</a></li>
-				<li>
-	<ul class="easydoc-index">
-	</ul>
-				</li>
 				<li><a href="#easydoc-usage">Usage</a></li>
 				<li>
 	<ul class="easydoc-index">
 				<li><a href="#easydoc-parameters">Parameters</a></li>
-				<li>
-	<ul class="easydoc-index">
-				<li>
-	<ul class="easydoc-index">
-	</ul>
-				</li>
-				<li>
-	<ul class="easydoc-index">
-	</ul>
-				</li>
-				<li>
-	<ul class="easydoc-index">
-	</ul>
-				</li>
-	</ul>
-				</li>
 				<li><a href="#easydoc-index">Index generation</a></li>
-				<li>
-	<ul class="easydoc-index">
-	</ul>
-				</li>
 	</ul>
 				</li>
 				<li><a href="#easydoc-advanced">Advanced</a></li>
 				<li>
 	<ul class="easydoc-index">
+				<li><a href="#easydoc-combine">Combining docs</a></li>
 				<li><a href="#easydoc-advanced-params">Additional parameters</a></li>
 				<li>
 	<ul class="easydoc-index">
 				<li><a href="#easydoc-format-param">format</a></li>
-				<li>
-	<ul class="easydoc-index">
-	</ul>
-				</li>
 	</ul>
 				</li>
 				<li><a href="#easydoc-directives">Directives</a></li>
-				<li>
-	<ul class="easydoc-index">
-				<li>
-	<ul class="easydoc-index">
-	</ul>
-				</li>
-	</ul>
-				</li>
 	</ul>
 				</li>
 	</ul>
@@ -224,7 +142,7 @@ pre {
 					target="_blank">source</a>
 			</p>
 	</p>
-	<!-- Generated from src/main/java/com/github/easydoc/EasydocMojo.java:40 -->
+	<!-- Generated from src/main/java/com/github/easydoc/EasydocMojo.java:51 -->
 	<p>
 			<a name="easydoc-maven"></a>
 		<h1>Maven integration</h1>
@@ -234,7 +152,7 @@ pre {
 <pre><code>&lt;plugin&gt;
     &lt;groupId&gt;com.github.weekens&lt;/groupId&gt;
     &lt;artifactId&gt;easydoc-maven-plugin&lt;/artifactId&gt;
-    &lt;version&gt;0.3.14&lt;/version&gt;
+    &lt;version&gt;0.4.17&lt;/version&gt;
     &lt;executions&gt;
         &lt;execution&gt;
             &lt;goals&gt;
@@ -250,52 +168,49 @@ pre {
 
 			<p>
 				<a class="easydoc-source-link" 
-					href="https://github.com/weekens/easydoc/blob/master/src/main/java/com/github/easydoc/EasydocMojo.java#L40-61" 
+					href="https://github.com/weekens/easydoc/blob/master/src/main/java/com/github/easydoc/EasydocMojo.java#L51-72" 
 					target="_blank">source</a>
 			</p>
 	</p>
-	<!-- Generated from src/main/java/com/github/easydoc/EasydocMojo.java:67 -->
+	<!-- Generated from src/main/java/com/github/easydoc/EasydocMojo.java:78 -->
 	<p>
-		
-	 <h2>Plugin configuration</h2>
-	 
-	 Below are plugin configuration options that you can specify inside the <i>configuration</i> section
-	 of the plugin declaration.<br>
-	 
- <pre>
- 	&lt;plugin&gt;
-		&lt;groupId&gt;com.github&lt;/groupId&gt;
-		&lt;artifactId&gt;easydoc-maven-plugin&lt;/artifactId&gt;
-		&lt;version&gt;0.3.14&lt;/version&gt;
-		&lt;executions&gt;
-			&lt;execution&gt;
-				&lt;goals&gt;
-					&lt;goal&gt;generate&lt;/goal&gt;
-				&lt;/goals&gt;
-			&lt;/execution&gt;
-		&lt;/executions&gt;
-		<b>&lt;configuration&gt;
-		
-		  configuration options go here
-		
-		&lt;/configuration&gt;</b>
-	&lt;/plugin&gt;
- </pre>
-	 
-	 <h3>outputDirectory</h3>
-	 
-	 Specifies the output directory for the generated documentation.
-	 <br><br>
-	 <b>Default value:</b> target/easydoc
-	  
-	 
+		<h1>Plugin configuration</h1>
+
+<p>Below are plugin configuration options that you can specify inside the <i>configuration</i> section
+of the plugin declaration.<br></p>
+
+<pre><code>&lt;plugin&gt;
+    &lt;groupId&gt;com.github&lt;/groupId&gt;
+    &lt;artifactId&gt;easydoc-maven-plugin&lt;/artifactId&gt;
+    &lt;version&gt;0.4.17&lt;/version&gt;
+    &lt;executions&gt;
+        &lt;execution&gt;
+            &lt;goals&gt;
+                &lt;goal&gt;generate&lt;/goal&gt;
+            &lt;/goals&gt;
+        &lt;/execution&gt;
+    &lt;/executions&gt;
+    &lt;b&gt;&lt;configuration&gt;
+
+      configuration options go here
+
+    &lt;/configuration&gt;&lt;/b&gt;
+&lt;/plugin&gt;
+</code></pre>
+
+<h3>outputDirectory</h3>
+
+<p>Specifies the output directory for the generated documentation.</p>
+
+<p><strong>Default value:</strong> <code>target/easydoc</code></p>
+
 			<p>
 				<a class="easydoc-source-link" 
-					href="https://github.com/weekens/easydoc/blob/master/src/main/java/com/github/easydoc/EasydocMojo.java#L67-99" 
+					href="https://github.com/weekens/easydoc/blob/master/src/main/java/com/github/easydoc/EasydocMojo.java#L78-109" 
 					target="_blank">source</a>
 			</p>
 	</p>
-	<!-- Generated from src/main/java/com/github/easydoc/EasydocMojo.java:103 -->
+	<!-- Generated from src/main/java/com/github/easydoc/EasydocMojo.java:116 -->
 	<p>
 		
 	 <h3>inputDirectory</h3>
@@ -306,11 +221,11 @@ pre {
 	 
 			<p>
 				<a class="easydoc-source-link" 
-					href="https://github.com/weekens/easydoc/blob/master/src/main/java/com/github/easydoc/EasydocMojo.java#L103-109" 
+					href="https://github.com/weekens/easydoc/blob/master/src/main/java/com/github/easydoc/EasydocMojo.java#L116-122" 
 					target="_blank">source</a>
 			</p>
 	</p>
-	<!-- Generated from src/main/java/com/github/easydoc/EasydocMojo.java:113 -->
+	<!-- Generated from src/main/java/com/github/easydoc/EasydocMojo.java:126 -->
 	<p>
 		
 	 <h3>excludes</h3>
@@ -319,11 +234,11 @@ pre {
 	 
 			<p>
 				<a class="easydoc-source-link" 
-					href="https://github.com/weekens/easydoc/blob/master/src/main/java/com/github/easydoc/EasydocMojo.java#L113-117" 
+					href="https://github.com/weekens/easydoc/blob/master/src/main/java/com/github/easydoc/EasydocMojo.java#L126-130" 
 					target="_blank">source</a>
 			</p>
 	</p>
-	<!-- Generated from src/main/java/com/github/easydoc/EasydocMojo.java:121 -->
+	<!-- Generated from src/main/java/com/github/easydoc/EasydocMojo.java:134 -->
 	<p>
 		
 	 <h3>includes</h3>
@@ -333,11 +248,11 @@ pre {
 	 
 			<p>
 				<a class="easydoc-source-link" 
-					href="https://github.com/weekens/easydoc/blob/master/src/main/java/com/github/easydoc/EasydocMojo.java#L121-126" 
+					href="https://github.com/weekens/easydoc/blob/master/src/main/java/com/github/easydoc/EasydocMojo.java#L134-139" 
 					target="_blank">source</a>
 			</p>
 	</p>
-	<!-- Generated from src/main/java/com/github/easydoc/EasydocMojo.java:130 -->
+	<!-- Generated from src/main/java/com/github/easydoc/EasydocMojo.java:143 -->
 	<p>
 		
 	 <h3>customCss</h3>
@@ -346,11 +261,11 @@ pre {
 	 
 			<p>
 				<a class="easydoc-source-link" 
-					href="https://github.com/weekens/easydoc/blob/master/src/main/java/com/github/easydoc/EasydocMojo.java#L130-134" 
+					href="https://github.com/weekens/easydoc/blob/master/src/main/java/com/github/easydoc/EasydocMojo.java#L143-147" 
 					target="_blank">source</a>
 			</p>
 	</p>
-	<!-- Generated from src/main/java/com/github/easydoc/EasydocMojo.java:138 -->
+	<!-- Generated from src/main/java/com/github/easydoc/EasydocMojo.java:151 -->
 	<p>
 			<a name="easydoc-maven-source-browser"></a>
 		
@@ -377,7 +292,7 @@ pre {
 	 
 			<p>
 				<a class="easydoc-source-link" 
-					href="https://github.com/weekens/easydoc/blob/master/src/main/java/com/github/easydoc/EasydocMojo.java#L138-159" 
+					href="https://github.com/weekens/easydoc/blob/master/src/main/java/com/github/easydoc/EasydocMojo.java#L151-172" 
 					target="_blank">source</a>
 			</p>
 	</p>
@@ -423,7 +338,7 @@ You need to check your Fisheye repository path by just going to the 'Source' sec
 					target="_blank">source</a>
 			</p>
 	</p>
-	<!-- Generated from src/main/java/com/github/easydoc/EasydocMojo.java:163 -->
+	<!-- Generated from src/main/java/com/github/easydoc/EasydocMojo.java:176 -->
 	<p>
 			<a name="easydoc-maven-encoding"></a>
 		
@@ -435,11 +350,11 @@ You need to check your Fisheye repository path by just going to the 'Source' sec
 	
 			<p>
 				<a class="easydoc-source-link" 
-					href="https://github.com/weekens/easydoc/blob/master/src/main/java/com/github/easydoc/EasydocMojo.java#L163-169" 
+					href="https://github.com/weekens/easydoc/blob/master/src/main/java/com/github/easydoc/EasydocMojo.java#L176-182" 
 					target="_blank">source</a>
 			</p>
 	</p>
-	<!-- Generated from src/main/java/com/github/easydoc/EasydocMojo.java:182 -->
+	<!-- Generated from src/main/java/com/github/easydoc/EasydocMojo.java:195 -->
 	<p>
 		
 	<h3>generateIndex</h3>
@@ -449,11 +364,11 @@ You need to check your Fisheye repository path by just going to the 'Source' sec
 	
 			<p>
 				<a class="easydoc-source-link" 
-					href="https://github.com/weekens/easydoc/blob/master/src/main/java/com/github/easydoc/EasydocMojo.java#L182-187" 
+					href="https://github.com/weekens/easydoc/blob/master/src/main/java/com/github/easydoc/EasydocMojo.java#L195-200" 
 					target="_blank">source</a>
 			</p>
 	</p>
-	<!-- Generated from src/main/java/com/github/easydoc/EasydocMojo.java:194 -->
+	<!-- Generated from src/main/java/com/github/easydoc/EasydocMojo.java:207 -->
 	<p>
 			<a name="easydoc-maven-default-format"></a>
 		
@@ -464,7 +379,77 @@ You need to check your Fisheye repository path by just going to the 'Source' sec
 	
 			<p>
 				<a class="easydoc-source-link" 
-					href="https://github.com/weekens/easydoc/blob/master/src/main/java/com/github/easydoc/EasydocMojo.java#L194-199" 
+					href="https://github.com/weekens/easydoc/blob/master/src/main/java/com/github/easydoc/EasydocMojo.java#L207-212" 
+					target="_blank">source</a>
+			</p>
+	</p>
+	<!-- Generated from src/main/java/com/github/easydoc/EasydocMojo.java:225 -->
+	<p>
+		
+	<h3>generateArtifact</h3>
+	
+	By default, Easydoc will generate an additional artifact for your documentation,
+	containing the generated pages along with docs model metadata. You can disable it
+	by setting this parameter to <code>false</code>.
+	
+			<p>
+				<a class="easydoc-source-link" 
+					href="https://github.com/weekens/easydoc/blob/master/src/main/java/com/github/easydoc/EasydocMojo.java#L225-231" 
+					target="_blank">source</a>
+			</p>
+	</p>
+	<!-- Generated from src/main/java/com/github/easydoc/EasydocMojo.java:235 -->
+	<p>
+		
+	<h3>artifactClassifier</h3>
+	
+	With this parameter, you may explicitly specify a classifier for an artifact, 
+	generated by Easydoc.
+	
+			<p>
+				<a class="easydoc-source-link" 
+					href="https://github.com/weekens/easydoc/blob/master/src/main/java/com/github/easydoc/EasydocMojo.java#L235-240" 
+					target="_blank">source</a>
+			</p>
+	</p>
+	<!-- Generated from src/main/java/com/github/easydoc/EasydocMojo.java:244 -->
+	<p>
+			<a name="easydoc-maven-combine-with"></a>
+		<h3>combineWith</h3>
+
+<p>Specifies Easydoc artifacts of other projects to be combined with current project
+<a href="#easydoc-combine">Combining docs</a>.</p>
+
+<p>The configuration looks like this:</p>
+
+<pre><code>&lt;configuration&gt;
+    ...
+    &lt;combineWith&gt;
+        &lt;item&gt;
+            &lt;groupId&gt;com.mycompany&lt;/groupId&gt;
+            &lt;artifactId&gt;my-remote-project&lt;/artifactId&gt;
+            &lt;version&gt;0.0.1-SNAPSHOT&lt;/version&gt;
+        &lt;/item&gt;
+        &lt;item&gt;
+            &lt;groupId&gt;com.mycompany&lt;/groupId&gt;
+            &lt;artifactId&gt;my-other-project&lt;/artifactId&gt;
+            &lt;version&gt;0.0.1-SNAPSHOT&lt;/version&gt;
+        &lt;/item&gt;
+        &lt;item&gt;
+            &lt;groupId&gt;com.mycompany&lt;/groupId&gt;
+            &lt;artifactId&gt;my-other-project&lt;/artifactId&gt;
+            &lt;version&gt;0.0.1-SNAPSHOT&lt;/version&gt;
+            &lt;classifier&gt;optionalClassifier&lt;/classifier&gt;
+        &lt;/item&gt;
+        ...
+    &lt;/combineWith&gt;
+    ...
+&lt;/configuration&gt;
+</code></pre>
+
+			<p>
+				<a class="easydoc-source-link" 
+					href="https://github.com/weekens/easydoc/blob/master/src/main/java/com/github/easydoc/EasydocMojo.java#L244-275" 
 					target="_blank">source</a>
 			</p>
 	</p>
@@ -667,6 +652,61 @@ some of the things from here you may find useful.  </p>
 					target="_blank">source</a>
 			</p>
 	</p>
+	<!-- Generated from src/main/java/com/github/easydoc/EasydocMojo.java:418 -->
+	<p>
+			<a name="easydoc-combine"></a>
+		<h1>Combining docs</h1>
+
+<p>Sometimes you need to combine docs from different project into one single documentation site (page).
+This section describes how you can easily do that.</p>
+
+<p>By default, Easydoc generates an additional artifact for your documentation named 
+<your_default_artifact_name>-easydoc.jar. This artifact is installed, deployed and tracked by
+Maven just like any other one.</p>
+
+<p>So, for the remote project documentation that you need to combine with the current, you already have
+a special Maven artifact, and the only thing that is left is to declare that artifact as a dependency.
+But not in the Maven <code>&lt;dependencies&gt;</code> section, but in Easydoc configuration element: 
+<a href="#easydoc-maven-combine-with">combineWith</a>.</p>
+
+<p>After you've done that - the documenation from the remote project will get to your current project's
+documentation page. More over, you can interact with docs from the remote project - use them in 
+<code>@@include@@</code> directives and <code>belongs</code> parameters - because the artifact contains not only the
+generated text, but the data model of the remote docs.</p>
+
+<p>Example:</p>
+
+<p>You've got 2 projects: my-lib and my-webapp (group id: <code>com.mycompany</code>, version 0.0.1-SNAPSHOT). 
+Both are documented with Easydoc. But you need documentation from my-lib to be present in 
+documentation page of my-webapp. You do the following:</p>
+
+<ol>
+<li><p>Build my-lib. The artifact my-lib-0.0.1-SNAPSHOT-easydoc.jar gets installed into local repository
+(or deployed into remote repository).</p></li>
+<li><p>Specify the artifact from step 1 in <a href="#easydoc-maven-combine-with">combineWith</a> parameter of 
+Easydoc plugin configuration in my-webapp:</p>
+
+<pre><code>&lt;configuration&gt;
+    ...
+    &lt;combineWith&gt;
+        &lt;item&gt;
+            &lt;groupId&gt;com.mycompany&lt;/groupId&gt;
+            &lt;artifactId&gt;my-lib&lt;/artifactId&gt;
+            &lt;version&gt;0.0.1-SNAPSHOT&lt;/version&gt;
+        &lt;/item&gt;
+    &lt;/combineWith&gt;
+    ...
+&lt;/configuration&gt;
+</code></pre></li>
+<li><p>Build my-webapp. The documentation of my-webapp will now contain documentation from my-lib.</p></li>
+</ol>
+
+			<p>
+				<a class="easydoc-source-link" 
+					href="https://github.com/weekens/easydoc/blob/master/src/main/java/com/github/easydoc/EasydocMojo.java#L418-465" 
+					target="_blank">source</a>
+			</p>
+	</p>
 	<!-- Generated from src/main/java/com/github/easydoc/semantics/paramrule/FormatParamRule.java:21 -->
 	<p>
 			<a name="easydoc-advanced-params"></a>
@@ -770,7 +810,7 @@ I'm a normal doc.  I'm a doc to include.
 		
 		<div class="easydoc-footer">
 			Generated by <a href="https://github.com/weekens/easydoc">Easydoc</a> 
-			version 0.3.15-SNAPSHOT.
+			version 0.4.18-SNAPSHOT.
 		</div>
 	</body>
 </html>
