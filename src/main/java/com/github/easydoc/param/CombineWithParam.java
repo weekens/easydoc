@@ -4,6 +4,7 @@ public class CombineWithParam {
 	private String groupId;
 	private String artifactId;
 	private String version;
+	private String classifier;
 	
 	public String getGroupId() {
 		return groupId;
@@ -22,6 +23,12 @@ public class CombineWithParam {
 	}
 	public void setVersion(String version) {
 		this.version = version;
+	}
+	public String getClassifier() {
+		return classifier;
+	}
+	public void setClassifier(String classifier) {
+		this.classifier = classifier;
 	}
 	@Override
 	public String toString() {
