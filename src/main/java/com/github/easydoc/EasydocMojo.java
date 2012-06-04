@@ -201,9 +201,6 @@ public class EasydocMojo extends AbstractMojo {
 	@MojoParameter
 	private Boolean generateIndex = true;
 	
-	@MojoParameter(expression = "${project.name}")
-	private String projectName;
-	
 	/*@@easydoc-start, id=easydoc-maven-default-format, belongs=easydoc-maven@@
 	<h3>defaultFormat</h3>
 	
@@ -357,7 +354,7 @@ public class EasydocMojo extends AbstractMojo {
 					freemarkerModel.put("indexText", new IndexTextMethod());
 					freemarkerModel.put("generateIndex", generateIndex);
 					
-					freemarkerModel.put("projectName", projectName);
+					freemarkerModel.put("projName", mavenProject.getName());
 					
 					template.process(freemarkerModel, out);
 				}

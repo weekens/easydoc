@@ -10,7 +10,7 @@ import java.util.Map;
 import com.github.easydoc.model.criteria.DocSearchCriteria;
 
 public class Model implements Serializable {
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 2L;
 		
 	private DocTree doctree = new DocTree();
 	private transient DocTree rawDocs = new DocTree();

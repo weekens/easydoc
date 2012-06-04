@@ -42,8 +42,8 @@
 <html>
 	<head>
 		<meta http-equiv="content-type" content="text/html; charset=${encoding}">
-		<#if projectName??>
-			<title>${projectName} documentation</title>
+		<#if projName??>
+			<title>${projName} documentation</title>
 		<#else>
 			<title>Documentation</title>
 		</#if>
