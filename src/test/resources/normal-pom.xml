@@ -12,6 +12,18 @@
   
   <!-- @@easydoc-start@@@@include, id=doc1@@@@easydoc-end@@ -->
   
+  <!-- @@easydoc-start, id=doc2, belongs=doc1@@
+  
+  Another doc.
+   
+  @@easydoc-end@@-->
+  
+  <!-- @@easydoc-start, id=doc3, belongs=doc2@@
+  
+  Doc number 3.
+   
+  @@easydoc-end@@-->
+  
   <build>
   	<plugins>
   		<plugin>

@@ -73,6 +73,7 @@ public class BelongsParamRule implements ParamRule {
 		Doc parent = (Doc)validationResult.getData();
 		doc.setParent(parent);
 		parent.addChild(doc);
+		model.getDocTree().removeRoot(doc); //this doc is not a root anymore
 	}
 
 }

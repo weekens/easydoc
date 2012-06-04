@@ -34,7 +34,7 @@ public class ParseDocumentationFileAction implements FileAction {
 				log.info(String.format("%d docs found in file %s", docs.size(), file.getAbsolutePath()));
 			}
 			log.debug("Resulting docs: " + docs);
-			model.addDocs(docs);
+			model.addRawDocs(docs);
 		} catch (Exception e) {
 			throw new FileActionException("Failed to process file " + file.getAbsolutePath(), e);
 		} 

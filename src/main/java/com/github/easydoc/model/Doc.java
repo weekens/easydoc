@@ -152,6 +152,12 @@ public class Doc implements Comparable<Doc>, Serializable {
 				items, params, id,
 				(parent != null ? parent.getId() : null), sourceLink, weight);
 	}
+	
+	public Object toShortString() {
+		return String.format("Doc [params=%s, id=%s, parent=%s, sourceLink=%s, weight=%d]", 
+				params, id,
+				(parent != null ? parent.getId() : null), sourceLink, weight);
+	}
 
 	@Override
 	public int compareTo(Doc doc) {

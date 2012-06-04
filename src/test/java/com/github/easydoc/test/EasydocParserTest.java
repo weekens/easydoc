@@ -61,7 +61,7 @@ public class EasydocParserTest {
 		EasydocParser parser = new EasydocParser(new CommonTokenStream(lexer));
 		List<Doc> docs = parser.document();
 		
-		Assert.assertEquals(2, docs.size());
+		Assert.assertEquals(4, docs.size());
 		Doc doc = docs.get(0);
 		Assert.assertEquals("doc1", doc.getParams().get("id"));
 		Assert.assertTrue(doc.getText().contains("Documentation in pom.xml"));

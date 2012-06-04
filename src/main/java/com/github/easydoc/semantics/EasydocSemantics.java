@@ -2,15 +2,14 @@ package com.github.easydoc.semantics;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.EnumSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import com.github.easydoc.model.Directive;
 import com.github.easydoc.model.Doc;
 import com.github.easydoc.model.Model;
-import com.github.easydoc.model.criteria.DocSearchCriteria;
 import com.github.easydoc.semantics.directiverule.DirectiveRule;
 import com.github.easydoc.semantics.directiverule.IncludeDirectiveRule;
 import com.github.easydoc.semantics.exception.EasydocSemanticException;
@@ -163,7 +162,12 @@ Simple text and a directive: <b title="This is a directive">\@\@include, id=doc-
 		CompilationResult result = new CompilationResult(true, model);
 		EnumSet<Param> defaultValueParams = Param.getParamsWithDefaultValues();
 		
-		for(Doc doc : model.getDocs()) {
+		Iterator<Doc> rawIter = model.getRawDocs().iterator();
+		while(rawIter.hasNext()) {
+			Doc doc = rawIter.next();
+			rawIter.remove();
+			model.getDocTree().addRoot(doc);
+			
 			try {
 				//try to apply default values
 				for(Param p : defaultValueParams) {
@@ -180,15 +184,7 @@ Simple text and a directive: <b title="This is a directive">\@\@include, id=doc-
 			}
 		}
 		
-		List<Doc> rootDocs = model.findDocs(new DocSearchCriteria() {
-			@Override
-			public boolean satisfies(Doc item) {
-				return item.getParent() == null;
-			}
-		});
-		for(Doc doc : rootDocs) {
-			sortChildren(doc);
-		}
+		model.getDocTree().sort();
 		
 		return result;
 	}
@@ -233,12 +229,5 @@ Simple text and a directive: <b title="This is a directive">\@\@include, id=doc-
 			}
 			paramRule.run(paramEntry.getValue(), doc, model, result);
 		}
-	}
-	
-	private void sortChildren(Doc doc) {
-		Collections.sort(doc.getChildren());
-		for(Doc child : doc.getChildren()) {
-			sortChildren(child);
-		}
-	}
+	}	
 }

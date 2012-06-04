@@ -297,7 +297,7 @@ public class EasydocMojo extends AbstractMojo {
 			if(combineWith != null && combineWith.size() > 0) {
 				for(CombineWithParam cwParam : combineWith) {
 					Model combineModel = loadCombineDependency(cwParam);
-					model.addDocs(combineModel.getDocs());
+					model.getDocTree().addRoots(combineModel.getDocTree().getRoots());
 				}
 				getLog().debug("Combine model = " + model);
 			}
@@ -315,7 +315,7 @@ public class EasydocMojo extends AbstractMojo {
 			//and also recursively in inputDirectory
 			recurseDirectory(toRelativeFile(currentDirectory, inputDirectory), fileAction);
 			
-			if(model.getDocs().isEmpty()) {
+			if(model.isEmpty()) {
 				getLog().debug("No docs were found. Skipping execution.");
 				return;
 			}

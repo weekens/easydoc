@@ -2,7 +2,9 @@ package com.github.easydoc.test;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 
 import org.antlr.runtime.ANTLRInputStream;
@@ -38,7 +40,7 @@ public class EasydocSemanticsTest {
 		Doc child2 = new Doc();
 		child2.getParams().put("belongs", "parent-doc");
 		docList.add(child2);
-		model.addDocs(docList);
+		model.addRawDocs(docList);
 		
 		EasydocSemantics sem = new EasydocSemantics();
 		CompilationResult result = sem.compileModel(model);
@@ -54,7 +56,7 @@ public class EasydocSemanticsTest {
 		Doc doc = new Doc();
 		doc.getParams().put("id", "doc-id");
 		doc.getParams().put("parameter-that-will-never-exist", "value");
-		model.addDocs(Collections.singletonList(doc));
+		model.addRawDocs(Collections.singletonList(doc));
 		
 		EasydocSemantics sem = new EasydocSemantics();
 		CompilationResult result = sem.compileModel(model);
@@ -67,7 +69,7 @@ public class EasydocSemanticsTest {
 		Model model = new Model();
 		Doc doc = new Doc();
 		doc.getParams().put("belongs", "some-unexistent-id");
-		model.addDocs(Collections.singletonList(doc));
+		model.addRawDocs(Collections.singletonList(doc));
 		
 		EasydocSemantics sem = new EasydocSemantics();
 		CompilationResult result = sem.compileModel(model);
@@ -80,7 +82,7 @@ public class EasydocSemanticsTest {
 		Model model = new Model();
 		Doc doc = new Doc();
 		doc.getParams().put("id", null);
-		model.addDocs(Collections.singletonList(doc));
+		model.addRawDocs(Collections.singletonList(doc));
 		
 		EasydocSemantics sem = new EasydocSemantics();
 		CompilationResult result = sem.compileModel(model);
@@ -116,7 +118,7 @@ public class EasydocSemanticsTest {
 		
 		List<Doc> docList = new ArrayList<Doc>();
 		Collections.addAll(docList, root1, root2, root2Child1, root2Child2, root2Child3, root2Child4);
-		model.addDocs(docList);
+		model.addRawDocs(docList);
 		
 		EasydocSemantics sem = new EasydocSemantics();
 		CompilationResult result = sem.compileModel(model);
@@ -140,7 +142,7 @@ public class EasydocSemanticsTest {
 		Doc doc = new Doc();
 		doc.setText("Hi! This # is a text # with @ some hashes @nd other stuff...");
 		doc.getParams().put("ignore", "#@.");
-		model.addDocs(Collections.singletonList(doc));
+		model.addRawDocs(Collections.singletonList(doc));
 		
 		EasydocSemantics sem = new EasydocSemantics();
 		CompilationResult result = sem.compileModel(model);
@@ -168,7 +170,7 @@ public class EasydocSemanticsTest {
 				})
 		);
 		
-		model.addDocs(Arrays.asList(new Doc[] { toInclude, doc }));
+		model.addRawDocs(Arrays.asList(new Doc[] { toInclude, doc }));
 		
 		EasydocSemantics sem = new EasydocSemantics();
 		CompilationResult result = sem.compileModel(model);
@@ -198,7 +200,7 @@ public class EasydocSemanticsTest {
 				})
 		);
 		
-		model.addDocs(Arrays.asList(new Doc[] { toInclude, doc }));
+		model.addRawDocs(Arrays.asList(new Doc[] { toInclude, doc }));
 		
 		EasydocSemantics sem = new EasydocSemantics();
 		CompilationResult result = sem.compileModel(model);
@@ -215,7 +217,7 @@ public class EasydocSemanticsTest {
 		List<Doc> docs = parser.document();
 		
 		Model model = new Model();
-		model.addDocs(docs);
+		model.addRawDocs(docs);
 		
 		EasydocSemantics semantics = new EasydocSemantics();
 		CompilationResult compilationResult = semantics.compileModel(model);
@@ -224,9 +226,14 @@ public class EasydocSemanticsTest {
 				compilationResult.isPositive()
 		);
 		
-		Assert.assertEquals(2, model.getDocs().size());
-		Doc doc2 = model.getDocs().get(1);
-		Assert.assertEquals(model.getDocs().get(0).getText(), doc2.getText());
+		Assert.assertTrue(model.getRawDocs().isEmpty());
+		Assert.assertFalse(model.isEmpty());
+		
+		Assert.assertEquals(2, model.getDocTree().getRoots().size());
+		Iterator<Doc> iterator = model.getDocTree().getRoots().iterator();
+		Doc doc1 = iterator.next();
+		Doc doc2 = iterator.next();
+		Assert.assertEquals(doc1.getText(), doc2.getText());
 	}
 	
 	@Test
@@ -236,7 +243,7 @@ public class EasydocSemanticsTest {
 		doc.getParams().put("format", "markdown");
 		
 		Model model = new Model();
-		model.addDocs(Collections.singletonList(doc));
+		model.addRawDocs(Collections.singletonList(doc));
 		
 		EasydocSemantics semantics = new EasydocSemantics();
 		CompilationResult compilationResult = semantics.compileModel(model);
@@ -245,15 +252,15 @@ public class EasydocSemanticsTest {
 				compilationResult.isPositive()
 		);
 		
-		List<Doc> docs = compilationResult.getModel().getDocs();
-		Assert.assertEquals(1, docs.size());
+		Collection<Doc> roots = compilationResult.getModel().getDocTree().getRoots();
+		Assert.assertEquals(1, roots.size());
 		Assert.assertEquals(
 				"<pre><code>abc\n" +
 				"</code></pre>\n\n" +
 				"<p>Second line\nThird line</p>\n\n" +
 				"<pre><code>Line 4 (code)\n</code></pre>\n\n" +
 				"<p>  Line 5 (other indentation)</p>\n", 
-				docs.get(0).getText()
+				roots.iterator().next().getText()
 		);
 	}
 }

@@ -3,7 +3,6 @@ package com.github.easydoc.model;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -12,52 +11,42 @@ import com.github.easydoc.model.criteria.DocSearchCriteria;
 
 public class Model implements Serializable {
 	private static final long serialVersionUID = 1L;
-	
-	private List<Doc> docs = new ArrayList<Doc>();
+		
+	private DocTree doctree = new DocTree();
+	private transient DocTree rawDocs = new DocTree();
 	
 	public List<Doc> findDocs(DocSearchCriteria criteria) {
 		List<Doc> ret = new ArrayList<Doc>();
-		for(Doc doc : docs) {
-			if(criteria.satisfies(doc)) {
-				ret.add(doc);
-			}
-		}
+		ret.addAll(rawDocs.find(criteria));
+		ret.addAll(doctree.find(criteria));
 		return ret;
 	}
 
-	public List<Doc> getDocs() {
-		return docs;
+	public void addRawDocs(List<Doc> docs) {
+		rawDocs.addRoots(docs);
 	}
-
-	public void addDocs(List<Doc> docs) {
-		this.docs.addAll(docs);
+	
+	public Collection<Doc> getRawDocs() {
+		return rawDocs.getRoots();
 	}
 	
 	public Map<String, Object> toFreemarkerModel() {
 		Map<String, Object> ret = new HashMap<String, Object>();
-		ret.put("docs", docs);
-		ret.put("doctree", docTree());
+		ret.put("doctree", doctree.getRoots());
 		return ret;
 	}
 
-	private Collection<Doc> docTree() {
-		List<Doc> ret = new ArrayList<Doc>();
-		
-		// Add all root docs to this list. Other docs can be traversed with getChildren()
-		for(Doc doc : docs) {
-			if(doc.getParent() == null) { //root doc
-				ret.add(doc);
-			}
-		}
-		
-		Collections.sort(ret);
-		
-		return ret;
+	public DocTree getDocTree() {
+		return doctree;
 	}
 
 	@Override
 	public String toString() {
-		return String.format("Model [docs=%s]", docs);
+		return String.format("Model [doctree=%s, rawDocs=%s]", doctree, rawDocs);
+	}
+	
+	public boolean isEmpty() {
+		return rawDocs.isEmpty() && doctree.isEmpty();
 	}
 
 }

@@ -14,4 +14,9 @@ public class DocTextItem implements DocItem {
 		return text;
 	}
 
+	@Override
+	public String toString() {
+		return getText();
+	}
+
 }
