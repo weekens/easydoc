@@ -2,12 +2,14 @@ package com.github.easydoc.test;
 
 import java.io.File;
 import java.lang.reflect.Field;
+import java.util.List;
 
 import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.Assert;
 import org.junit.Test;
 
 import com.github.easydoc.CommandLineMojoUtils;
+import com.github.easydoc.CommandLineMojoUtils.InvalidArgException;
 import com.github.easydoc.EasydocMojo;
 import com.github.easydoc.param.SourceBrowserParam;
 
@@ -59,5 +61,28 @@ public class CommandLineMojoUtilsTest {
 		
 		Object sourceBrowserActual = getFieldValue(mojo, "sourceBrowser");
 		Assert.assertEquals(sourceBrowserExpected, sourceBrowserActual);
+	}
+	
+	@Test(expected = InvalidArgException.class)
+	public void testMalformedObjectParameter() throws Exception {
+		String sourceBrowserJson = "{\"baseUrl\": malformed";
+		String[] args = new String[] { "sourceBrowser=" + sourceBrowserJson };
+		EasydocMojo mojo = new EasydocMojo();
+		CommandLineMojoUtils.injectMojoProperties(mojo, args);
+	}
+	
+	@Test
+	public void testArrayParameter() throws Exception {
+		String excludesJson = "[\"abc*\", \"def*\"]";
+		String[] args = new String[] { "excludes=" + excludesJson };
+		EasydocMojo mojo = new EasydocMojo();
+		CommandLineMojoUtils.injectMojoProperties(mojo, args);
+		
+		ObjectMapper om = new ObjectMapper();
+		String[] excludesArray = om.readValue(excludesJson.getBytes(), String[].class);
+		
+		Object excludesActual = getFieldValue(mojo, "excludes");
+		
+		Assert.assertArrayEquals(excludesArray, ((List<?>)excludesActual).toArray());
 	}
 }
