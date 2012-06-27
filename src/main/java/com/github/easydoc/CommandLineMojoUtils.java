@@ -122,7 +122,6 @@ public class CommandLineMojoUtils {
 				throw new InvalidArgException(field.getName());
 			}
 		}
-		//TODO: handle lists
 	}
 
 	private static boolean isPrimitive(Class<?> type) {
