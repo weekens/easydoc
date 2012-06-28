@@ -15,6 +15,9 @@ import java.util.Properties;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
+import net.sf.jmimemagic.Magic;
+import net.sf.jmimemagic.MagicMatch;
+
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.maven.execution.MavenSession;
@@ -543,8 +546,21 @@ public class EasydocMojo extends AbstractMojo {
 			}
 
 			if(file.isFile()) {
+				//try to define MIME type of the file to skip binary files
+				MagicMatch mimeMatch = null;
 				try {
-					action.run(file);
+					mimeMatch = Magic.getMagicMatch(file, true, false);
+				} catch (Exception e) {
+					getLog().debug("Cannot define mime type for file " + file + ": " + e.getMessage());
+				}
+				
+				try {
+					if(mimeMatch == null || mimeMatch.getMimeType().startsWith("text/")) {
+						action.run(file);
+					}
+					else {
+						getLog().debug("Skipping binary file " + file);
+					}
 				}
 				catch(FileActionException e) {
 					getLog().warn("Error", e);
