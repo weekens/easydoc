@@ -110,7 +110,10 @@ public class EasydocMojo extends AbstractMojo {
 	**Default value:** `target/easydoc`
 	  
 	@@easydoc-end@@*/
-	@MojoParameter(required = true,	expression = "${project.build.directory}/easydoc")
+	@MojoParameter(
+			required = true, 
+			expression = "${project.build.directory}/easydoc", 
+			description = "A directory, where resulting HTML will be generated.")
 	private File outputDirectory;
 	
 	@MojoParameter(required = true,	expression = "${project.build.directory}/easydoc-dependencies")
@@ -123,7 +126,10 @@ public class EasydocMojo extends AbstractMojo {
 	 <br><br>
 	 <b>Default value:</b> src
 	 @@easydoc-end@@*/
-	@MojoParameter(required = true,	expression = "${basedir}/src")
+	@MojoParameter(
+			required = true, 
+			expression = "${basedir}/src",
+			description = "An input directory with the sources to scan.")
 	private File inputDirectory;
 
 	/*@@easydoc-start, belongs=easydoc-maven@@
@@ -131,7 +137,7 @@ public class EasydocMojo extends AbstractMojo {
 	 
 	 Files or directories that should be excluded from the scan. Follows the standard Maven path pattern syntax.
 	 @@easydoc-end@@*/
-	@MojoParameter
+	@MojoParameter(description = "A list of files/directories to exclude from scan. Example: [\"src/resources/*\", \"**/*.html\"]")
 	private List<String> excludes = new ArrayList<String>();
 	
 	/*@@easydoc-start, belongs=easydoc-maven@@
@@ -140,7 +146,7 @@ public class EasydocMojo extends AbstractMojo {
 	 Files or directories that should only be scanned. All the other files will be omited. Follows the 
 	 standard Maven path pattern syntax.
 	 @@easydoc-end@@*/
-	@MojoParameter
+	@MojoParameter(description = "A list of files/directories to scan. Everything else will be skipped. Example: [\"src/**/*.java\", \"**/*.properties\"]")
 	private List<String> includes;
 	
 	/*@@easydoc-start, belongs=easydoc-maven@@
@@ -148,7 +154,7 @@ public class EasydocMojo extends AbstractMojo {
 	 
 	 A custom CSS style to use in generated HTML. 
 	 @@easydoc-end@@*/
-	@MojoParameter
+	@MojoParameter(description = "A CSS file with a custom styling for the generated HTML.")
 	private File customCss;
 	
 	/*@@easydoc-start, id=easydoc-maven-source-browser, belongs=easydoc-maven@@
@@ -173,7 +179,7 @@ public class EasydocMojo extends AbstractMojo {
 	 <i>baseUrl</i> and <i>type</i> are the essential parameters that you will need to specify. The following
 	 <i>type</i> values are supported so far: 
 	 @@easydoc-end@@*/
-	@MojoParameter
+	@MojoParameter(description = "How to generate source URLs. See the corresponding Maven parameter documentation for more info. Example: {\"baseUrl\":\"http://your.url.com/src\", \"type\":\"github\"}")
 	private SourceBrowserParam sourceBrowser;
 	
 	/*@@easydoc-start, id=easydoc-maven-encoding, belongs=easydoc-maven@@
@@ -183,7 +189,10 @@ public class EasydocMojo extends AbstractMojo {
 	If the <i>project.build.sourceEncoding</i> property is defined, it is used by default. Otherwise,
 	the default encoding setting is taken from JVM.
 	@@easydoc-end@@*/
-	@MojoParameter(expression = "${encoding}", defaultValue = "${project.build.sourceEncoding}")
+	@MojoParameter(
+			expression = "${encoding}", 
+			defaultValue = "${project.build.sourceEncoding}",
+			description = "Source encoding.")
 	private String encoding = Charset.defaultCharset().toString();
 
 	private AntPathMatcher pathMatcher = new AntPathMatcher();
@@ -201,7 +210,7 @@ public class EasydocMojo extends AbstractMojo {
 	If set to 'true' (default), Easydoc will generate index for the documentation.
 	If 'false', the index won't be generated.
 	@@easydoc-end@@*/
-	@MojoParameter
+	@MojoParameter(description = "Generates index (contents) in resulting HTML, if set to \"true\".")
 	private Boolean generateIndex = true;
 	
 	/*@@easydoc-start, id=easydoc-maven-default-format, belongs=easydoc-maven@@
@@ -210,7 +219,7 @@ public class EasydocMojo extends AbstractMojo {
 	Sets the default <a href="#easydoc-format-param">format</a> for the docs.
 	If not specified, 'html' is default.
 	@@easydoc-end@@*/
-	@MojoParameter
+	@MojoParameter(description = "A default doc format to use (see documentation).")
 	private String defaultFormat = "html";
 	
 	@MojoParameter(expression = "${project}", required = true, readonly = true)

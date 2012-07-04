@@ -8,6 +8,7 @@ import java.util.Set;
 import java.util.regex.Matcher;
 
 import org.apache.commons.lang.ClassUtils;
+import org.apache.commons.lang.StringUtils;
 import org.apache.maven.execution.MavenSession;
 import org.apache.maven.project.MavenProject;
 import org.codehaus.jackson.JsonProcessingException;
@@ -74,7 +75,7 @@ public class CommandLineMojoUtils {
 				if(mojoParameterAnno == null) continue;
 				
 				String expression = mojoParameterAnno.expression();
-				if(expression != null && !expression.isEmpty()) {
+				if(StringUtils.isNotBlank(expression)) {
 					injectValue(
 							mojo, 
 							field, 
@@ -128,5 +129,28 @@ public class CommandLineMojoUtils {
 		return type.equals(String.class) || 
 				type.isPrimitive() || 
 				ClassUtils.wrapperToPrimitive(type) != null;
+	}
+	
+	public static String generateHelp(EasydocMojo mojo) {
+		StringBuilder ret = new StringBuilder();
+		//check for required properties
+		for(Field field : mojo.getClass().getDeclaredFields()) {
+			MojoParameter mojoParameterAnno = field.getAnnotation(MojoParameter.class);
+			if(mojoParameterAnno == null) continue;
+			
+			String description = mojoParameterAnno.description();
+			if(StringUtils.isNotBlank(description)) {
+				ret.append(
+						String.format(
+								"--%s=<%s>\t%s\n\n", 
+								field.getName(),
+								field.getType().getSimpleName().toLowerCase(),
+								description
+						)
+				);
+			}
+		}
+		
+		return ret.toString();
 	}
 }
