@@ -13,14 +13,22 @@ java -jar easydoc.jar [inputDirectory=mysrc customCss=src/resources/my.css ...ot
 <br>
 Parameters, that you can optionally specify, are the same as in Maven plugin.
 <br><br>
-<b>Note:</b> Currently, only the simple string parameters are supported. Array parameters (such as
-includes and excludes) and structured parameters (such as sourceBrowser) support is coming soon.
+You can see parameters help saying:
+<pre>
+java -jar easydoc.jar --help
+</pre>
 @@easydoc-end@@*/
 public class EasydocMain {
 	
 	public static void main(String[] args) {
 		try {
 			EasydocMojo mojo = new EasydocMojo();
+			
+			if(args[0].equals("--help") || args[0].equals("-h")) {
+				System.out.print("Optional parameters:\n\n" + CommandLineMojoUtils.generateHelp(mojo));
+				return;
+			}
+			
 			//TODO: setup the log level
 			CommandLineMojoUtils.injectMojoProperties(mojo, args);
 			mojo.execute();

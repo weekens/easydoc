@@ -63,4 +63,35 @@ public class SourceBrowserParam {
 	public String toString() {
 		return String.format("SourceBrowserParam [baseUrl=%s, type=%s]", baseUrl, type);
 	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((baseUrl == null) ? 0 : baseUrl.hashCode());
+		result = prime * result + revision;
+		result = prime * result + ((type == null) ? 0 : type.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		SourceBrowserParam other = (SourceBrowserParam) obj;
+		if (baseUrl == null) {
+			if (other.baseUrl != null)
+				return false;
+		} else if (!baseUrl.equals(other.baseUrl))
+			return false;
+		if (revision != other.revision)
+			return false;
+		if (type != other.type)
+			return false;
+		return true;
+	}
 }
