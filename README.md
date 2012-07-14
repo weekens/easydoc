@@ -5,6 +5,20 @@ Setup
 -----------
 
 To use Easydoc with Maven, you just need to declare easydoc-maven-plugin in you pom.xml. 
+
+	<plugin>
+	    <groupId>com.github.weekens</groupId>
+	    <artifactId>easydoc-maven-plugin</artifactId>
+	    <version>0.4.17</version>
+	    <executions>
+	        <execution>
+	            <goals>
+	                <goal>generate</goal>
+	            </goals>
+	        </execution>
+	    </executions>
+	</plugin>
+
 See [this](http://weekens.github.com/easydoc#easydoc-maven) section for more information.
 
 To run Easydoc from command line, just do
